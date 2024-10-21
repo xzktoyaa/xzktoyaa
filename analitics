@@ -878,6 +878,22 @@ local MainTab = Window:CreateTab("Функции")
 local VisualsTab = Window:CreateTab("Магазины")
 local BotTab = Window:CreateTab("Бот")
 
+-- Добавляем вкладку Change Log
+local ChangeLogTab = Window:CreateTab("Change Log")
+
+-- Добавляем секцию для текстового поля
+local ChangeLogSection = ChangeLogTab:CreateSection("Что нового?")
+
+local ChangeLogInput = ChangeLogTab:CreateParagraph({
+    Title = "Change Log",
+    Content = [[
+        21.10.2024 Апдейт:
+        Добавлены новые магазины: Adidas, Nike, C.P. Company, Supreme, Zara, Louis Vuitton.
+        В скором времени возможно исправлю покупку, макс дистанцию и подбор.
+    ]],
+    Size = UDim2.new(1, 0, 1, 0)  -- Увеличиваем размер поля
+})
+
 -- Вкладка магазионв
 _G.RefreshRate = 0.5
 local ShopSettingsSection = VisualsTab:CreateSection("Настройки")
