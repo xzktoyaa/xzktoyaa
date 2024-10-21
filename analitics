@@ -10,16 +10,18 @@ local SportMasterPrice = {
 }
 
 local ZaraPrice = {
-    10000,
-    3800,
-    4600,
+    3300,
+    1500,
     4000,
-    3000,
-    2700,
     3700,
+    99000,
+    1450,
+    1450,
+    2700,
+    4600,
     3900,
     3900,
-    3300
+    10000
 }
 
 local BapePrice = {
@@ -73,13 +75,15 @@ local BalenciagaPrice = {
 }
 
 local LouisVuittonPrice = {
-    135000,
-    265000,
-    620000,
     265000,
     940000,
+    95000,
+    15000,
+    620000,
     150000,
-    95000
+    50000,
+    265000,
+    285000
 }
 
 local ChromeHeartsPrice = {
@@ -98,93 +102,95 @@ local ChromeHeartsPrice = {
 }
 
 local GucciPrice = {
-    50000,
-    80000,
-    25000,
-    69000,
-    150000,
-    108000,
-    110000,
-    24000,
-    143000,
-    41000,
-    125000,
-    128000,
-    127000,
+    370000,
     92000,
+    128000,
     125000,
-    370000
+    41000,
+    143000,
+    25000,
+    110000,
+    150000,
+    69000,
+    25000,
+    80000,
+    50000,
+    86000,
+    86000,
+    125000,
+    320000
 }
 
 local TheNorthFacePrice = {
-    30000,
+    53000,
+    20000,
+    25000,
+    999999,
+    63000,
+    20000,
+    34000,
+    3000,
+    20000,
+    50000,
     65000,
-    25000,
-    30000,
-    25000,
-    22000,
-    6000,
-    8000,
-    5000,
-    8000,
-    2500
+    2000,
+    17000,
+    18000,
+    1500,
+    21000,
+    28000,
+    23000,
+    22000
 }
 
 local MonclerPrice = {
     110000,
-    220000,
     80000,
-    53500,
-    52500,
-    46500,
+    225000,
     35000,
+    50000,
+    50000,
+    45000,
+    53000,
+    55000,
+    43000,
     101000,
-    110000,
+    160000,
     80000,
     100000,
-    45500,
-    53500,
-    55500,
-    23500,
-    150000
+    23000,
+    110000
 }
 
 local VetementsPrice = {
     75000,
     36600,
     46000,
+    13500,
     52000,
     45000,
+    99000,
     73000,
     36000,
     15500,
+    70000,
     260000,
     83000,
     82500,
     87000,
     255000,
-    66000,
-    31000,
-    52000,
-    70000
-}
-
-local CPCompanyPrice = {
     25000,
-    20000,
-    11000,
-    20000,
-    21000,
-    70000,
-    27000,
-    81000,
-    65000,
-    14000,
-    57000,
-    87000,
-    76000,
-    46000,
-    200000
+    73000,
+    52000,
+    140000,
+    80000,
+    42000,
+    31000,
+    38000,
+    104000,
+    23000,
+    66000,
+    31000
 }
 
 local iPhonePrice = {
@@ -197,17 +203,112 @@ local iPhonePrice = {
 }
 
 local RickOwensPrice = {
-    80200,
-    87200,
-    20300,
-    60200,
-    26200,
-    55200,
-    42200,
-    61200,
-    75200,
-    39200,
-    30200
+    79000,
+    86500,
+    19200,
+    59000,
+    99999,
+    25000,
+    54000,
+    41000,
+    60000,
+    74000,
+    38000,
+    29000
+}
+
+local AdidasPrice = {
+    4500,    -- Белый Свитер Black
+    25100,   -- Серая Спортивка White
+    2450,    -- Серая Футболка Logo
+    4150,    -- Черная Футболка Red Logo
+    3850,    -- Баскетбольная Футболка
+    99000,   -- Зеленое Поло Смешная Аналитика
+    4050,    -- Белое Поло
+    5950,    -- Черное Худи
+    2185,    -- Белая Футболка Pinstripe
+    3000,    -- Синяя Футболка Logo
+    2660,    -- Тёмно-синяя Кофта
+    10735,   -- Белая Футболка Tricolor Germany
+    4360,    -- Розовая Кофта White
+    9310,    -- Спортивка American
+    6840,    -- Бордовая Кофта White
+    1050,    -- Черная Футболка Orange
+    3150,    -- Черная Футболка с Синими Полосками
+    5950,    -- Черная Спортивка Gold
+    8950,    -- Красная Спортивка White
+    5650,    -- Джерзи Real Madrid
+    8870,    -- Лаймовая Кофта White
+    3900,    -- Черные Порванные Штаны
+    4000,    -- Оранжевые Спортивные Штаны
+    4100,    -- Черные Треники
+    4100,    -- Черные Штаны Для Бега
+    4150,    -- Серые Джинсы
+    4350     -- Черные Футбольные Штаны
+}
+
+local NikePrice = {
+    4000,    -- Тёмно-Синий Свитер
+    5000,    -- Тёмно-Синяя Худи
+    4000,    -- Чёрно-Синяя Футболка
+    4500,    -- Красно-Бежевая Футболка
+    3000,    -- Серый Свитер
+    100000,  -- Серая Кофта Смешная Аналитика
+    2000,    -- Серая Худи
+    4000,    -- Чёрная Толстовка
+    3000,    -- Чёрная Худи
+    2000,    -- Голубой Tech Fleece
+    3000,    -- Красный Свитер
+    2000,    -- Бежевая Худи
+    2000,    -- Красная Худи
+    8000,    -- Тёмно-Синяя Куртка
+    1000,    -- Серые Штаны
+    2000,    -- Чёрные Штаны
+    2000,    -- Чёрные Джинсы
+    2000,    -- Синие Штаны
+    3000,    -- Чёрные Штаны
+    2000,    -- Чёрные Джинсы
+    2000,    -- Синие Штаны
+    1000     -- Серые Штаны
+}
+
+local SupremePrice = {
+    23500,    -- Красный Свитшот Bevel
+    29000,    -- Коричнево-Болотный Свитшот Split
+    187000,   -- Красная куртка IBCA
+    26500,    -- Жёлтая Футболка Mona Lisa
+    41000,    -- Серое Худи BOX LOGO
+    26000,    -- Чёрная Карго куртка Supreme x TNF
+    56500,    -- Чёрный Свитер Supreme x CDG
+    27000,    -- Белая Футболка Kanji
+    12000,    -- Бирюзовая Футболка Supreme x Trasher
+    99999,    -- Зеленая Худи Смешная Аналитика Rick Owens
+    14800,    -- Белая футболка Gradient Arc Logo
+    26500,    -- Зелёное Худи Arabic
+    33000,    -- Чёрная Футболка Bandana Box logo
+    24500,    -- Жёлтая Футболка Swimmers
+    24500,    -- Белая Футболка Ganesha
+    177000,   -- Белая Футболка Nagoya Opening
+    44000,    -- Брюки Supreme × Brox Brothers
+    30000,    -- Камуфляжные Красные Штаны
+    60000     -- Камуфляжные Штаны Brooklyn
+}
+
+local CPCompanyPrice = {
+    25000,    -- Ветровка Pro Tec. Lens
+    20000,    -- Белая худи Diagonal Raised
+    11000,    -- Свитшот Lens Sort
+    99000,    -- Свитшот Смешная Аналитика
+    20000,    -- Свитшот Logo intarsia
+    21000,    -- Голубой Худи Diagonal Fleece
+    70000,    -- Худи Pro Tec Arm Lens
+    27000,    -- Свитер Logo Pin
+    81000,    -- Синий Жилет Chest Lens
+    65000,    -- Пуховик D.D Shell
+    14000,    -- Белая футболка Logo
+    57000,    -- Куртка Eco Chrome
+    76000,    -- Куртка Goggle
+    46000     -- Свитшот Logo Print
 }
 
 -- Списки предметов
@@ -222,16 +323,18 @@ local SportMasterList = {
 }
 
 local ZaraList = {
-    "Синий пиджак 'ZARA'",
-    "Синяя куртка 'ZARA'",
-    "Чёрная джинсовка 'ZARA'",
+    "Штаны side cheker 'ZARA'",
+    "Черная футболка 'ZARA'",
     "Синий свитер 'ZARA'",
-    "Серые штаны 'ZARA'",
-    "Черные порванные джинсы 'ZARA'",
     "Порванные джинсы 'ZARA'",
-    "Серая Zip-Hodie 'ZARA'",
-    "Белые рваные джинсы 'ZARA'",
-    "Штаны Side Cheker 'ZARA'" 
+    "Зеленая зипка Смешная Аналитика",
+    "Белая майка 'ZARA'",
+    "Жёлтая майка 'ZARA'",
+    "Черные порванные джинсы 'ZARA'",
+    "Чёрная джинсовка 'ZARA'",
+    "Белые рванные джинсы 'ZARA'",
+    "Серая Zip-Hoodie 'ZARA'",
+    "Синий пиджак 'ZARA'"
 }
 
 local BapeList = {
@@ -284,13 +387,15 @@ local BalenciagaList = {
 }
 
 local LouisVuittonList = {
-    "Тёмные Деловые Брюки 'Louis Vuitton'",
-    "Рюкзак 'Louis Vuitton'",
-    "Белая Джинсовка Varsity 'Louis Vuitton'",
     "Коричневая Рубашка 'Louis Vuitton'",
     "Чёрная Куртка Пуффер Checks 'Louis Vuitton'",
-    "Черно белая рубашка Monogram 'Louis Vuitton'",
-    "Синий Свитер Intarsia Logo 'Louis Vuitton'"
+    "Синий Свитер Intarsia Logo 'Louis Vuitton'",
+    "Фиолетовая Худи 'LOUIS VUITTON'",
+    "Белая Джинсовка 'Varsity'",
+    "Черно белая рубашка 'Monogram'",
+    "Футболка 'Cities Half'",
+    "Рюкзак 'Louis Vuitton'",
+    "Болотный Деловой Костюм 'Louis Vuitton'"
 }
 
 local ChromeHeartsList = {
@@ -309,91 +414,95 @@ local ChromeHeartsList = {
 }
 
 local GucciList = {
-    "Розовая Рубашка  Love Letter 'Gucci'",
-    "Бежевый свитер Lamb 'Gucci'",
-    "Бежевая футболка Logo 'Gucci'",
-    "Красная Худи Snake Print 'Gucci'",
-    "Синий Спортивный Костюм 'Gucci'",
-    "Синяя Рубашка 'Gucci'",
-    "Куртка Tiger Print 'Gucci'",
-    "Монограммная Футболка Ghost 'Gucci'",
-    "Монограммная Джинсовка Ghost 'Gucci'",
-    "Чёрное Худи Future 'Gucci'",
-    "Чёрное Худи Logo 'Gucci'",
-    "Синяя Кожаная Куртка 'Gucci'",
-    "Синяя Джинсовка 'Gucci'",
+    "Фиолетовая Джинсовка Versity 'Off-Whites X Gucci'",
     "Черные Джинсы 'Snake Gucci'",
+    "Синяя Кожанная Куртка 'Gucci'",
+    "Черное Худи Logo 'Gucci'",
+    "Черное худи Future 'Gucci'",
+    "Монограммная Джинсовка Ghost 'Gucci'",
+    "Монограммная Футболка Ghost 'Gucci'",
+    "Куртка Tiger Print 'Gucci'",
+    "Синий Спортивный Костюм 'Gucci'",
+    "Красная Худи Snake Pring 'Gucci'",
+    "Белая Футболка 'Logo Gucci'",
+    "Бежевый Свитер Lamb 'Gucci'",
+    "Розовая Рубашка Love Letter 'Gucci'",
+    "Черные Джинсы Snake 'Gucci'",
+    "Серые Штаны 'Gucci'",
     "Черные Брюки 'Gucci'",
-    "Фиолетовая Джинсовка Варсити 'Gucci x OffWhite'"
+    "Джинсовка 'NY GUCCI'"
 }
 
 local TheNorthFaceList = {
-    "Пуховик Retro 'The North Face'",
-    "Куртка Mountain 'The North Face'",
-    "Пуховик Retro Nuptse 1996 'The North Face'",
-    "Пуховик Marble Light 'The North Face'",
-    "Пуховик 1996 Nuptse Retro 'The North Face'",
-    "Пуховик Retro Camo 'The North Face'",
-    "Куртка HomeSafe 'The North Face'",
-    "Худи Bear 'The North Face'",
+    "Пуховик Bubble 'The North Face X Supreme'",
+    "Пуховик Nuptse Retro 'The North Face'",
+    "Пуховик Tropical Camo 'The North Face'",
+    "Пуховик 'Смешная Аналитика' 'The North Face'",
+    "Куртка Mountain 'The North face'",
+    "Зелёный Пуховик Vintage 'The North Face'",
+    "Пуховик Printed Dryvent 'The North Face'",
     "Рубашка Поло Beshtor 'The North Face'",
-    "Худи Open Gate 'The North Face'",
-    "Футболка Easy 'The North Face'"
+    "Пуховик Nuptse 'The North Face'",
+    "Куртка Triple Skull 'The North Face'",
+    "КБ Пуховик 'The North Face x Supreme'",
+    "Пуховик Red Box 'The North Face'",
+    "Пуховик Retro Camo 'The North Face'",
+    "Пуховик Summit 'The North Face'",
+    "Свитшот Logo 'The North Face'",
+    "Пуховик Retro Nuptse 1996 'The North Face'",
+    "Пуховик INTERNATIONAL COLLECTION 'The North Face'",
+    "Ветровка Varsity 'The North Face x Supreme'",
+    "Пуховик Marble Light 'The North Face'"
 }
 
 local MonclerList = {
     "Оранжевый Жилет Tibb 'Moncler'",
-    "Пуховик Dronieres'Moncler'",
     "Красный жилет DOWN BORMES 'Moncler'",
+    "Пуховик Dronieres 'Moncler'",
+    "ШСиний жилет Tib 'Moncler'",
     "Штаны Genius 'Moncler'",
     "Штаны Logo 'Moncler'",
     "Штаны Shiny 'Moncler x Palm Angels'",
-    "Синий жилет Tib 'Moncler'",
-    "Ветровка Slack Jacket 'Moncler'",
-    "Свитер Navy Logo Sweater 'Moncler'",
-    "Розовый Жилет Quse 'Moncler'",
-    "Пуховик Gary Quilted 'Moncler'",
-    "Штаны Midnight 'Moncler'",
     "Штаны 'Moncler x Palm Angels'",
     "Карго штаны Day Namic Convertible 'Moncler'",
+    "Штаны Midnight 'Moncler'",
+    "Ветровка Slack Jacket 'Moncler'",
+    "Пуховик Panelled 'Moncler'",
+    "Розовый Жилет Quse 'Moncler'",
+    "Пуховик Gary Quilted 'Moncler'",
     "Зип Худи Logo 'Moncler'",
-    "Пуховик Panelled 'Moncler'"
+    "Свитер Navy Logo Sweater 'Moncler'"
 }
 
 local VetementsList = {
     "Джинсы Gothic Logo 'Vetements'",
     "Белая Футболка Euphoria 'Vetements'",
     "Лонгслив Heartbreaker 'Vetements'",
+    "Серое Худи 4 everyone 'Vetements'",
     "Чёрное Худи Vistal Existence 'Vetements'",
     "Черный Лонгслив hi-speed 'Vetements'",
+    "Зеленая зипка Смешная Аналитика",
     "Лонгслив i did nothing i just got lucky 'Vetements'",
-    "Худи Antwerpen 'Champion x Vetments'",
+    "Худи Antwerpen 'Champion x Vetements'",
     "Серая Футболка i dont do drama 'Vetements'",
+    "Черное Худи Pirate Bay 'Vetements'",
     "Серое Пальто Wmns 'Vetements'",
     "Серая Футболка Double Layer Maria 'Vetements'",
     "Синяя Куртка Global Mind 'Vetements'",
     "Серое Худи Hug me 'Vetements'",
     "Бордовый бомбер Burgundy racer 'Vetements'",
-    "Джинсы Camouflage 'Vetements'",
-    "Джинсы made on earth 'Vetements'",
+    "Черный Лонгслив Rated Restricted",
+    "Штаны Police Green",
+    "Штаны Camouflage 'Vetements'",
+    "Красные Штаны Fan Decostucned",
+    "Джинсы Gothic logo 'Vetements'",
+    "Белая Худи intrerpol 'Vetements'",
+    "Черная Футболка the devil loves wear 'Vetements'",
+    "Худи Reconstructed 'Vetements'",
+    "Синий Лонгслив Made in Europe 'Vetements'",
+    "Белая Футболка No social media 'Vetements'",
     "Джинсы 2018 Logo embroidered 'Vetements'",
-    "Черное Худи Pirate Bay 'Vetements'"
-}
-
-local CPCompanyList = {
-    "Ветровка Pro Tec Lens 'CP Company'",
-    "Белая худи Diagonal Raised 'CP Company'",
-    "Свитшот Lens Sort 'CP Company'",
-    "Свитшот Logo intarsia 'CP Company'",
-    "Голубой Худи Diagonal Fleece 'CP Company'",
-    "Худи Pro Tec Arm Lens 'CP Company'",
-    "Свитер Logo Pin 'CP Company'",
-    "Синий Жилет Chest Lens 'CP Company'",
-    "Пуховик D.D Shell 'CP Company'",
-    "Белая футболка Logo 'CP Company'",
-    "Куртка Eco Chrome 'CP Company'",
-    "Куртка Goggle 'CP Company'",
-    "Свитшот Logo Print 'CP Company'"
+    "Джинсы made on earth 'Vetements'"
 }
 
 local iPhoneList = {
@@ -407,16 +516,111 @@ local iPhoneList = {
 
 local RickOwensList = {
     "Чёрная Футболка Pentagram 'Rick Owens'",
-    "Голубая Зип Худи Jason 'Rick Owens'",
+    "Голубая Зип-Худи Jason 'Rick Owens'",
     "Чёрная Футболка Роет 'Rick Owens'",
     "Коричневая Худи Felpa 'Rick Owens'",
+    "Зеленая Худи Смешная Аналитика 'Rick Owens'",
     "Чёрная Футболка DRKSHDW 'Rick Owens'",
     "Футболка 'Rick Owens × Stussy'",
     "Тёмно-коричневый Лонгслив 'Rick Owens x Champion'",
-    "Чёрное Худи Jason  'Rick Owens'",
+    "Чёрное Худи Jason 'Rick Owens'",
     "Джинсовая куртка с кожаными рукавами 'Rick Owens'",
-    "Чёрный Свитшот 'Rick Owens x Moncler'",
+    "Чёрный Свитшот 'Rick Owens × Moncler'",
     "Чёрная Футболка 'Rick Owens'"
+}
+
+local AdidasList = {
+    "Белый Свитер Black 'Adidas'",
+    "Серая Спортивка White 'Adidas'",
+    "Серая Футболка Logo 'Adidas'",
+    "Черная Футболка Red Logo 'Adidas'",
+    "Баскетбольная Футболка 'Adidas'",
+    "Зеленое Поло Смешная Аналитика",
+    "Белое Поло 'Adidas'",
+    "Черное Худи 'Adidas'",
+    "Белая Футболка Pinstripe 'Adidas'",
+    "Синяя Футболка Logo 'Adidas'",
+    "Тёмно-синяя Кофта 'Adidas'",
+    "Белая Футболка Tricolor Germany 'Adidas'",
+    "Розовая Кофта White 'Adidas'",
+    "Спортивка American 'Adidas'",
+    "Бордовая Кофта White 'Adidas'",
+    "Черная Футболка Orange 'Adidas'",
+    "Черная Футболка с Синими Полосками 'Adidas'",
+    "Черная Спортивка Gold 'Adidas'",
+    "Красная Спортивка White 'Adidas'",
+    "Джерзи Real Madrid 'Adidas'",
+    "Лаймовая Кофта White 'Adidas'",
+    "Черные Порванные Штаны 'Adidas'",
+    "Оранжевые Спортивные Штаны 'Adidas'",
+    "Черные Треники 'Adidas'",
+    "Черные Штаны Для Бега 'Adidas'",
+    "Серые Джинсы 'Adidas'",
+    "Черные Футбольные Штаны 'Adidas'"
+}
+
+local NikeList = {
+    "Тёмно-Синий Свитер 'Nike'",
+    "Тёмно-Синяя Худи 'Nike'",
+    "Чёрно-Синяя Футболка 'Nike'",
+    "Красно-Бежевая Футболка 'Nike'",
+    "Серый Свитер 'Nike'",
+    "Серая Кофта Смешная Аналитика",
+    "Серая Худи 'Nike'",
+    "Чёрная Толстовка 'Nike'",
+    "Чёрная Худи 'Nike'",
+    "Голубой 'Nike' Tech Fleece",
+    "Красный Свитер 'Nike'",
+    "Бежевая Худи 'Nike'",
+    "Красная Худи 'Nike'",
+    "Тёмно-Синяя Куртка 'Nike'",
+    "Серые Штаны 'Nike'",
+    "Чёрные Штаны 'Nike'",
+    "Чёрные Джинсы 'Nike'",
+    "Синие Штаны 'Nike'",
+    "Чёрные Штаны 'Nike'",
+    "Чёрные Джинсы 'Nike'",
+    "Синие Штаны 'Nike'",
+    "Серые Штаны 'Nike'"
+}
+
+local SupremeList = {
+    "Красный Свитшот 'Bevel'",
+    "Коричнево-Болотный Свитшот Split 'Supreme'",
+    "Красная куртка IBCA 'Supreme'",
+    "Жёлтая Футболка Mona Lisa 'Supreme'",
+    "Серое Худи BOX LOGO 'Supreme'",
+    "Чёрная Карго куртка 'Supreme x TNF'",
+    "Чёрный Свитер 'Supreme x CDG'",
+    "Белая Футболка Kanji 'Supreme'",
+    "Бирюзовая Футболка 'Supreme x Trasher'",
+    "Зеленая Худи Смешная Аналитика 'Rick Owens'",
+    "Белая футболка Gradient Arc Logo 'Supreme'",
+    "Зелёное Худи Arabic 'Supreme'",
+    "Чёрная Футболка Bandana Box logo 'Supreme'",
+    "Жёлтая Футболка Swimmers 'Supreme'",
+    "Белая Футболка Ganesha 'Supreme'",
+    "Белая Футболка Nagoya Opening 'Supreme'",
+    "Брюки 'Supreme × Brox Brothers'",
+    "Камуфляжные Красные Штаны 'Supreme'",
+    "Камуфляжные Штаны Brooklyn 'Supreme'"
+}
+
+local CPCompanyList = {
+    "Ветровка Pro Tec. Lens 'C.P. Company'",
+    "Белая худи Diagonal Raised 'C.P. Company'",
+    "Свитшот Lens Sort 'C.P. Company'",
+    "Свитшот Смешная Аналитика 'C.P. Company'",
+    "Свитшот Logo intarsia 'C.P. Company'",
+    "Голубой Худи Diagonal Fleece 'C.P. Company'",
+    "Худи Pro Tec Arm Lens 'C.P. Company'",
+    "Свитер Logo Pin",
+    "Синий Жилет Chest Lens 'C.P. Company'",
+    "Пуховик D.D Shell 'C.P. Company'",
+    "Белая футболка Logo 'C.P. Company'",
+    "Куртка Eco Chrome 'C.P. Company'",
+    "Куртка Goggle 'C.P. Company'",
+    "Свитшот Logo Print 'C.P. Company'"
 }
 
 local player_name = game.Players.LocalPlayer.Name
@@ -1469,6 +1673,178 @@ local RickOwensToggle = VisualsTab:CreateToggle({
                         v:FindFirstChild("Highlight"):Remove()
                     end
                 end 
+            end
+        end
+    end
+})
+
+_G.Adidas = false
+local AdidasToggle = VisualsTab:CreateToggle({
+    Name = "Adidas",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Adidas = true
+            while _G.Adidas == true do
+                for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                    if v:FindFirstChildOfClass("ProximityPrompt") then
+                        if table.find(AdidasList, v.ProximityPrompt.ObjectText) then
+                            local Name = v.ProximityPrompt.ObjectText
+                            local Index = table.find(AdidasList, Name)
+                            local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                            if tonumber(Price) < AdidasPrice[Index] then
+                                if not v:FindFirstChild("Highlight") then
+                                    local Highlight = Instance.new("Highlight")
+                                    Highlight.Parent = v
+                                    Highlight.OutlineColor = OutlineColorPicker.Color
+                                    Highlight.FillColor = FillColorPicker.Color
+                                    Highlight.FillTransparency = TransparencySlider.CurrentValue
+                                end
+                            end
+                        end
+                    end
+                end
+                task.wait(_G.RefreshRate)
+            end
+        else
+            _G.Adidas = false
+            for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                if v:FindFirstChildOfClass("ProximityPrompt") then
+                    if table.find(AdidasList, v.ProximityPrompt.ObjectText) then
+                        if v:FindFirstChild("Highlight") then
+                            v:FindFirstChild("Highlight"):Remove()
+                        end
+                    end
+                end
+            end
+        end
+    end
+})
+
+_G.Nike = false
+local NikeToggle = VisualsTab:CreateToggle({
+    Name = "Nike",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Nike = true
+            while _G.Nike == true do
+                for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                    if v:FindFirstChildOfClass("ProximityPrompt") then
+                        if table.find(NikeList, v.ProximityPrompt.ObjectText) then
+                            local Name = v.ProximityPrompt.ObjectText
+                            local Index = table.find(NikeList, Name)
+                            local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                            if tonumber(Price) < NikePrice[Index] then
+                                if not v:FindFirstChild("Highlight") then
+                                    local Highlight = Instance.new("Highlight")
+                                    Highlight.Parent = v
+                                    Highlight.OutlineColor = OutlineColorPicker.Color
+                                    Highlight.FillColor = FillColorPicker.Color
+                                    Highlight.FillTransparency = TransparencySlider.CurrentValue
+                                end
+                            end
+                        end
+                    end
+                end
+                task.wait(_G.RefreshRate)
+            end
+        else
+            _G.Nike = false
+            for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                if v:FindFirstChildOfClass("ProximityPrompt") then
+                    if table.find(NikeList, v.ProximityPrompt.ObjectText) then
+                        if v:FindFirstChild("Highlight") then
+                            v:FindFirstChild("Highlight"):Remove()
+                        end
+                    end
+                end
+            end
+        end
+    end
+})
+
+_G.Supreme = false
+local SupremeToggle = VisualsTab:CreateToggle({
+    Name = "Supreme",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Supreme = true
+            while _G.Supreme == true do
+                for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                    if v:FindFirstChildOfClass("ProximityPrompt") then
+                        if table.find(SupremeList, v.ProximityPrompt.ObjectText) then
+                            local Name = v.ProximityPrompt.ObjectText
+                            local Index = table.find(SupremeList, Name)
+                            local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                            if tonumber(Price) < SupremePrice[Index] then
+                                if not v:FindFirstChild("Highlight") then
+                                    local Highlight = Instance.new("Highlight")
+                                    Highlight.Parent = v
+                                    Highlight.OutlineColor = OutlineColorPicker.Color
+                                    Highlight.FillColor = FillColorPicker.Color
+                                    Highlight.FillTransparency = TransparencySlider.CurrentValue
+                                end
+                            end
+                        end
+                    end
+                end
+                task.wait(_G.RefreshRate)
+            end
+        else
+            _G.Supreme = false
+            for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                if v:FindFirstChildOfClass("ProximityPrompt") then
+                    if table.find(SupremeList, v.ProximityPrompt.ObjectText) then
+                        if v:FindFirstChild("Highlight") then
+                            v:FindFirstChild("Highlight"):Remove()
+                        end
+                    end
+                end
+            end
+        end
+    end
+})
+
+_G.CPCompany = false
+local CPCompanyToggle = VisualsTab:CreateToggle({
+    Name = "C.P. Company",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.CPCompany = true
+            while _G.CPCompany == true do
+                for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                    if v:FindFirstChildOfClass("ProximityPrompt") then
+                        if table.find(CPCompanyList, v.ProximityPrompt.ObjectText) then
+                            local Name = v.ProximityPrompt.ObjectText
+                            local Index = table.find(CPCompanyList, Name)
+                            local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                            if tonumber(Price) < CPCompanyPrice[Index] then
+                                if not v:FindFirstChild("Highlight") then
+                                    local Highlight = Instance.new("Highlight")
+                                    Highlight.Parent = v
+                                    Highlight.OutlineColor = OutlineColorPicker.Color
+                                    Highlight.FillColor = FillColorPicker.Color
+                                    Highlight.FillTransparency = TransparencySlider.CurrentValue
+                                end
+                            end
+                        end
+                    end
+                end
+                task.wait(_G.RefreshRate)
+            end
+        else
+            _G.CPCompany = false
+            for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                if v:FindFirstChildOfClass("ProximityPrompt") then
+                    if table.find(CPCompanyList, v.ProximityPrompt.ObjectText) then
+                        if v:FindFirstChild("Highlight") then
+                            v:FindFirstChild("Highlight"):Remove()
+                        end
+                    end
+                end
             end
         end
     end
