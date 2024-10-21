@@ -664,9 +664,9 @@ local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 -- Окно
 local Window = Rayfield:CreateWindow({
-    Name = "Casual Stock [СКРИПТ]",
+    Name = "script by miha1234456",
     LoadingTitle = "Загрузка скрипта...",
-    LoadingSubtitle = "by hexl"
+    LoadingSubtitle = "by miha1234456"
 })
 
 -- Вкладки
