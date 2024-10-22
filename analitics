@@ -50,7 +50,7 @@ local BapePrice = {
 local StoneIslandPrice = {
     28400,
     75500,
-    80000,
+    80500,
     32000,
     23000,
     30000,
@@ -58,10 +58,10 @@ local StoneIslandPrice = {
     22000,
     22000,
     25000,
-    25000,
-    25000,
-    27000,
-    23500
+    28500,
+    28500,
+    28700,
+    28500
 }
 
 local BalenciagaPrice = {
