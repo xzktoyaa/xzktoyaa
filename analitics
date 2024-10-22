@@ -295,20 +295,20 @@ local SupremePrice = {
 }
 
 local CPCompanyPrice = {
-    25000,    -- Ветровка Pro Tec. Lens
-    20000,    -- Белая худи Diagonal Raised
-    11000,    -- Свитшот Lens Sort
-    99000,    -- Свитшот Смешная Аналитика
-    20000,    -- Свитшот Logo intarsia
-    21000,    -- Голубой Худи Diagonal Fleece
-    70000,    -- Худи Pro Tec Arm Lens
-    27000,    -- Свитер Logo Pin
-    81000,    -- Синий Жилет Chest Lens
-    65000,    -- Пуховик D.D Shell
-    14000,    -- Белая футболка Logo
-    57000,    -- Куртка Eco Chrome
-    76000,    -- Куртка Goggle
-    46000     -- Свитшот Logo Print
+    25500,    -- Ветровка Pro Tec. Lens
+    20500,    -- Белая худи Diagonal Raised
+    11500,    -- Свитшот Lens Sort
+    99500,    -- Свитшот Смешная Аналитика
+    20500,    -- Свитшот Logo intarsia
+    21500,    -- Голубой Худи Diagonal Fleece
+    70500,    -- Худи Pro Tec Arm Lens
+    27500,    -- Свитер Logo Pin
+    81500,    -- Синий Жилет Chest Lens
+    65500,    -- Пуховик D.D Shell
+    14500,    -- Белая футболка Logo
+    57500,    -- Куртка Eco Chrome
+    76500,    -- Куртка Goggle
+    46500     -- Свитшот Logo Print
 }
 
 -- Списки предметов
