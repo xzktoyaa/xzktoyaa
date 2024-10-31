@@ -159,7 +159,8 @@ local MonclerPrice = {
     80000,
     100000,
     24500,
-    110000
+    110000,
+    100000
 }
 
 local VetementsPrice = {
@@ -471,7 +472,8 @@ local MonclerList = {
     "Розовый Жилет Quse 'Moncler'",
     "Пуховик Gary Quilted 'Moncler'",
     "Зип Худи Logo 'Moncler'",
-    "Свитер Navy Logo Sweater 'Moncler'"
+    "Свитер Navy Logo Sweater 'Moncler'",
+    "Фиолетовые Штаны Alicia Keys 'Moncler'"
 }
 
 local VetementsList = {
