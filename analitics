@@ -1,21 +1,12 @@
 -- Цены Предметов
 local SportMasterPrice = {
-    2350,    -- Чёрная Спортивная Джинсовка 'Puma'
-    1600,    -- Белая Футболка 'Puma'
-    1600,    -- Чёрная Футболка 'Puma'
-    1500,    -- Чёрные Джоггеры 'Puma'
-    1000,    -- Красная Футболка 'Demix'
-    1300,    -- Спортивные Штаны 'Nike'
-    1550,    -- Чёрные Спортивные Штаны 'Puma'
-    35500,   -- Серый Жилет 'Moncler'
-    5780,    -- Оранжевая Тренажёрная Куртка 'Nike'
-    5780,    -- Чёрная Тренажёрная Куртка 'Nike'
-    5580,    -- Бежевая Тренажёрная Куртка 'Nike'
-    2980,    -- Серая Худи 'Rebook'
-    3580,    -- Чёрная Куртка 'Rebook'
-    1480,    -- Серые Спортивные Брюки
-    1280,    -- Спортивные Штаны 'Polo'
-    2580     -- Чёрные Спортивные Штаны 'Adidas'
+    2350,
+    1530,
+    1530,
+    1550,
+    1000,
+    1300,
+    1550
 }
 
 local ZaraPrice = {
@@ -34,40 +25,43 @@ local ZaraPrice = {
 }
 
 local BapePrice = {
-    40000,  -- Фиолетовый Зип-Худи 'BAPE'
-    10000,  -- Белая Футболка 'BAPE STA'
-    10000,  -- Красная Футболка 'BAPE'
-    35000,  -- Чёрные Джинсы 'BAPE STA'
-    35000,  -- Тёмные Джинсы 'BAPE STA'
-    46000,  -- Бежевый Зип-Худи 'BAPE'
-    46000,  -- Бежевая Зип-Худи 'BAPE'
-    99000,  -- Рюкзак 'BAPE'
-    50000,  -- Черная Зип-Худи Baby-Milo
-    45000,  -- Черный Зип-Худи 'BAPE'
-    45000,  -- Бежевая Зип-Худи 'BAPE STA'
-    53000,  -- Серый Зип-Худи 'BAPE'
-    35000,  -- Джинсы 'BAPE'
-    52000,  -- Черный Зип-Худи 'BAPE x Baby Milo'
-    43000,  -- Черный Свитер 'BAPE STA'
-    23500,  -- Синий Зип-Худи 'BAPE STA'
-    21000   -- Серый Зип-Худи 'BAPE STA'
+    9500,
+    9500,
+    10500,
+    35500,
+    35500,
+    40500,
+    40500,
+    88500,
+    30500,
+    30500,
+    40500,
+    53500,
+    35500,
+    35500,
+    35500,
+    35500,
+    30500,
+    43500,
+    24500,
+    21500
 }
 
 local StoneIslandPrice = {
-    28400, -- Фиолетовый Свитер 'Stone Island'
-    75500, -- Болотная Куртка 'Stone Island'
-    80500, -- Чёрная Куртка 'Stone Island'
-    32000, -- Свитшот С Жилетом 'Carhartt X Stone Island'
-    23000, -- Болотный Свитшот 'Stone Island'
-    30000, -- Чёрная Джинсовка 'Stone Island'
-    15000, -- Бежевая Рубашка 'Stone Island'
-    22000, -- Красный Свитшот 'Stone Island'
-    22000, -- Серый Свитер 'Stone Island'
-    25000, -- Черные Джоггеры 'Stone Island'
-    28500, -- Синие Джинсы 'Stone Island'
-    28500, -- Тёмные Штаны 'Stone Island'
-    28700, -- Серые Джинсы 'Stone Island'
-    28500  -- Серые Джинсы 'Stone Island'
+    28400,
+    75500,
+    80500,
+    32000,
+    23000,
+    30000,
+    15000,
+    22000,
+    22000,
+    25000,
+    28500,
+    28500,
+    28700,
+    28500
 }
 
 local BalenciagaPrice = {
@@ -93,54 +87,38 @@ local LouisVuittonPrice = {
 }
 
 local ChromeHeartsPrice = {
-    180500,  -- Черная Худи Multi Color Cross 'Chrome hearts'
-    180500,  -- Чёрное Худи 'Chrome hearts'
-    160500,  -- Худи 'Chrome hearts'
-    140500,  -- Серые Джинсы 'Chrome Hearts'
-    250500,  -- Джинсы CROSS PINK 'Chrome Hearts'
-    250500,  -- Джинсы CROSS GREEN 'Chrome Hearts'
-    460500,  -- Джинсы CROSS RED 'Chrome Hearts'
-    2600500, -- Штаны 'Chrome Hearts X CARHARTT'
-    110500,  -- Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'
-    150500,  -- Чёрный свитшот Horse Shoe 'Chrome Hearts'
-    160500,  -- Коричневая Худи Horse Shoe 'Chrome Hearts'
-    80500,   -- Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'
-    725000,   -- Джинсы 'Levis X Chrome Hearts'
-    160000,   -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
-    240000,   -- Голубые Джинсы 'Chrome Hearts'
-    77000,    -- Белая кофта Plus Cross 'Chrome Hearts'
-    77000,    -- Белый Лонгслив Las Vegas 'Chrome Hearts'
-    52000,    -- Чёрная футболка Hong Kong 'Chrome Hearts'
-    45000,    -- Чёрная футболка America 'Chrome Hearts'
-    96000,    -- Штаны Multiple 'Chrome Hearts'
-    725000,   -- Кожанные Джинсы 'Matty Boy X Chrome Hearts'
-    444000,   -- Кожанная Куртка Cross RED 'Chrome Hearts'
-    616000,   -- Чёрная Куртка 'Matty Boy X Chrome Hearts'
-    12000,    -- Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'
-    150000    -- Коричневая Худи Horse Shoe 'Chrome Hearts'
+    180500,
+    180500,
+    160500,
+    140500,
+    250500,
+    250500,
+    460500,
+    2600500,
+    110500,
+    150500,
+    160500,
+    80500
 }
 
 local GucciPrice = {
-    370000,  -- Фиолетовая Джинсовка Versity 'Off-Whites X Gucci'
-    92000,   -- Черные Джинсы 'Snake Gucci'
-    128000,  -- Синяя Кожанная Куртка 'Gucci'
-    125000,  -- Черное Худи Logo 'Gucci'
-    41000,   -- Черное худи Future 'Gucci'
-    143000,  -- Монограммная Джинсовка Ghost 'Gucci'
-    25000,   -- Монограммная Футболка Ghost 'Gucci'
-    110000,  -- Куртка Tiger Print 'Gucci'
-    150000,  -- Синий Спортивный Костюм 'Gucci'
-    69000,   -- Красная Худи Snake Print 'Gucci'
-    25000,   -- Белая Футболка 'Logo Gucci'
-    80000,   -- Бежевый Свитер Lamb 'Gucci'
-    50000,   -- Розовая Рубашка Love Letter 'Gucci'
-    86000,   -- Черные Джинсы Snake 'Gucci'
-    86000,   -- Серые Штаны 'Gucci'
-    125000,  -- Черные Брюки 'Gucci'
-    320000,  -- Джинсовка 'NY GUCCI'
-    108000,  -- Синяя Рубашка 'Gucci'
-    24000,   -- Бежевая футболка Logo 'Gucci'
-    127000   -- Синяя Джинсовка 'Gucci'
+    370000,
+    92000,
+    128000,
+    125000,
+    41000,
+    143000,
+    25000,
+    110000,
+    150000,
+    69000,
+    25000,
+    80000,
+    50000,
+    86000,
+    86000,
+    125000,
+    320000
 }
 
 local TheNorthFacePrice = {
@@ -186,54 +164,34 @@ local MonclerPrice = {
 }
 
 local VetementsPrice = {
-    61000,  -- Белая футболка stop being rich 'Vetements'
-    84000,  -- Синяя Куртка Global Mind 'Vetements'
-    84000,  -- Черное Худи Private Bay 'Vetements'
-    53000,  -- Черное Худи RAMMSTEIN 'Vetements'
-    85000,  -- Рубашка Marilyn Manson 'Vetements'
-    84000,  -- Синий Лонгслив Made in Europe 'Vetements'
-    78000,  -- Фиолетовая Худи Only Vetements 'Vetements'
-    100000, -- Серое Худи Hug Me 'Vetements'
-    140000, -- Розовые Пижамные Штаны Pink Checkered 'Vetements'
-    82000,  -- Белые Штаны SS19 Distressed 'Vetements'
-    139700, -- Серые Штаны 'Vetements'
-    219000, -- Черные Штаны Gothic Mega Flared 'Vetements'
-    34000,  -- Бежевые Штаны Made on Earth 'Vetements'
-    79000,  -- Джинсы Winter 2018 Logo Embroidered 'Vetements'
-    138000, -- Камуфляжные Штаны Camo Stikers 'Vetements'
-    143000, -- Красные Штаны Fan Deconstucted 'Vetements'
-    158000, -- Оранжевые Пижамные Штаны Gray & Orange Check 'Vetements'
-    71000,  -- Пижамные Штаны Spider Man 'Vetements'
-    61000,  -- Розовое Худи I got Lucky 'Vetements'
-    81000,  -- Черное Зип Худи Bro 'Embroidery'
-    96000,  -- Черное Худи Ecstasy 'Vetements'
-    56000,  -- Черная футболка think while its still legal 'Vetements'
-    75000,  -- Джинсы Gothic Logo 'Vetements'
-    36600,  -- Белая Футболка Euphoria 'Vetements'
-    46000,  -- Лонгслив Heartbreaker 'Vetements'
-    13500,  -- Серое Худи 4 everyone 'Vetements'
-    52000,  -- Чёрное Худи Vistal Existence 'Vetements'
-    45000,  -- Черный Лонгслив hi-speed 'Vetements'
-    99000,  -- Зеленая зипка Смешная Аналитика
-    73000,  -- Лонгслив i did nothing i just got lucky 'Vetements'
-    36000,  -- Худи Antwerpen 'Champion x Vetements'
-    15500,  -- Серая Футболка i dont do drama 'Vetements'
-    70000,  -- Черное Худи Pirate Bay 'Vetements'
-    260000, -- Серое Пальто Wmns 'Vetements'
-    83000,  -- Серая Футболка Double Layer Maria 'Vetements'
-    82500,  -- Бордовый бомбер Burgundy racer 'Vetements'
-    87000,  -- Черный Лонгслив Rated Restricted
-    255000, -- Штаны Police Green
-    25000,  -- Штаны Camouflage 'Vetements'
-    73000,  -- Красные Штаны Fan Decostucned
-    52000,  -- Джинсы Gothic logo 'Vetements'
-    140000, -- Белая Худи Interpol 'Vetements'
-    80000,  -- Черная Футболка the devil loves wear 'Vetements'
-    42000,  -- Худи Reconstructed 'Vetements'
-    31000,  -- Синий Лонгслив Made in Europe 'Vetements'
-    38000,  -- Белая Футболка No social media 'Vetements'
-    104000, -- Джинсы 2018 Logo embroidered 'Vetements'
-    23000,  -- Джинсы made on earth 'Vetements"
+    75000,
+    36600,
+    46000,
+    13500,
+    52000,
+    45000,
+    99000,
+    73000,
+    36000,
+    15500,
+    70000,
+    260000,
+    83000,
+    82500,
+    87000,
+    255000,
+    25000,
+    73000,
+    52000,
+    140000,
+    80000,
+    42000,
+    31000,
+    38000,
+    104000,
+    23000,
+    66000,
+    31000
 }
 
 local iPhonePrice = {
@@ -362,16 +320,7 @@ local SportMasterList = {
     "Чёрные Джоггеры 'Puma'",
     "Красная Футболка 'Demix'",
     "Спортивные Штаны 'Nike'",
-    "Чёрные Спортивные Штаны 'Puma'",
-    "Серый Жилет 'Moncler'",
-    "Оранжевая Тренажёрная Куртка 'Nike'",
-    "Чёрная Тренажёрная Куртка 'Nike'",
-    "Бежевая Тренажёрная Куртка 'Nike'",
-    "Серая Худи 'Rebook'",
-    "Чёрная Куртка 'Rebook'",
-    "Серые Спортивные Брюки",
-    "Спортивные Штаны 'Polo'",
-    "Чёрные Спортивные Штаны 'Adidas'"
+    "Чёрные Спортивные Штаны 'Puma'"
 }
 
 local ZaraList = {
@@ -390,22 +339,25 @@ local ZaraList = {
 }
 
 local BapeList = {
-    "Фиолетовый Зип-Худи 'BAPE'",  
-    "Белая Футболка 'BAPE STA'",  
-    "Красная Футболка 'BAPE'",  
-    "Чёрные Джинсы 'BAPE STA'",  
-    "Тёмные Джинсы 'BAPE STA'",  
-    "Бежевый Зип-Худи 'BAPE'",  
-    "Бежевая Зип-Худи 'BAPE'",  
-    "Рюкзак 'BAPE'",  
-    "Черная Зип-Худи Baby-Milo",  
-    "Черный Зип-Худи 'BAPE'",  
-    "Бежевая Зип-Худи 'BAPE STA'",  
-    "Серый Зип-Худи 'BAPE'",  
-    "Джинсы 'BAPE'",  
-    "Черный Зип-Худи 'BAPE x Baby Milo'",  
-    "Черный Свитер 'BAPE STA'",  
-    "Синий Зип-Худи 'BAPE STA'",  
+    "Фиолетовый Зип-Худи 'BAPE'",
+    "Белая Футболка 'BAPE STA'",
+    "Красная Футболка 'BAPE'",
+    "Чёрные Джинсы 'BAPE STA'",
+    "Тёмные Джинсы 'BAPE STA'",
+    "Бежевый Зип-Худи 'BAPE'",
+    "Бежевая Зип-Худи 'BAPE'",
+    "Рюкзак 'BAPE'",
+    "Черная Зип-Худи Baby-Milo",
+    "Черный Зип-Худи 'BAPE'",
+    "Бежевая Зип-Худи 'BAPE STA'",
+    "Серый Зип-Худи 'BAPE'",
+    "Чёрные Джинсы 'BAPE STA'",
+    "Джинсы 'BAPE'",
+    "Тёмные Джинсы 'BAPE STA'",
+    "Чёрный Джинсы 'BAPE STA'",
+    "Черный Зип-Худи 'BAPE x Baby Milo'",
+    "Черный С 'BAPE STA'",
+    "Синий Зип-Худи 'BAPE STA'",
     "Серый Зип-Худи 'BAPE STA'"
 }
 
@@ -448,31 +400,18 @@ local LouisVuittonList = {
 }
 
 local ChromeHeartsList = {
-    "Черная Худи Multi Color Cross 'Chrome hearts'",  
-    "Чёрное Худи 'Chrome hearts'",  
-    "Худи 'Chrome hearts'",  
-    "Серые Джинсы 'Chrome Hearts'",  
-    "Джинсы CROSS PINK 'Chrome Hearts'",  
-    "Джинсы CROSS GREEN 'Chrome Hearts'",  
-    "Джинсы CROSS RED 'Chrome Hearts'",  
-    "Штаны 'Chrome Hearts X CARHARTT'",  
-    "Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'",  
-    "Чёрный свитшот Horse Shoe 'Chrome Hearts'",  
-    "Коричневая Худи Horse Shoe 'Chrome Hearts'",  
-    "Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'",  
-    "Джинсы 'Levis X Chrome Hearts'",  
-    "Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'",  
-    "Голубые Джинсы 'Chrome Hearts'",  
-    "Белая кофта Plus Cross 'Chrome Hearts'",  
-    "Белый Лонгслив Las Vegas 'Chrome Hearts'",  
-    "Чёрная футболка Hong Kong 'Chrome Hearts'",  
-    "Чёрная футболка America 'Chrome Hearts'",  
-    "Штаны Multiple 'Chrome Hearts'",  
-    "Кожанные Джинсы 'Matty Boy X Chrome Hearts'",  
-    "Кожанная Куртка Cross RED 'Chrome Hearts'",  
-    "Чёрная Куртка 'Matty Boy X Chrome Hearts'",  
-    "Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'",  
-    "Коричневая Худи Horse Shoe 'Chrome Hearts'"
+    "Черная Худи Multi Color Cross 'Chrome hearts'",
+    "Чёрное Худи 'Chrome hearts'",
+    "Худи 'Chrome hearts'",
+    "Серые Джинсы 'Chrome Hearts'",
+    "Джинсы CROSS PINK 'Chrome Hearts'",
+    "Джинсы CROSS GREEN 'Chrome Hearts'",
+    "Джинсы CROSS RED 'Chrome Hearts'",
+    "Штаны 'Chrome Hearts X CARHARTT'",
+    "Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'",
+    "Чёрный свитшот Horse Shoe 'Chrome Hearts'",
+    "Коричневая Худи Horse Shoe 'Chrome Hearts'",
+    "Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'"
 }
 
 local GucciList = {
@@ -485,17 +424,14 @@ local GucciList = {
     "Монограммная Футболка Ghost 'Gucci'",
     "Куртка Tiger Print 'Gucci'",
     "Синий Спортивный Костюм 'Gucci'",
-    "Красная Худи Snake Print 'Gucci'",
+    "Красная Худи Snake Pring 'Gucci'",
     "Белая Футболка 'Logo Gucci'",
     "Бежевый Свитер Lamb 'Gucci'",
     "Розовая Рубашка Love Letter 'Gucci'",
     "Черные Джинсы Snake 'Gucci'",
     "Серые Штаны 'Gucci'",
     "Черные Брюки 'Gucci'",
-    "Джинсовка 'NY GUCCI'",
-    "Синяя Рубашка 'Gucci'",
-    "Бежевая футболка Logo 'Gucci'",
-    "Синяя Джинсовка 'Gucci'"
+    "Джинсовка 'NY GUCCI'"
 }
 
 local TheNorthFaceList = {
@@ -541,28 +477,6 @@ local MonclerList = {
 }
 
 local VetementsList = {
-    "Белая футболка stop being rich 'Vetements'",
-    "Синяя Куртка Global Mind 'Vetements'",
-    "Черное Худи Private Bay 'Vetements'",
-    "Черное Худи RAMMSTEIN 'Vetements'",
-    "Рубашка Marilyn Manson 'Vetements'",
-    "Синий Лонгслив Made in Europe 'Vetements'",
-    "Фиолетовая Худи Only Vetements 'Vetements'",
-    "Серое Худи Hug Me 'Vetements'",
-    "Розовые Пижамные Штаны Pink Checkered 'Vetements'",
-    "Белые Штаны SS19 Distressed 'Vetements'",
-    "Серые Штаны 'Vetements'",
-    "Черные Штаны Gothic Mega Flared 'Vetements'",
-    "Бежевые Штаны Made on Earth 'Vetements'",
-    "Джинсы Winter 2018 Logo Embroidered 'Vetements'",
-    "Камуфляжные Штаны Camo Stikers 'Vetements'",
-    "Красные Штаны Fan Deconstucted 'Vetements'",
-    "Оранжевые Пижамные Штаны Gray & Orange Check 'Vetements'",
-    "Пижамные Штаны Spider Man 'Vetements'",
-    "Розовое Худи I got Lucky 'Vetements'",
-    "Черное Зип Худи Bro 'Embroidery'",
-    "Черное Худи Ecstasy 'Vetements'",
-    "Черная футболка think while its still legal 'Vetements'",
     "Джинсы Gothic Logo 'Vetements'",
     "Белая Футболка Euphoria 'Vetements'",
     "Лонгслив Heartbreaker 'Vetements'",
@@ -576,13 +490,15 @@ local VetementsList = {
     "Черное Худи Pirate Bay 'Vetements'",
     "Серое Пальто Wmns 'Vetements'",
     "Серая Футболка Double Layer Maria 'Vetements'",
+    "Синяя Куртка Global Mind 'Vetements'",
+    "Серое Худи Hug me 'Vetements'",
     "Бордовый бомбер Burgundy racer 'Vetements'",
     "Черный Лонгслив Rated Restricted",
     "Штаны Police Green",
     "Штаны Camouflage 'Vetements'",
     "Красные Штаны Fan Decostucned",
     "Джинсы Gothic logo 'Vetements'",
-    "Белая Худи Interpol 'Vetements'",
+    "Белая Худи intrerpol 'Vetements'",
     "Черная Футболка the devil loves wear 'Vetements'",
     "Худи Reconstructed 'Vetements'",
     "Синий Лонгслив Made in Europe 'Vetements'",
@@ -962,6 +878,7 @@ local Window = Rayfield:CreateWindow({
 -- Вкладки
 local MainTab = Window:CreateTab("Функции")
 local VisualsTab = Window:CreateTab("Магазины")
+local BotTab = Window:CreateTab("Бот")
 
 -- Добавляем вкладку Change Log
 local ChangeLogTab = Window:CreateTab("Change Log")
@@ -975,9 +892,6 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
         21.10.2024 Апдейт:
         Добавлены новые магазины: Adidas, Nike, C.P. Company, Supreme, Zara, Louis Vuitton.
         В скором времени возможно исправлю покупку, макс дистанцию и подбор.
-
-        08.11.2024 Апдейт:
-        Переделал цены и добавил больше вещей
     ]],
     Size = UDim2.new(1, 0, 1, 0)  -- Увеличиваем размер поля
 })
@@ -1956,6 +1870,58 @@ local CPCompanyToggle = VisualsTab:CreateToggle({
 -- Вкладка функций
 local MainSection = MainTab:CreateSection("Автоматические")
 
+_G.Grab = false
+local GrabToggle = MainTab:CreateToggle({
+    Name = "Подбор",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Grab = true
+            while _G.Grab == true do
+                for i,v in pairs(workspace.World.Debris:FindFirstChild("Stores"):GetDescendants()) do
+                    if v:FindFirstChildOfClass("Highlight") and v:FindFirstChildOfClass("Highlight").FillTransparency ~= 1 then         
+                        fireproximityprompt(v.ProximityPrompt, math.huge)
+                    end
+                end
+
+                task.wait(0.35)
+            end
+        else
+            _G.Grab = false
+        end
+    end
+})
+
+_G.Buy = false
+local BuyToggle = MainTab:CreateToggle({
+    Name = "Покупка",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Buy = true
+            while _G.Buy == true do
+                for i,v in pairs(workspace.World.Debris:FindFirstChild("Stores"):GetChildren()) do
+                    if v:FindFirstChild("BoundingBox") then
+                        if v.BoundingBox:FindFirstChild("PurchasePrompt") then
+                            if v.BoundingBox.PurchasePrompt:FindFirstChild("ProximityPrompt") then
+                                if game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool") then
+                                    game.Players.LocalPlayer.Backpack:FindFirstChildOfClass("Tool").Parent = game.Players.LocalPlayer.Character
+                                end
+
+                                fireproximityprompt(v:FindFirstChild("BoundingBox"):FindFirstChild("PurchasePrompt"):FindFirstChild("ProximityPrompt"), math.huge)
+                            end
+                        end
+                    end
+                end
+
+                task.wait(0.25)
+            end
+        else
+            _G.Buy = false
+        end
+    end
+})
+
 _G.Sell = false
 local SellToggle = MainTab:CreateToggle({
     Name = "Продажа",
@@ -1987,6 +1953,32 @@ local SellToggle = MainTab:CreateToggle({
             end
         else
             _G.Sell = false
+        end
+    end
+})
+
+_G.Distance = false
+local DistanceToggle = MainTab:CreateToggle({
+    Name = "Максимальная дистанция",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.Distance = true
+            while _G.Distance == true do
+                for i,v in pairs(workspace.World.Debris:GetChildren()) do
+                    if v:IsA("Model") and v.Name ~= "Seller" then
+                        if v:FindFirstChildOfClass("MeshPart") then
+                            if v:FindFirstChildOfClass("MeshPart").Name ~= "Primary" then
+                                v:FindFirstChildOfClass("MeshPart").ProximityPrompt.MaxActivationDistance = 10
+                            end
+                        end
+                    end
+                end
+
+                task.wait(0.5)
+            end
+        else
+            _G.Distance = false
         end
     end
 })
@@ -2061,3 +2053,268 @@ function GetPlayerBackpackAmount()
 
     return amount
 end
+
+local Paragraph = BotTab:CreateParagraph({Title = "Обновление скрипта!", Content = "\nБыл добавлен бот, который может фармить валюту без вашего участия. Бот использует только те магазины и функции, которые вы выбрали в соответствующих вкладках.\n\nЗапускать бота только рядом с Барыгой!"})
+
+local BotSettingSection = BotTab:CreateSection("Настройки")
+
+_G.PauseRate = 1
+ local TeleportSlider = BotTab:CreateSlider({
+   Name = "Время паузы",
+   Range = {0.5, 3},
+   Increment = 0.05,
+   CurrentValue = 1,
+   Callback = function(Value)
+        _G.PauseRate = Value
+   end,
+})
+
+local MainBotSection = BotTab:CreateSection("Основное")
+
+_G.IsLegitMode = true
+local BotMode = BotTab:CreateDropdown({
+    Name = "Режим",
+    Options = {"Ходьба", "Телепорт"},
+    CurrentOption = {"Ходьба"},
+    MultipleOptions = false,
+    Callback = function(Option)
+        if Option == "Ходьба" then
+            _G.IsLegitMode = true
+        else
+            _G.IsLegitMode = false
+        end
+    end,
+})
+
+_G.EnableBot = false
+local EnableBotToggle = BotTab:CreateToggle({
+    Name = "Включить",
+    CurrentValue = false,
+    Callback = function(Value)
+        Players = game:GetService("Players")
+
+        -- anti kick
+        if not hookmetamethod then 
+            print('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
+        end
+        local LocalPlayer = Players.LocalPlayer
+        local oldhmmi
+        local oldhmmnc
+        oldhmmi = hookmetamethod(game, "__index", function(self, method)
+            if self == LocalPlayer and method:lower() == "kick" then
+                return error("Expected ':' not '.' calling member function Kick", 2)
+            end
+            return oldhmmi(self, method)
+        end)
+        oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+            if self == LocalPlayer and getnamecallmethod():lower() == "kick" then
+                return
+            end
+            return oldhmmnc(self, ...)
+        end)
+
+        -- anti teleport
+        if not hookmetamethod then 
+            print('Incompatible Exploit','Your exploit does not support this command (missing hookmetamethod)')
+        end
+        local TeleportService = TeleportService
+        local oldhmmi
+        local oldhmmnc
+        oldhmmi = hookmetamethod(game, "__index", function(self, method)
+            if self == TeleportService then
+                if method:lower() == "teleport" then
+                    return error("Expected ':' not '.' calling member function Kick", 2)
+                elseif method == "TeleportToPlaceInstance" then
+                    return error("Expected ':' not '.' calling member function TeleportToPlaceInstance", 2)
+                end
+            end
+            return oldhmmi(self, method)
+        end)
+        oldhmmnc = hookmetamethod(game, "__namecall", function(self, ...)
+            if self == TeleportService and getnamecallmethod():lower() == "teleport" or getnamecallmethod() == "TeleportToPlaceInstance" then
+                return
+            end
+            return oldhmmnc(self, ...)
+        end)
+
+        -- anit afk
+        Players.LocalPlayer.Idled:Connect(function()
+			local VirtualUser = game:GetService("VirtualUser")
+			VirtualUser:CaptureController()
+			VirtualUser:ClickButton2(Vector2.new())
+		end)
+
+        if Value then
+            _G.EnableBot = true
+			local point_index = 1
+            while _G.EnableBot == true do
+                for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+                    if v.Name == player_name and point_index < table.getn(bot_points_vector) and GetGameStatus() == true and GetPlayerBackpackAmount() < 50 then
+                        local backpack_amount = GetPlayerBackpackAmount()
+
+						if _G.IsLegitMode == true and _G.EnableBot == true and backpack_amount < 50 then
+							if v.Humanoid.MoveDirection == Vector3.zero then
+								v.Humanoid:MoveTo(bot_points_vector[point_index])
+								v.Humanoid.MoveToFinished:Wait()
+								point_index = point_index + 1
+							end
+
+                            task.wait(_G.PauseRate)
+						elseif _G.IsLegitMode == false and _G.EnableBot == true and backpack_amount < 50 then
+							v.Humanoid.PlatformStand = true
+							local body_gyro = Instance.new("BodyGyro", v.HumanoidRootPart)
+							body_gyro.P = 9e4
+							body_gyro.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+
+							local body_velocity = Instance.new("BodyVelocity", v.HumanoidRootPart)
+							body_velocity.velocity = Vector3.new(0, 0, 0)
+							body_velocity.maxForce = Vector3.new(9e9, 9e9, 9e9)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.03893778473138809, 153.95053100585938, -64.11454772949219)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 160.95053100585938, -44.11454772949219)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, -24.11454772949219)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, 0.11454772949219)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, 20.11454772949219)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.40301382541656494, 181.14999389648438, 53.917747497558594)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.9679758548736572, 180.96998596191406, 107.267333984375)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							v.HumanoidRootPart.CFrame = CFrame.new(0.4388207495212555, 181.46998596191406, 135.822998046875)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(2)
+
+							for i, k in store_order do  
+								for _, n in pairs(game:GetService("Workspace").World.Debris.Stores:GetChildren()) do
+									if n.Name == k then
+                                        local game_status = GetGameStatus()
+                                        local backpack_amount = GetPlayerBackpackAmount()
+
+                                        if _G.EnableBot == true and game_status == true and backpack_amount < 50 then
+                                            local cash_register_coordinates = n.Building.CashRegister.WorldPivot.Position
+                                            v.HumanoidRootPart.CFrame = CFrame.new(n.WorldPivot.Position)
+                                            body_gyro.CFrame = v.HumanoidRootPart.CFrame
+                                            task.wait(_G.PauseRate)
+
+                                            for _, m in pairs(n:GetChildren()) do
+                                                if m.Name == "PlacementContainer" then
+                                                    local game_status = GetGameStatus()
+                                                    local backpack_amount = GetPlayerBackpackAmount()
+
+                                                    for _, l in pairs(m:GetChildren()) do
+                                                        if l.Name == "Container" then
+                                                            if _G.EnableBot == true and game_status == true and backpack_amount < 50 then
+                                                                v.HumanoidRootPart.CFrame = CFrame.new(l.WorldPivot.Position)
+                                                                body_gyro.CFrame = v.HumanoidRootPart.CFrame
+                                                                task.wait(_G.PauseRate)
+                                                            end
+                                                        end
+                                                    end
+                                                end
+                                            end
+
+                                            v.HumanoidRootPart.CFrame = CFrame.new(cash_register_coordinates)
+										    body_gyro.CFrame = v.HumanoidRootPart.CFrame
+										    task.wait(_G.PauseRate + 1)
+										elseif _G.EnableBot == false or game_status == false or backpack_amount == 50 then
+                                            point_index = 200
+                                            break
+                                        end
+                                    end
+								end
+							end
+                            
+							v.Humanoid.RootPart.CFrame = CFrame.new(0.4388207495212555, 181.46998596191406, 135.822998046875)
+							body_gyro.CFrame = v.HumanoidRootPart.CFrame
+							task.wait(_G.PauseRate)
+						end
+                    elseif (v.Name == player_name and _G.EnableBot == true) and (point_index >= table.getn(bot_points_vector) or GetGameStatus() == false or GetPlayerBackpackAmount() == 50) then
+                        if _G.IsLegitMode == true then
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.4388207495212555, 181.46998596191406, 135.822998046875)
+							task.wait(2)
+
+                            v.Humanoid:MoveTo(bot_points_vector[4])
+                            v.Humanoid.MoveToFinished:Wait()
+
+                            v.Humanoid:MoveTo(bot_points_vector[3])
+                            v.Humanoid.MoveToFinished:Wait()
+
+                            v.Humanoid:MoveTo(bot_points_vector[2])
+                            v.Humanoid.MoveToFinished:Wait()
+
+                            v.Humanoid:MoveTo(bot_points_vector[1])
+                            v.Humanoid.MoveToFinished:Wait()
+                        elseif _G.IsLegitMode == false then
+                            point_index = 200
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.4388207495212555, 181.46998596191406, 135.822998046875)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.9679758548736572, 180.96998596191406, 107.267333984375)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.40301382541656494, 181.14999389648438, 53.917747497558594)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, 20.11454772949219)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, 0.11454772949219)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 170.95053100585938, -24.11454772949219)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.40893778473138809, 160.95053100585938, -44.11454772949219)
+                            task.wait(2)
+
+                            v.HumanoidRootPart.CFrame = CFrame.new(0.03893778473138809, 153.95053100585938, -64.11454772949219)
+                            task.wait(2)
+                        end
+
+                        repeat
+                            task.wait(5)
+                        until GetGameStatus() == true and GetPlayerBackpackAmount() == 0
+
+                        point_index = 1
+					end
+                end
+
+                task.wait(2)
+            end
+        else
+            _G.EnableBot = false
+			local point_index = 1
+
+			for i, v in pairs(game:GetService("Workspace"):GetDescendants()) do
+				if v.Name == player_name then
+					for _, j in pairs(v:GetDescendants()) do
+						if j.Name == "BodyGyro" or j.Name == "BodyVelocity" then
+							j:Remove()
+						end
+					end
+
+					v.Humanoid.PlatformStand = false
+				end
+			end
+        end
+    end,
+ })
