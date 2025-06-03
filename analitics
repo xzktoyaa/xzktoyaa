@@ -18,6 +18,28 @@ local SportMasterPrice = {
     2580     -- Чёрные Спортивные Штаны 'Adidas'
 }
 
+local NikitaEfremovPrice = {
+    35000,
+    17500,
+    212000,
+    25000,
+    8000,
+    11500,
+    35000,
+    90000,
+    99999,
+    38000,
+    8000,
+    73000,
+    74000,
+    54000,
+    105000,
+    74000,
+    54000,
+    105000,
+    72000
+}
+
 local ZaraPrice = {
     3300,
     1500,
@@ -34,15 +56,15 @@ local ZaraPrice = {
 }
 
 local BapePrice = {
-    40000,  -- Фиолетовый Зип-Худи 'BAPE'
+    38000,  -- Фиолетовый Зип-Худи 'BAPE'
     10000,  -- Белая Футболка 'BAPE STA'
     10000,  -- Красная Футболка 'BAPE'
     35000,  -- Чёрные Джинсы 'BAPE STA'
     35000,  -- Тёмные Джинсы 'BAPE STA'
     46000,  -- Бежевый Зип-Худи 'BAPE'
-    46000,  -- Бежевая Зип-Худи 'BAPE'
-    99000,  -- Рюкзак 'BAPE'
-    50000,  -- Черная Зип-Худи Baby-Milo
+    40000,  -- Бежевая Зип-Худи 'BAPE'
+    85000,  -- Рюкзак 'BAPE'
+    30000,  -- Черная Зип-Худи Baby-Milo
     45000,  -- Черный Зип-Худи 'BAPE'
     45000,  -- Бежевая Зип-Худи 'BAPE STA'
     53000,  -- Серый Зип-Худи 'BAPE'
@@ -64,10 +86,10 @@ local StoneIslandPrice = {
     22000, -- Красный Свитшот 'Stone Island'
     22000, -- Серый Свитер 'Stone Island'
     25000, -- Черные Джоггеры 'Stone Island'
-    28500, -- Синие Джинсы 'Stone Island'
-    28500, -- Тёмные Штаны 'Stone Island'
-    28700, -- Серые Джинсы 'Stone Island'
-    28500  -- Серые Джинсы 'Stone Island'
+    27500, -- Синие Джинсы 'Stone Island'
+    27500, -- Тёмные Штаны 'Stone Island'
+    27700, -- Серые Джинсы 'Stone Island'
+    27500  -- Серые Джинсы 'Stone Island'
 }
 
 local BalenciagaPrice = {
@@ -97,16 +119,15 @@ local ChromeHeartsPrice = {
     180500,  -- Чёрное Худи 'Chrome hearts'
     160500,  -- Худи 'Chrome hearts'
     140500,  -- Серые Джинсы 'Chrome Hearts'
-    250500,  -- Джинсы CROSS PINK 'Chrome Hearts'
-    250500,  -- Джинсы CROSS GREEN 'Chrome Hearts'
-    460500,  -- Джинсы CROSS RED 'Chrome Hearts'
+    200000,  -- Джинсы CROSS PINK 'Chrome Hearts'
+    210000,  -- Джинсы CROSS GREEN 'Chrome Hearts'
+    400000,  -- Джинсы CROSS RED 'Chrome Hearts'
     2600500, -- Штаны 'Chrome Hearts X CARHARTT'
     110500,  -- Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'
     150500,  -- Чёрный свитшот Horse Shoe 'Chrome Hearts'
-    160500,  -- Коричневая Худи Horse Shoe 'Chrome Hearts'
     80500,   -- Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'
     725000,   -- Джинсы 'Levis X Chrome Hearts'
-    160000,   -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
+    130000,   -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
     240000,   -- Голубые Джинсы 'Chrome Hearts'
     77000,    -- Белая кофта Plus Cross 'Chrome Hearts'
     77000,    -- Белый Лонгслив Las Vegas 'Chrome Hearts'
@@ -117,7 +138,7 @@ local ChromeHeartsPrice = {
     444000,   -- Кожанная Куртка Cross RED 'Chrome Hearts'
     616000,   -- Чёрная Куртка 'Matty Boy X Chrome Hearts'
     12000,    -- Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'
-    150000    -- Коричневая Худи Horse Shoe 'Chrome Hearts'
+    125000    -- Коричневая Худи Horse Shoe 'Chrome Hearts'
 }
 
 local GucciPrice = {
@@ -144,45 +165,44 @@ local GucciPrice = {
 }
 
 local TheNorthFacePrice = {
-    53000,
-    20000,
-    25000,
-    999999,
-    63000,
-    20000,
-    34000,
-    3000,
-    20000,
-    50000,
-    65000,
-    2000,
-    17000,
-    18000,
-    1500,
-    21000,
-    28000,
-    23000,
-    22000
+    20000,  -- Пуховик Nuptse Retro
+    25000,  -- Пуховик Tropical Camo
+    999000, -- Пуховик "Смешная аналитика"
+    63000,  -- Куртка Mountain
+    20000,  -- Зелёный Пуховик Vintage
+    34000,  -- Пуховик Printed Dryvent
+    3000,   -- Рубашка Поло Beshtor
+    20000,  -- Пуховик Nuptse
+    50000,  -- Куртка Triple Skull
+    65000,  -- КБ Пуховик
+    2000,   -- Пуховик Red Box
+    17000,  -- Пуховик Retro Camo
+    18000,  -- Пуховик Summit
+    1500,   -- Свитшот Logo
+    21000,  -- Пуховик Retro Nuptse 1996
+    28000,  -- Пуховик INTERNATIONAL COLLECTION
+    23000,  -- Ветровка Varsity
+    22000   -- Пуховик Marble Light
 }
 
 local MonclerPrice = {
-    110000,
-    80000,
-    225000,
-    36500,
-    53500,
-    53500,
-    46500,
-    54500,
-    57500,
-    44500,
-    101000,
-    160000,
-    80000,
-    100000,
-    24500,
-    110000,
-    100000
+    110000, -- Оранжевый Жилет Tibb
+    80000,  -- Красный жилет DOWN BORMES
+    225000, -- Пуховик Dronieres
+    35000,  -- Синий жилет Tib
+    50000,  -- Штаны Genius
+    50000,  -- Штаны Logo
+    45000,  -- Штаны Shiny
+    53000,  -- Штаны 'Moncler x Palm Angels'
+    55000,  -- Карго штаны Day Namic Convertible
+    43000,  -- Штаны Midnight
+    101000, -- Ветровка Slack Jacket
+    160000, -- Пуховик Panelled
+    80000,  -- Розовый Жилет Quse
+    100000, -- Пуховик Gary Quilted
+    23000,  -- Зип Худи Logo
+    110000, -- Свитер Navy Logo Sweater
+    999999   -- Пуховик "Смешная аналитика"
 }
 
 local VetementsPrice = {
@@ -355,6 +375,49 @@ local CPCompanyPrice = {
 }
 
 -- Списки предметов
+local MonclerList = {
+    "Оранжевый Жилет Tibb 'Moncler'",
+    "Красный жилет DOWN BORMES 'Moncler'",
+    "Пуховик Dronieres 'Moncler'",
+    "Пуховик 'Смешная аналитика' 'Moncler'",
+    "Синий жилет Tib 'Moncler'",
+    "Штаны Genius 'Moncler'",
+    "Штаны Logo 'Moncler'",
+    "Штаны Shiny 'Moncler x Palm Angels'",
+    "Штаны 'Moncler x Palm Angels"
+    "Карго штаны Day Namic Convertible 'Moncler'",
+    "Штаны Midnight 'Moncler'",
+    "Ветровка Slack Jacket 'Moncler'",
+    "Пуховик Panelled 'Moncler'",
+    "Розовый Жилет Quse 'Moncler'",
+    "Пуховик Gary Quilted 'Moncler'",
+    "Зип Худи Logo 'Moncler'",
+    "Свитер Navy Logo Sweater 'Moncler'"
+}
+
+local NikitaEfremovList = {
+    "Чёрная Футболка Pentagram 'Rick Owens'",
+    "Красная Зип Худи 'Takashi Murakami'",
+    "Белая Футболка 'Palm Angels'",
+    "Футболка 'Dior X Travis Scott'",
+    "Худи 'Fear Of God'",
+    "Футболка 'Rip N Dip'",
+    " Белая Футболка If you Reading 'Drake'",
+    "Джинсы 'Gamma Arcteryx'",
+    "Свитер 'Smiley Raf Simons'",
+    "Свитер'",
+    "Протертые Джинсы 'Helmut Lung'",
+    "Черное Зип Худи 'True Religion'",
+    "Спорт Джинсы 'Saint Laurent'",
+    "Серое Худи 'Yeezy X Gap'",
+    "Лонгслив 'AustroWorld'",
+    "Коричневые штаны 'Travis Scott'",
+    "Серое Худи 'Yeezy X Gap'",
+    "Лонгслив 'AustroWorld'",
+    "Коричневые штаны 'Travis Scott'",
+    "Рубашка 'Burberry'"
+}
+
 local SportMasterList = {
     "Чёрная Спортивная Джинсовка 'Puma'",
     "Белая Футболка 'Puma'",
@@ -458,7 +521,6 @@ local ChromeHeartsList = {
     "Штаны 'Chrome Hearts X CARHARTT'",  
     "Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'",  
     "Чёрный свитшот Horse Shoe 'Chrome Hearts'",  
-    "Коричневая Худи Horse Shoe 'Chrome Hearts'",  
     "Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'",  
     "Джинсы 'Levis X Chrome Hearts'",  
     "Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'",  
@@ -499,10 +561,9 @@ local GucciList = {
 }
 
 local TheNorthFaceList = {
-    "Пуховик Bubble 'The North Face X Supreme'",
     "Пуховик Nuptse Retro 'The North Face'",
     "Пуховик Tropical Camo 'The North Face'",
-    "Пуховик 'Смешная Аналитика' 'The North Face'",
+    "Пуховик 'The North Face'",
     "Куртка Mountain 'The North face'",
     "Зелёный Пуховик Vintage 'The North Face'",
     "Пуховик Printed Dryvent 'The North Face'",
@@ -513,31 +574,11 @@ local TheNorthFaceList = {
     "Пуховик Red Box 'The North Face'",
     "Пуховик Retro Camo 'The North Face'",
     "Пуховик Summit 'The North Face'",
-    "Свитшот Logo 'The North Face'",
+    "Свитшот Logo 'The North Face"'",
     "Пуховик Retro Nuptse 1996 'The North Face'",
-    "Пуховик INTERNATIONAL COLLECTION 'The North Face'",
+    "Пуховик INTERNATIONAL COLLECTION "The North Face'",
     "Ветровка Varsity 'The North Face x Supreme'",
     "Пуховик Marble Light 'The North Face'"
-}
-
-local MonclerList = {
-    "Оранжевый Жилет Tibb 'Moncler'",
-    "Красный жилет DOWN BORMES 'Moncler'",
-    "Пуховик Dronieres 'Moncler'",
-    "ШСиний жилет Tib 'Moncler'",
-    "Штаны Genius 'Moncler'",
-    "Штаны Logo 'Moncler'",
-    "Штаны Shiny 'Moncler x Palm Angels'",
-    "Штаны 'Moncler x Palm Angels'",
-    "Карго штаны Day Namic Convertible 'Moncler'",
-    "Штаны Midnight 'Moncler'",
-    "Ветровка Slack Jacket 'Moncler'",
-    "Пуховик Panelled 'Moncler'",
-    "Розовый Жилет Quse 'Moncler'",
-    "Пуховик Gary Quilted 'Moncler'",
-    "Зип Худи Logo 'Moncler'",
-    "Свитер Navy Logo Sweater 'Moncler'",
-    "Фиолетовые Штаны Alicia Keys 'Moncler'"
 }
 
 local VetementsList = {
@@ -1949,6 +1990,63 @@ local CPCompanyToggle = VisualsTab:CreateToggle({
                         end
                     end
                 end
+            end
+        end
+    end
+})
+
+_G.NikitaEfremov = false
+local NikitaEfremovToggle = VisualsTab:CreateToggle({
+    Name = "NikitaEfremov",
+    CurrentValue = false,
+    Callback = function(Value)
+        if Value then
+            _G.NikitaEfremov = true
+            while _G.NikitaEfremov == true do
+                for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                    if v:FindFirstChildOfClass("ProximityPrompt") then
+                        if table.find(NikitaEfremovList, v.ProximityPrompt.ObjectText) then
+                            local Name = v.ProximityPrompt.ObjectText
+                            local Index = table.find(NikitaEfremovList, Name)
+                            local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                            if tonumber(Price) < NikitaEfremovPrice[Index] then
+                                if not v:FindFirstChild("Highlight") then
+                                    local Highlight = Instance.new("Highlight")
+                                    Highlight.Parent = v
+                                    Highlight.OutlineColor = OutlineColorPicker.Color
+                                    Highlight.FillColor = FillColorPicker.Color
+                                    Highlight.FillTransparency = TransparencySlider.CurrentValue
+                                end
+                            end
+                        end
+
+                        if v.ProximityPrompt.ActionText == "Повесить" and v:FindFirstChild("Highlight") then
+                            v:FindFirstChild("Highlight"):Remove()
+                        end
+                    end 
+                end
+
+                task.wait(_G.RefreshRate)
+            end
+        else
+            _G.NikitaEfremov = false
+            for i, v in pairs(game:GetService("Workspace").World.Debris.Stores:GetDescendants()) do
+                if v:FindFirstChildOfClass("ProximityPrompt") then
+                    if table.find(NikitaEfremovList, v.ProximityPrompt.ObjectText) then
+                        local Name = v.ProximityPrompt.ObjectText
+                        local Index = table.find(NikitaEfremovList, Name)
+                        local Price = string.gsub(v.ProximityPrompt.ActionText, "(%D)", "")
+                        if tonumber(Price) < NikitaEfremovPrice[Index] then
+                            if v:FindFirstChild("Highlight") then
+                                v:FindFirstChild("Highlight"):Remove()
+                            end
+                        end
+                    end
+
+                    if v.ProximityPrompt.ActionText == "Повесить" and v:FindFirstChild("Highlight") then
+                        v:FindFirstChild("Highlight"):Remove()
+                    end
+                end 
             end
         end
     end
