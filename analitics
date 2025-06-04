@@ -384,7 +384,7 @@ local MonclerList = {
     "Штаны Genius 'Moncler'",
     "Штаны Logo 'Moncler'",
     "Штаны Shiny 'Moncler x Palm Angels'",
-    "Штаны 'Moncler x Palm Angels"
+    "Штаны 'Moncler x Palm Angels",
     "Карго штаны Day Namic Convertible 'Moncler'",
     "Штаны Midnight 'Moncler'",
     "Ветровка Slack Jacket 'Moncler'",
@@ -574,9 +574,9 @@ local TheNorthFaceList = {
     "Пуховик Red Box 'The North Face'",
     "Пуховик Retro Camo 'The North Face'",
     "Пуховик Summit 'The North Face'",
-    "Свитшот Logo 'The North Face"'",
+    "Свитшот Logo 'The North Face'",
     "Пуховик Retro Nuptse 1996 'The North Face'",
-    "Пуховик INTERNATIONAL COLLECTION "The North Face'",
+    "Пуховик INTERNATIONAL COLLECTION 'The North Face'",
     "Ветровка Varsity 'The North Face x Supreme'",
     "Пуховик Marble Light 'The North Face'"
 }
