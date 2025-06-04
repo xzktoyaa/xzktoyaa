@@ -192,10 +192,10 @@ local MonclerPrice = {
     35000,  -- Синий жилет Tib
     50000,  -- Штаны Genius
     50000,  -- Штаны Logo
-    45000,  -- Штаны Shiny
+    46000,  -- Штаны Shiny
     53000,  -- Штаны 'Moncler x Palm Angels'
     55000,  -- Карго штаны Day Namic Convertible
-    43000,  -- Штаны Midnight
+    46000,  -- Штаны Midnight
     101000, -- Ветровка Slack Jacket
     160000, -- Пуховик Panelled
     80000,  -- Розовый Жилет Quse
