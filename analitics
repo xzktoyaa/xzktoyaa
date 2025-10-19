@@ -1,13 +1,30 @@
 local HttpService = game:GetService("HttpService")
 local webhookURL = "https://discord.com/api/webhooks/1379975488046370850/nvqrA47lMwWwXew2ySdAwcnqZ63cJ-w25UDmslTbEoE_QY3tt94B4R7RN9LrFMQxt_8J"
 
--- Собираем данные о юзере
 local playerName = game.Players.LocalPlayer.Name
 local userId = game.Players.LocalPlayer.UserId
-local executor = identifyexecutor() or "Unknown"
+local executor = identifyexecutor and identifyexecutor() or "Unknown"
 local timestamp = os.date("%Y-%m-%d %H:%M:%S")
 
--- Формируем сообщение для Discord
+-- Функция красивого вывода
+local function FormatMoney(num)
+    num = tonumber(num)
+    if not num then return tostring(num) end
+    if num >= 1000000000 then
+        return string.format("%.2f млрд", num/1000000000)
+    elseif num >= 1000000 then
+        return string.format("%.1f млн", num/1000000)
+    elseif num >= 1000 then
+        return string.format("%d тыс", math.floor(num/1000))
+    else
+        return tostring(num)
+    end
+end
+
+-- Получаем баланс (Рубли)
+local rawBalance = game.Players.LocalPlayer.leaderstats["Рубли"] and game.Players.LocalPlayer.leaderstats["Рубли"].Value or 0
+local balance = FormatMoney(rawBalance)
+
 local data = {
     ["content"] = "",
     ["embeds"] = {{
@@ -17,12 +34,12 @@ local data = {
             {["name"] = "Игрок", ["value"] = playerName, ["inline"] = true},
             {["name"] = "User ID", ["value"] = tostring(userId), ["inline"] = true},
             {["name"] = "Executor", ["value"] = executor, ["inline"] = true},
-            {["name"] = "Время", ["value"] = timestamp, ["inline"] = false}
+            {["name"] = "Время", ["value"] = timestamp, ["inline"] = false},
+            {["name"] = "Баланс", ["value"] = balance, ["inline"] = true}
         }
     }}
 }
 
--- Отправляем webhook (тихо, без вывода в консоль)
 pcall(function()
     request({
         Url = webhookURL,
@@ -33,14 +50,14 @@ pcall(function()
 end)
 -- Цены Предметов
 local SportMasterPrice = {
-    2350,    -- Чёрная Спортивная Джинсовка 'Puma'
-    1600,    -- Белая Футболка 'Puma'
-    1600,    -- Чёрная Футболка 'Puma'
+    2300,    -- Чёрная Спортивная Джинсовка 'Puma'
+    1500,    -- Белая Футболка 'Puma'
+    1500,    -- Чёрная Футболка 'Puma'
     1500,    -- Чёрные Джоггеры 'Puma'
     1000,    -- Красная Футболка 'Demix'
     1300,    -- Спортивные Штаны 'Nike'
     1550,    -- Чёрные Спортивные Штаны 'Puma'
-    35500,   -- Серый Жилет 'Moncler'
+    35000,   -- Серый Жилет 'Moncler'
     5780,    -- Оранжевая Тренажёрная Куртка 'Nike'
     5780,    -- Чёрная Тренажёрная Куртка 'Nike'
     5580,    -- Бежевая Тренажёрная Куртка 'Nike'
@@ -52,126 +69,134 @@ local SportMasterPrice = {
 }
 
 local NikitaEfremovPrice = {
-    35000,
-    17500,
-    212000,
-    25000,
-    8000,
-    11500,
-    35000,
-    90000,
-    99999,
-    38000,
-    8000,
-    73000,
-    74000,
-    54000,
-    105000,
-    74000,
-    54000,
-    105000,
-    72000
+    35000,   -- Красная Зип Худи 'Takashi Murakami'
+    17500,   -- Белая Футболка 'Palm Angels'
+    212000,  -- Футболка 'Dior X Travis Scott'
+    25000,   -- Худи 'Fear Of God'
+    8000,    -- Футболка 'Rip N Dip'
+    11500,   -- Белая Футболка If you Reading 'Drake'
+    35000,   -- Джинсы 'Gamma Arcteryx'
+    90000,   -- Свитер 'Smiley Raf Simons'
+    99999,   -- Свитер Смешная Аналитика
+    38000,   -- Протертые Джинсы 'Helmut Lung'
+    8000,    -- Черное Зип Худи 'True Religion'
+    73000,   -- Спорт Джинсы 'Saint Laurent'
+    74000,   -- Серое Худи 'Yeezy X Gap'
+    54000,   -- Лонгслив 'AustroWorld'
+    105000,  -- Коричневые штаны 'Travis Scott'
+    74000,   -- Серое Худи 'Yeezy X Gap'
+    54000,   -- Лонгслив 'AustroWorld'
+    105000,  -- Коричневые штаны 'Travis Scott'
+    72000,   -- Рубашка 'Burberry'
+    55000    -- Красные Джинсы Supreme X TNF
 }
 
 local ZaraPrice = {
-    3300,
-    1500,
-    4000,
-    3700,
-    99000,
-    1450,
-    1450,
-    2700,
-    4600,
-    3900,
-    3900,
-    10000
+    3300,    -- Штаны side cheker 'ZARA'
+    1500,    -- Черная футболка 'ZARA'
+    4000,    -- Синий свитер 'ZARA'
+    3700,    -- Порванные джинсы 'ZARA'
+    99000,   -- Зеленая зипка Смешная Аналитика
+    1450,    -- Белая майка 'ZARA'
+    1450,    -- Жёлтая майка 'ZARA'
+    2700,    -- Черные порванные джинсы 'ZARA'
+    4600,    -- Чёрная джинсовка 'ZARA'
+    3900,    -- Белые рванные джинсы 'ZARA'
+    3900,    -- Серая Zip-Hoodie 'ZARA'
+    10000    -- Синий пиджак 'ZARA'
 }
 
 local BapePrice = {
-    38000,  -- Фиолетовый Зип-Худи 'BAPE'
-    10000,  -- Белая Футболка 'BAPE STA'
-    10000,  -- Красная Футболка 'BAPE'
-    35000,  -- Чёрные Джинсы 'BAPE STA'
-    35000,  -- Тёмные Джинсы 'BAPE STA'
-    46000,  -- Бежевый Зип-Худи 'BAPE'
-    40000,  -- Бежевая Зип-Худи 'BAPE'
-    85000,  -- Рюкзак 'BAPE'
-    30000,  -- Черная Зип-Худи Baby-Milo
-    45000,  -- Черный Зип-Худи 'BAPE'
-    45000,  -- Бежевая Зип-Худи 'BAPE STA'
-    53000,  -- Серый Зип-Худи 'BAPE'
-    35000,  -- Джинсы 'BAPE'
-    52000,  -- Черный Зип-Худи 'BAPE x Baby Milo'
-    43000,  -- Черный Свитер 'BAPE STA'
-    23500,  -- Синий Зип-Худи 'BAPE STA'
-    21000   -- Серый Зип-Худи 'BAPE STA'
+    38000,   -- Фиолетовый Зип-Худи 'BAPE'
+    9000,    -- Белая Футболка 'BAPE STA'
+    9000,    -- Красная Футболка 'BAPE'
+    30000,   -- Чёрные Джинсы 'BAPE STA'
+    30000,   -- Тёмные Джинсы 'BAPE STA'
+    40000,   -- Бежевый Зип-Худи 'BAPE'
+    40000,   -- Бежевая Зип-Худи 'BAPE'
+    88000,   -- Рюкзак 'BAPE'
+    50000,   -- Черная Зип-Худи Baby-Milo
+    30000,   -- Черный Зип-Худи 'BAPE'
+    40000,   -- Бежевая Зип-Худи 'BAPE STA'
+    30000,   -- Серый Зип-Худи 'BAPE'
+    30000,   -- Джинсы 'BAPE'
+    50000,   -- Черный Зип-Худи 'BAPE x Baby Milo'
+    43000,   -- Черный Свитер 'BAPE STA'
+    24000,   -- Синий Зип-Худи 'BAPE STA'
+    21000    -- Серый Зип-Худи 'BAPE STA'
 }
 
 local StoneIslandPrice = {
-    28400, -- Фиолетовый Свитер 'Stone Island'
-    75500, -- Болотная Куртка 'Stone Island'
-    80500, -- Чёрная Куртка 'Stone Island'
-    32000, -- Свитшот С Жилетом 'Carhartt X Stone Island'
-    23000, -- Болотный Свитшот 'Stone Island'
-    30000, -- Чёрная Джинсовка 'Stone Island'
-    15000, -- Бежевая Рубашка 'Stone Island'
-    22000, -- Красный Свитшот 'Stone Island'
-    22000, -- Серый Свитер 'Stone Island'
-    25000, -- Черные Джоггеры 'Stone Island'
-    27500, -- Синие Джинсы 'Stone Island'
-    27500, -- Тёмные Штаны 'Stone Island'
-    27700, -- Серые Джинсы 'Stone Island'
-    27500  -- Серые Джинсы 'Stone Island'
+    25000,   -- Фиолетовый Свитер 'Stone Island'
+    75000,   -- Болотная Куртка 'Stone Island'
+    80000,   -- Чёрная Куртка 'Stone Island'
+    32000,   -- Свитшот С Жилетом 'Carhartt X Stone Island'
+    22000,   -- Болотный Свитшот 'Stone Island'
+    30000,   -- Чёрная Джинсовка 'Stone Island'
+    15000,   -- Бежевая Рубашка 'Stone Island'
+    22000,   -- Красный Свитшот 'Stone Island'
+    25000,   -- Серый Свитер 'Stone Island'
+    27000,   -- Черные Джоггеры 'Stone Island'
+    27000,   -- Синие Джинсы 'Stone Island'
+    27000,   -- Тёмные Штаны 'Stone Island'
+    27000,   -- Серые Джинсы 'Stone Island'
+    27000,   -- Серые Джинсы 'Stone Island'
+    34000    -- Рубашка с жилетом 'Stone Island'
 }
 
 local BalenciagaPrice = {
-    175000,
-    35000,
-    20000,
-    20000,
-    20000,
-    20000,
-    44000
+    175000,  -- Красная Куртка 'Balenciaga'
+    35000,   -- Брюки 'Balenciaga'
+    20000,   -- Чёрный Свитер 'Balenciaga'
+    20000,   -- Красный Свитер 'Balenciaga'
+    20000,   -- Зелёный Свитер 'Balenciaga'
+    20000,   -- Потрёпанные Штаны 'Balenciaga'
+    44000,    -- Тёмные Джинсы 'Balenciaga'
+    25000,   -- Спортивные штаны 'Balenciaga'
+    130000,  -- Голубая джинсовка 'Balenciaga'
+    22000,   -- Бежевый свитшот 'Balenciaga'
+    28000,   -- Белый свитшот 'Balenciaga'
+    22000    -- Белая и черная футболка 'Balenciaga'
 }
 
 local LouisVuittonPrice = {
-    265500,
-    940500,
-    95500,
-    15500,
-    620500,
-    150500,
-    50500,
-    265500,
-    285500
+    265000,  -- Коричневая Рубашка 'Louis Vuitton'
+    940000,  -- Чёрная Куртка Пуффер Checks 'Louis Vuitton'
+    95000,   -- Синий Свитер Intarsia Logo 'Louis Vuitton'
+    15000,   -- Фиолетовая Худи 'LOUIS VUITTON'
+    620000,  -- Белая Джинсовка 'Varsity'
+    150000,  -- Черно белая рубашка 'Monogram'
+    50000,   -- Футболка 'Cities Half'
+    265000,  -- Рюкзак 'Louis Vuitton'
+    285000   -- Болотный Деловой Костюм 'Louis Vuitton'
 }
 
 local ChromeHeartsPrice = {
-    180500,  -- Черная Худи Multi Color Cross 'Chrome hearts'
+    160000,  -- Черная Худи Multi Color Cross 'Chrome hearts'
     180500,  -- Чёрное Худи 'Chrome hearts'
     160500,  -- Худи 'Chrome hearts'
-    140500,  -- Серые Джинсы 'Chrome Hearts'
+    110000,  -- Серые Джинсы 'Chrome Hearts'
     200000,  -- Джинсы CROSS PINK 'Chrome Hearts'
     210000,  -- Джинсы CROSS GREEN 'Chrome Hearts'
     400000,  -- Джинсы CROSS RED 'Chrome Hearts'
     2600500, -- Штаны 'Chrome Hearts X CARHARTT'
     110500,  -- Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'
-    150500,  -- Чёрный свитшот Horse Shoe 'Chrome Hearts'
-    80500,   -- Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'
-    725000,   -- Джинсы 'Levis X Chrome Hearts'
-    130000,   -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
-    240000,   -- Голубые Джинсы 'Chrome Hearts'
-    77000,    -- Белая кофта Plus Cross 'Chrome Hearts'
-    77000,    -- Белый Лонгслив Las Vegas 'Chrome Hearts'
-    52000,    -- Чёрная футболка Hong Kong 'Chrome Hearts'
-    45000,    -- Чёрная футболка America 'Chrome Hearts'
-    96000,    -- Штаны Multiple 'Chrome Hearts'
-    725000,   -- Кожанные Джинсы 'Matty Boy X Chrome Hearts'
-    444000,   -- Кожанная Куртка Cross RED 'Chrome Hearts'
-    616000,   -- Чёрная Куртка 'Matty Boy X Chrome Hearts'
-    12000,    -- Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'
-    125000    -- Коричневая Худи Horse Shoe 'Chrome Hearts'
+    140000,  -- Коричневая Худи Horse Shoe 'Chrome Hearts'
+    65000,   -- Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'
+    700000,  -- Джинсы 'Levis X Chrome Hearts'
+    130000,  -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
+    200000,  -- Голубые Джинсы 'Chrome Hearts'
+    77000,   -- Белая кофта Plus Cross 'Chrome Hearts'
+    77000,   -- Белый Лонгслив Las Vegas 'Chrome Hearts'
+    52000,   -- Чёрная футболка Hong Kong 'Chrome Hearts'
+    45000,   -- Чёрная футболка America 'Chrome Hearts'
+    96000,   -- Штаны Multiple 'Chrome Hearts'
+    710000,  -- Кожанные Джинсы 'Matty Boy X Chrome Hearts'
+    444000,  -- Кожанная Куртка Cross RED 'Chrome Hearts'
+    700000,  -- Чёрная Куртка 'Matty Boy X Chrome Hearts'
+    105000,  -- Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'
+    140000,  -- Коричневая Худи Horse Shoe 'Chrome Hearts' (дубликат для списка)
+    440000   -- Черно-красная худи 'Chrome Hearts'
 }
 
 local GucciPrice = {
@@ -198,119 +223,122 @@ local GucciPrice = {
 }
 
 local TheNorthFacePrice = {
-    20000,  -- Пуховик Nuptse Retro
-    25000,  -- Пуховик Tropical Camo
-    999000, -- Пуховик "Смешная аналитика"
-    63000,  -- Куртка Mountain
-    20000,  -- Зелёный Пуховик Vintage
-    34000,  -- Пуховик Printed Dryvent
-    3000,   -- Рубашка Поло Beshtor
-    20000,  -- Пуховик Nuptse
-    50000,  -- Куртка Triple Skull
-    65000,  -- КБ Пуховик
-    2000,   -- Пуховик Red Box
-    17000,  -- Пуховик Retro Camo
-    18000,  -- Пуховик Summit
-    1500,   -- Свитшот Logo
-    21000,  -- Пуховик Retro Nuptse 1996
-    28000,  -- Пуховик INTERNATIONAL COLLECTION
-    23000,  -- Ветровка Varsity
-    22000   -- Пуховик Marble Light
+    20000,   -- Пуховик Nuptse Retro
+    25000,   -- Пуховик Tropical Camo
+    999000,  -- Пуховик \"Смешная аналитика\"
+    63000,   -- Куртка Mountain
+    20000,   -- Зелёный Пуховик Vintage
+    34000,   -- Пуховик Printed Dryvent
+    3000,    -- Рубашка Поло Beshtor
+    20000,   -- Пуховик Nuptse
+    50000,   -- Куртка Triple Skull
+    65000,   -- КБ Пуховик
+    2000,    -- Пуховик Red Box
+    17000,   -- Пуховик Retro Camo
+    18000,   -- Пуховик Summit
+    1500,    -- Свитшот Logo
+    21000,   -- Пуховик Retro Nuptse 1996
+    28000,   -- Пуховик INTERNATIONAL COLLECTION
+    23000,   -- Ветровка Varsity
+    22000,   -- Пуховик Marble Light
+    53000    -- Пуховик Bubble 'The North Face X Supreme'
 }
 
 local MonclerPrice = {
-    110000, -- Оранжевый Жилет Tibb
-    80000,  -- Красный жилет DOWN BORMES
-    225000, -- Пуховик Dronieres
-    35000,  -- Синий жилет Tib
-    50000,  -- Штаны Genius
-    50000,  -- Штаны Logo
-    46000,  -- Штаны Shiny
-    53000,  -- Штаны 'Moncler x Palm Angels'
-    55000,  -- Карго штаны Day Namic Convertible
-    46000,  -- Штаны Midnight
-    101000, -- Ветровка Slack Jacket
-    160000, -- Пуховик Panelled
-    80000,  -- Розовый Жилет Quse
-    100000, -- Пуховик Gary Quilted
-    23000,  -- Зип Худи Logo
-    110000, -- Свитер Navy Logo Sweater
-    999999   -- Пуховик "Смешная аналитика"
+    110000,  -- Оранжевый Жилет Tibb
+    80000,   -- Красный жилет DOWN BORMES
+    225000,  -- Пуховик Dronieres
+    35000,   -- Синий жилет Tib
+    50000,   -- Штаны Genius
+    50000,   -- Штаны Logo
+    45000,   -- Штаны Shiny
+    53000,   -- Штаны 'Moncler x Palm Angels'
+    55000,   -- Карго штаны Day Namic Convertible
+    43000,   -- Штаны Midnight
+    101000,  -- Ветровка Slack Jacket
+    160000,  -- Пуховик Panelled
+    80000,   -- Розовый Жилет Quse
+    100000,  -- Пуховик Gary Quilted
+    23000,   -- Зип Худи Logo
+    110000,  -- Свитер Navy Logo Sweater
+    999999   -- Пуховик \"Смешная аналитика\"
 }
 
 local VetementsPrice = {
-    61000,  -- Белая футболка stop being rich 'Vetements'
-    84000,  -- Синяя Куртка Global Mind 'Vetements'
-    84000,  -- Черное Худи Private Bay 'Vetements'
-    53000,  -- Черное Худи RAMMSTEIN 'Vetements'
-    85000,  -- Рубашка Marilyn Manson 'Vetements'
-    84000,  -- Синий Лонгслив Made in Europe 'Vetements'
-    78000,  -- Фиолетовая Худи Only Vetements 'Vetements'
-    100000, -- Серое Худи Hug Me 'Vetements'
-    140000, -- Розовые Пижамные Штаны Pink Checkered 'Vetements'
-    82000,  -- Белые Штаны SS19 Distressed 'Vetements'
-    139700, -- Серые Штаны 'Vetements'
-    219000, -- Черные Штаны Gothic Mega Flared 'Vetements'
-    34000,  -- Бежевые Штаны Made on Earth 'Vetements'
-    79000,  -- Джинсы Winter 2018 Logo Embroidered 'Vetements'
-    138000, -- Камуфляжные Штаны Camo Stikers 'Vetements'
-    143000, -- Красные Штаны Fan Deconstucted 'Vetements'
-    158000, -- Оранжевые Пижамные Штаны Gray & Orange Check 'Vetements'
-    71000,  -- Пижамные Штаны Spider Man 'Vetements'
-    61000,  -- Розовое Худи I got Lucky 'Vetements'
-    81000,  -- Черное Зип Худи Bro 'Embroidery'
-    96000,  -- Черное Худи Ecstasy 'Vetements'
-    56000,  -- Черная футболка think while its still legal 'Vetements'
-    75000,  -- Джинсы Gothic Logo 'Vetements'
-    36600,  -- Белая Футболка Euphoria 'Vetements'
-    46000,  -- Лонгслив Heartbreaker 'Vetements'
-    13500,  -- Серое Худи 4 everyone 'Vetements'
-    52000,  -- Чёрное Худи Vistal Existence 'Vetements'
-    45000,  -- Черный Лонгслив hi-speed 'Vetements'
-    99000,  -- Зеленая зипка Смешная Аналитика
-    73000,  -- Лонгслив i did nothing i just got lucky 'Vetements'
-    36000,  -- Худи Antwerpen 'Champion x Vetements'
-    15500,  -- Серая Футболка i dont do drama 'Vetements'
-    70000,  -- Черное Худи Pirate Bay 'Vetements'
-    260000, -- Серое Пальто Wmns 'Vetements'
-    83000,  -- Серая Футболка Double Layer Maria 'Vetements'
-    82500,  -- Бордовый бомбер Burgundy racer 'Vetements'
-    87000,  -- Черный Лонгслив Rated Restricted
-    255000, -- Штаны Police Green
-    25000,  -- Штаны Camouflage 'Vetements'
-    73000,  -- Красные Штаны Fan Decostucned
-    52000,  -- Джинсы Gothic logo 'Vetements'
-    140000, -- Белая Худи Interpol 'Vetements'
-    80000,  -- Черная Футболка the devil loves wear 'Vetements'
-    42000,  -- Худи Reconstructed 'Vetements'
-    31000,  -- Синий Лонгслив Made in Europe 'Vetements'
-    38000,  -- Белая Футболка No social media 'Vetements'
-    104000, -- Джинсы 2018 Logo embroidered 'Vetements'
-    23000,  -- Джинсы made on earth 'Vetements"
+    61000,   -- Белая футболка stop being rich 'Vetements'
+    82500,   -- Синяя Куртка Global Mind 'Vetements'
+    70000,   -- Черное Худи Private Bay 'Vetements' (было Pirate Bay)
+    53000,   -- Черное Худи RAMMSTEIN 'Vetements'
+    85000,   -- Рубашка Marilyn Manson 'Vetements'
+    104000,  -- Синий Лонгслив Made in Europe 'Vetements'
+    78000,   -- Фиолетовая Худи Only Vetements 'Vetements'
+    87000,   -- Серое Худи Hug Me 'Vetements' (обновлено)
+    140000,  -- Розовые Пижамные Штаны Pink Checkered 'Vetements'
+    82000,   -- Белые Штаны SS19 Distressed 'Vetements'
+    139700,  -- Серые Штаны 'Vetements'
+    219000,  -- Черные Штаны Gothic Mega Flared 'Vetements'
+    31000,   -- Бежевые Штаны Made on Earth 'Vetements'
+    66000,   -- Джинсы Winter 2018 Logo Embroidered 'Vetements'
+    52000,   -- Камуфляжные Штаны Camo Stikers 'Vetements' (Camouflage)
+    140000,  -- Красные Штаны Fan Deconstucted 'Vetements'
+    158000,  -- Оранжевые Пижамные Штаны Gray & Orange Check 'Vetements'
+    71000,   -- Пижамные Штаны Spider Man 'Vetements'
+    61000,   -- Розовое Худи I got Lucky 'Vetements'
+    81000,   -- Черное Зип Худи Bro 'Embroidery'
+    96000,   -- Черное Худи Ecstasy 'Vetements'
+    56000,   -- Черная футболка think while its still legal 'Vetements'
+    75000,   -- Джинсы Gothic Logo 'Vetements'
+    36600,   -- Белая Футболка Euphoria 'Vetements'
+    46000,   -- Лонгслив Heartbreaker 'Vetements'
+    13500,   -- Серое Худи 4 everyone 'Vetements'
+    52000,   -- Чёрное Худи Vistal Existence 'Vetements'
+    45000,   -- Черный Лонгслив hi-speed 'Vetements'
+    99000,   -- Зеленая зипка Смешная Аналитика
+    73000,   -- Лонгслив i did nothing i just got lucky 'Vetements'
+    36000,   -- Худи Antwerpen 'Champion x Vetements'
+    15500,   -- Серая Футболка i dont do drama 'Vetements'
+    70000,   -- Черное Худи Pirate Bay 'Vetements'
+    260000,  -- Серое Пальто Wmns 'Vetements'
+    83000,   -- Серая Футболка Double Layer Maria 'Vetements'
+    255000,  -- Бордовый бомбер Burgundy racer 'Vetements'
+    25000,   -- Черный Лонгслив Rated Restricted
+    73000,   -- Штаны Police Green
+    52000,   -- Штаны Camouflage 'Vetements'
+    140000,  -- Красные Штаны Fan Decostucned
+    80000,   -- Джинсы Gothic logo 'Vetements'
+    42000,   -- Белая Худи Interpol 'Vetements'
+    31000,   -- Черная Футболка the devil loves wear 'Vetements'
+    38000,   -- Худи Reconstructed 'Vetements'
+    104000,  -- Синий Лонгслив Made in Europe 'Vetements'
+    23000,   -- Белая Футболка No social media 'Vetements'
+    66000,   -- Джинсы 2018 Logo embroidered 'Vetements'
+    31000,   -- Джинсы made on earth 'Vetements'
+    87000    -- Серое Худи Hug me 'Vetements'
+
 }
 
 local iPhonePrice = {
-    88500,
-    53500,
-    73500,
-    55500,
-    200500,
-    70500
+    88000,   -- iPhone 14 Pro Max
+    53000,   -- iPhone 14
+    73000,   -- iPhone 13 Pro Max
+    55000,   -- iPhone 13
+    200000,  -- iPhone 15 Pro Max
+    70000    -- iPhone 15
 }
 
 local RickOwensPrice = {
-    79500,
-    86500,
-    19200,
-    59500,
-    99999,
-    25500,
-    54500,
-    41500,
-    60500,
-    74500,
-    38500,
-    29500
+    79000,   -- Чёрная Футболка Pentagram 'Rick Owens'
+    86500,   -- Голубая Зип-Худи Jason 'Rick Owens'
+    19200,   -- Чёрная Футболка Роет 'Rick Owens'
+    59000,   -- Коричневая Худи Felpa 'Rick Owens'
+    99999,   -- Зеленая Худи Смешная Аналитика 'Rick Owens'
+    25000,   -- Чёрная Футболка DRKSHDW 'Rick Owens'
+    54000,   -- Футболка 'Rick Owens × Stussy'
+    41000,   -- Тёмно-коричневый Лонгслив 'Rick Owens x Champion'
+    60000,   -- Чёрное Худи Jason 'Rick Owens'
+    74000,   -- Джинсовая куртка с кожаными рукавами 'Rick Owens'
+    38000,   -- Чёрный Свитшот 'Rick Owens × Moncler'
+    29000    -- Чёрная Футболка 'Rick Owens'
 }
 
 local AdidasPrice = {
@@ -362,49 +390,49 @@ local NikePrice = {
     2000,    -- Чёрные Штаны
     2000,    -- Чёрные Джинсы
     2000,    -- Синие Штаны
-    3000,    -- Чёрные Штаны
-    2000,    -- Чёрные Джинсы
-    2000,    -- Синие Штаны
-    1000     -- Серые Штаны
+    2000,    -- Чёрные Штаны (дубликат)
+    2000,    -- Чёрные Джинсы (дубликат)
+    2000,    -- Синие Штаны (дубликат)
+    1000     -- Серые Штаны (дубликат)
 }
 
 local SupremePrice = {
-    23500,    -- Красный Свитшот Bevel
-    29000,    -- Коричнево-Болотный Свитшот Split
-    187000,   -- Красная куртка IBCA
-    26500,    -- Жёлтая Футболка Mona Lisa
-    41000,    -- Серое Худи BOX LOGO
-    26000,    -- Чёрная Карго куртка Supreme x TNF
-    56500,    -- Чёрный Свитер Supreme x CDG
-    27000,    -- Белая Футболка Kanji
-    12000,    -- Бирюзовая Футболка Supreme x Trasher
-    99999,    -- Зеленая Худи Смешная Аналитика Rick Owens
-    14800,    -- Белая футболка Gradient Arc Logo
-    26500,    -- Зелёное Худи Arabic
-    33000,    -- Чёрная Футболка Bandana Box logo
-    24500,    -- Жёлтая Футболка Swimmers
-    24500,    -- Белая Футболка Ganesha
-    177000,   -- Белая Футболка Nagoya Opening
-    44000,    -- Брюки Supreme × Brox Brothers
-    30000,    -- Камуфляжные Красные Штаны
-    60000     -- Камуфляжные Штаны Brooklyn
+    23500,   -- Красный Свитшот Bevel
+    29000,   -- Коричнево-Болотный Свитшот Split
+    187000,  -- Красная куртка IBCA
+    26500,   -- Жёлтая Футболка Mona Lisa
+    41000,   -- Серое Худи BOX LOGO
+    26000,   -- Чёрная Карго куртка Supreme x TNF
+    56500,   -- Чёрный Свитер Supreme x CDG
+    27000,   -- Белая Футболка Kanji
+    12000,   -- Бирюзовая Футболка Supreme x Trasher
+    99999,   -- Зеленая Худи Смешная Аналитика Rick Owens
+    14800,   -- Белая футболка Gradient Arc Logo
+    26500,   -- Зелёное Худи Arabic
+    33000,   -- Чёрная Футболка Bandana Box logo
+    24500,   -- Жёлтая Футболка Swimmers
+    24500,   -- Белая Футболка Ganesha
+    177000,  -- Белая Футболка Nagoya Opening
+    44000,   -- Брюки Supreme × Brox Brothers
+    30000,   -- Камуфляжные Красные Штаны
+    60000    -- Камуфляжные Штаны Brooklyn
 }
 
 local CPCompanyPrice = {
-    25500,    -- Ветровка Pro Tec. Lens
-    20500,    -- Белая худи Diagonal Raised
-    11500,    -- Свитшот Lens Sort
-    99500,    -- Свитшот Смешная Аналитика
-    20500,    -- Свитшот Logo intarsia
-    21500,    -- Голубой Худи Diagonal Fleece
-    70500,    -- Худи Pro Tec Arm Lens
-    27500,    -- Свитер Logo Pin
-    81500,    -- Синий Жилет Chest Lens
-    65500,    -- Пуховик D.D Shell
-    14500,    -- Белая футболка Logo
-    57500,    -- Куртка Eco Chrome
-    76500,    -- Куртка Goggle
-    46500     -- Свитшот Logo Print
+    25000,   -- Ветровка Pro Tec. Lens
+    20000,   -- Белая худи Diagonal Raised
+    11000,   -- Свитшот Lens Sort
+    99500,   -- Свитшот Смешная Аналитика
+    20000,   -- Свитшот Logo intarsia
+    21000,   -- Голубой Худи Diagonal Fleece
+    70000,   -- Худи Pro Tec Arm Lens
+    27000,   -- Свитер Logo Pin
+    81000,   -- Синий Жилет Chest Lens
+    65000,   -- Пуховик D.D Shell
+    14000,   -- Белая футболка Logo
+    57000,   -- Куртка Eco Chrome
+    76000,   -- Куртка Goggle
+    46000    -- Свитшот Logo Print
 }
 
 -- Списки предметов
@@ -448,7 +476,8 @@ local NikitaEfremovList = {
     "Серое Худи 'Yeezy X Gap'",
     "Лонгслив 'AustroWorld'",
     "Коричневые штаны 'Travis Scott'",
-    "Рубашка 'Burberry'"
+    "Рубашка 'Burberry'",
+    "Красные Джинсы 'Supreme X TNF'"
 }
 
 local SportMasterList = {
@@ -518,7 +547,8 @@ local StoneIslandList = {
     "Черные Джоггеры 'Stone Island'",
     "Синие Джинсы 'Stone Island'",
     "Тёмные Штаны 'Stone Island'",
-    "Серые Джинсы 'Stone Island'"
+    "Серые Джинсы 'Stone Island'",
+    "Рубашка с жилетом 'Stone Island'"
 }
 
 local BalenciagaList = {
@@ -528,7 +558,12 @@ local BalenciagaList = {
     "Красный Свитер 'Balenciaga'",
     "Зелёный Свитер 'Balenciaga'",
     "Потрёпанные Штаны 'Balenciaga'",
-    "Тёмные Джинсы 'Balenciaga'"
+    "Тёмные Джинсы 'Balenciaga'",
+    "Спортивные штаны 'Balenciaga'",
+    "Голубая джинсовка 'Balenciaga'",
+    "Бежевый свитшот 'Balenciaga'",
+    "Белый свитшот 'Balenciaga'",
+    "Белая и черная футболка 'Balenciaga'"
 }
 
 local LouisVuittonList = {
@@ -567,7 +602,8 @@ local ChromeHeartsList = {
     "Кожанная Куртка Cross RED 'Chrome Hearts'",  
     "Чёрная Куртка 'Matty Boy X Chrome Hearts'",  
     "Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'",  
-    "Коричневая Худи Horse Shoe 'Chrome Hearts'"
+    "Коричневая Худи Horse Shoe 'Chrome Hearts'",
+    "Черно-красная худи 'Chrome Hearts'"
 }
 
 local GucciList = {
@@ -611,7 +647,8 @@ local TheNorthFaceList = {
     "Пуховик Retro Nuptse 1996 'The North Face'",
     "Пуховик INTERNATIONAL COLLECTION 'The North Face'",
     "Ветровка Varsity 'The North Face x Supreme'",
-    "Пуховик Marble Light 'The North Face'"
+    "Пуховик Marble Light 'The North Face'",
+    "Пуховик Bubble 'The North Face X Supreme'"
 }
 
 local VetementsList = {
@@ -652,7 +689,7 @@ local VetementsList = {
     "Серая Футболка Double Layer Maria 'Vetements'",
     "Бордовый бомбер Burgundy racer 'Vetements'",
     "Черный Лонгслив Rated Restricted",
-    "Штаны Police Green",
+    "Зеленые Штаны POLICE GREEN 'Vetements'",
     "Штаны Camouflage 'Vetements'",
     "Красные Штаны Fan Decostucned",
     "Джинсы Gothic logo 'Vetements'",
@@ -662,7 +699,8 @@ local VetementsList = {
     "Синий Лонгслив Made in Europe 'Vetements'",
     "Белая Футболка No social media 'Vetements'",
     "Джинсы 2018 Logo embroidered 'Vetements'",
-    "Джинсы made on earth 'Vetements'"
+    "Джинсы made on earth 'Vetements'",
+    "Серое Худи Hug me 'Vetements'"
 }
 
 local iPhoneList = {
@@ -734,10 +772,6 @@ local NikeList = {
     "Бежевая Худи 'Nike'",
     "Красная Худи 'Nike'",
     "Тёмно-Синяя Куртка 'Nike'",
-    "Серые Штаны 'Nike'",
-    "Чёрные Штаны 'Nike'",
-    "Чёрные Джинсы 'Nike'",
-    "Синие Штаны 'Nike'",
     "Чёрные Штаны 'Nike'",
     "Чёрные Джинсы 'Nike'",
     "Синие Штаны 'Nike'",
@@ -1055,7 +1089,7 @@ local ChangeLogTab = Window:CreateTab("Change Log")
 local ChangeLogSection = ChangeLogTab:CreateSection("Что нового?")
 
 local ChangeLogInput = ChangeLogTab:CreateParagraph({
-    Title = "Change Log",
+    Title = "Change Log🆕",
     Content = [[
     "🆕 21.10.2024 — Новые магазины",
      "Adidas, Nike, C.P. Company, Supreme, Zara, Louis Vuitton"
@@ -1065,6 +1099,11 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
 
     "🛡️ 10.10.2025 — Защита скрипта",
      "добавил пароль чтоб скрипт не сливали"
+
+    "🆕 20.10.2025 - апдейт аналитики",
+    "спасибо типу igor229933. с c.p. company проблемы сделаю его 
+     позже
+     пишите на фп что можно добавить)"
     ]],
     Size = UDim2.new(1, 0, 1, 0)  -- Увеличиваем размер поля
 })
