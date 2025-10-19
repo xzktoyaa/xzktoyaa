@@ -1109,7 +1109,7 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
 })
 
 -- Вкладка обратной связи
-local FeedbackTab = Window:CreateTab("Обратная связь")
+local FeedbackTab = Window:CreateTab("Обратная связь⚠️")
 
 FeedbackTab:CreateParagraph({
     Title = "Нашли баги или недочёты?",
