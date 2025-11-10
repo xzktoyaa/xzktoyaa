@@ -74,9 +74,9 @@ local NikitaEfremovPrice = {
     212000,  -- Футболка 'Dior X Travis Scott'
     25000,   -- Худи 'Fear Of God'
     8000,    -- Футболка 'Rip N Dip'
-    11500,   -- Белая Футболка If you Reading 'Drake'
+    11500,   -- Белая Футболка If You Reading 'Drake'
     35000,   -- Джинсы 'Gamma Arcteryx'
-    90000,   -- Свитер 'Smiley Raf Simons'
+    90000,   -- Свитер Smiley 'Raf Simons'
     99999,   -- Свитер Смешная Аналитика
     38000,   -- Протертые Джинсы 'Helmut Lung'
     8000,    -- Черное Зип Худи 'True Religion'
@@ -92,18 +92,18 @@ local NikitaEfremovPrice = {
 }
 
 local ZaraPrice = {
-    3300,    -- Штаны side cheker 'ZARA'
-    1500,    -- Черная футболка 'ZARA'
-    4000,    -- Синий свитер 'ZARA'
-    3700,    -- Порванные джинсы 'ZARA'
+    3300,    -- Штаны Side Cheker 'ZARA'
+    1500,    -- Чёрная Футболка 'ZARA'
+    4000,    -- Синий Свитер 'ZARA'
+    3700,    -- Порванные Джинсы 'ZARA'
     99000,   -- Зеленая зипка Смешная Аналитика
     1450,    -- Белая майка 'ZARA'
     1450,    -- Жёлтая майка 'ZARA'
-    2700,    -- Черные порванные джинсы 'ZARA'
-    4600,    -- Чёрная джинсовка 'ZARA'
+    2700,    -- Чёрные Порванные Джинсы 'ZARA
+    4600,    -- Чёрная Джинсовка 'ZARA'
     3900,    -- Белые рванные джинсы 'ZARA'
     3900,    -- Серая Zip-Hoodie 'ZARA'
-    10000    -- Синий пиджак 'ZARA'
+    10000    -- Синий Пиджак 'ZARA'
 }
 
 local BapePrice = {
@@ -111,7 +111,7 @@ local BapePrice = {
     9000,    -- Белая Футболка 'BAPE STA'
     9000,    -- Красная Футболка 'BAPE'
     30000,   -- Чёрные Джинсы 'BAPE STA'
-    30000,   -- Тёмные Джинсы 'BAPE STA'
+    30000,   -- Темные Джинсы 'BAPE STA'
     40000,   -- Бежевый Зип-Худи 'BAPE'
     40000,   -- Бежевая Зип-Худи 'BAPE'
     88000,   -- Рюкзак 'BAPE'
@@ -136,20 +136,20 @@ local StoneIslandPrice = {
     15000,   -- Бежевая Рубашка 'Stone Island'
     22000,   -- Красный Свитшот 'Stone Island'
     25000,   -- Серый Свитер 'Stone Island'
-    27000,   -- Черные Джоггеры 'Stone Island'
+    27000,   -- Чёрные Джоггеры 'Stone Island'
     27000,   -- Синие Джинсы 'Stone Island'
     27000,   -- Тёмные Штаны 'Stone Island'
     27000,   -- Серые Джинсы 'Stone Island'
     27000,   -- Серые Джинсы 'Stone Island'
-    34000    -- Рубашка с жилетом 'Stone Island'
+    34000    -- Рубашка С Жилетом 'Stone Island'
 }
 
 local BalenciagaPrice = {
     175000,  -- Красная Куртка 'Balenciaga'
     35000,   -- Брюки 'Balenciaga'
-    20000,   -- Чёрный Свитер 'Balenciaga'
+    20000,   -- Черный Свитер 'Balenciaga'
     20000,   -- Красный Свитер 'Balenciaga'
-    20000,   -- Зелёный Свитер 'Balenciaga'
+    20000,   -- Зеленый Свитер 'Balenciaga'
     20000,   -- Потрёпанные Штаны 'Balenciaga'
     44000,    -- Тёмные Джинсы 'Balenciaga'
     25000,   -- Спортивные штаны 'Balenciaga'
@@ -172,7 +172,7 @@ local LouisVuittonPrice = {
 }
 
 local ChromeHeartsPrice = {
-    160000,  -- Черная Худи Multi Color Cross 'Chrome hearts'
+    160000,  -- Чёрная Худи Multi Color Cross 'Chrome Hearts'
     180500,  -- Чёрное Худи 'Chrome hearts'
     160500,  -- Худи 'Chrome hearts'
     110000,  -- Серые Джинсы 'Chrome Hearts'
@@ -182,16 +182,16 @@ local ChromeHeartsPrice = {
     2600500, -- Штаны 'Chrome Hearts X CARHARTT'
     110500,  -- Чёрный свитшот Chomper 'Matty Boy X Chrome Hearts'
     140000,  -- Коричневая Худи Horse Shoe 'Chrome Hearts'
-    65000,   -- Красный Лонгслив Chomper 'Matty Boy X Chrome Hearts'
+    65000,   -- Красный Лонгслив Chomper 'Matty boy X Chrome Hearts'
     700000,  -- Джинсы 'Levis X Chrome Hearts'
     130000,  -- Бежевая Кофта Cemetery Cross Tire Tracks 'Chrome Hearts'
     200000,  -- Голубые Джинсы 'Chrome Hearts'
-    77000,   -- Белая кофта Plus Cross 'Chrome Hearts'
+    77000,   -- Белая Кофта PLUS CROSS 'Chrome Hearts'
     77000,   -- Белый Лонгслив Las Vegas 'Chrome Hearts'
-    52000,   -- Чёрная футболка Hong Kong 'Chrome Hearts'
+    52000,   -- Чёрная Футболка Hong Kong 'Chrome Hearts'
     45000,   -- Чёрная футболка America 'Chrome Hearts'
     96000,   -- Штаны Multiple 'Chrome Hearts'
-    710000,  -- Кожанные Джинсы 'Matty Boy X Chrome Hearts'
+    710000,  -- Кожанные Джинсы 'Matty boy X Chrome Hearts'
     444000,  -- Кожанная Куртка Cross RED 'Chrome Hearts'
     700000,  -- Чёрная Куртка 'Matty Boy X Chrome Hearts'
     105000,  -- Цитрусовый Лонгслив Record 'Matty Boy X Chrome Hearts'
@@ -252,7 +252,7 @@ local MonclerPrice = {
     50000,   -- Штаны Genius
     50000,   -- Штаны Logo
     45000,   -- Штаны Shiny
-    53000,   -- Штаны 'Moncler x Palm Angels'
+    53000,   -- Штаны 'Moncler X Palm Angels'
     55000,   -- Карго штаны Day Namic Convertible
     43000,   -- Штаны Midnight
     101000,  -- Ветровка Slack Jacket
@@ -273,7 +273,7 @@ local VetementsPrice = {
     104000,  -- Синий Лонгслив Made in Europe 'Vetements'
     78000,   -- Фиолетовая Худи Only Vetements 'Vetements'
     87000,   -- Серое Худи Hug Me 'Vetements' (обновлено)
-    140000,  -- Розовые Пижамные Штаны Pink Checkered 'Vetements'
+    140000,  -- Розовые Пижамные Штаны pink checkered 'Vetements'
     82000,   -- Белые Штаны SS19 Distressed 'Vetements'
     139700,  -- Серые Штаны 'Vetements'
     219000,  -- Черные Штаны Gothic Mega Flared 'Vetements'
@@ -305,7 +305,7 @@ local VetementsPrice = {
     73000,   -- Штаны Police Green
     52000,   -- Штаны Camouflage 'Vetements'
     140000,  -- Красные Штаны Fan Decostucned
-    80000,   -- Джинсы Gothic logo 'Vetements'
+    80000,   -- Джинсы Gothic Logo 'Vetements'
     42000,   -- Белая Худи Interpol 'Vetements'
     31000,   -- Черная Футболка the devil loves wear 'Vetements'
     38000,   -- Худи Reconstructed 'Vetements'
@@ -335,8 +335,8 @@ local RickOwensPrice = {
     25000,   -- Чёрная Футболка DRKSHDW 'Rick Owens'
     54000,   -- Футболка 'Rick Owens × Stussy'
     41000,   -- Тёмно-коричневый Лонгслив 'Rick Owens x Champion'
-    60000,   -- Чёрное Худи Jason 'Rick Owens'
-    74000,   -- Джинсовая куртка с кожаными рукавами 'Rick Owens'
+    60000,   -- Чёрное худи Jason 'Rick Owens'
+    74000,   -- Джинсовая Куртка С Кожаными Рукавами 'Rick Owens'
     38000,   -- Чёрный Свитшот 'Rick Owens × Moncler'
     29000    -- Чёрная Футболка 'Rick Owens'
 }
@@ -402,7 +402,7 @@ local SupremePrice = {
     187000,  -- Красная куртка IBCA
     26500,   -- Жёлтая Футболка Mona Lisa
     41000,   -- Серое Худи BOX LOGO
-    26000,   -- Чёрная Карго куртка Supreme x TNF
+    26000,   -- Чёрная Карго Куртка 'Supreme X TNF'
     56500,   -- Чёрный Свитер Supreme x CDG
     27000,   -- Белая Футболка Kanji
     12000,   -- Бирюзовая Футболка Supreme x Trasher
@@ -554,9 +554,9 @@ local StoneIslandList = {
 local BalenciagaList = {
     "Красная Куртка 'Balenciaga'",
     "Брюки 'Balenciaga'",
-    "Чёрный Свитер 'Balenciaga'",
+    "Черный Свитер 'Balenciaga'",
     "Красный Свитер 'Balenciaga'",
-    "Зелёный Свитер 'Balenciaga'",
+    "Зеленый Свитер 'Balenciaga'",
     "Потрёпанные Штаны 'Balenciaga'",
     "Тёмные Джинсы 'Balenciaga'",
     "Спортивные штаны 'Balenciaga'",
