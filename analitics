@@ -801,20 +801,20 @@ local SupremeList = {
 }
 
 local CPCompanyList = {
-    "Ветровка Pro Tec. Lens 'C.P. Company'",
-    "Белая худи Diagonal Raised 'C.P. Company'",
-    "Свитшот Lens Sort 'C.P. Company'",
-    "Свитшот Смешная Аналитика 'C.P. Company'",
-    "Свитшот Logo intarsia 'C.P. Company'",
-    "Голубой Худи Diagonal Fleece 'C.P. Company'",
-    "Худи Pro Tec Arm Lens 'C.P. Company'",
+    "Ветровка Pro Tec. Lens 'С.P. Company'",
+    "Белая худи Diagonal Raised 'С.P. Company'",
+    "Свитшот Lens Sort 'С.P. Company'",
+    "Свитшот Смешная Аналитика 'С.P. Company'",
+    "Свитшот Logo intarsia 'С.P. Company'",
+    "Голубой Худи Diagonal Fleece 'С.P. Company'",
+    "Худи Pro Tec Arm Lens 'С.P. Company'",
     "Свитер Logo Pin",
-    "Синий Жилет Chest Lens 'C.P. Company'",
-    "Пуховик D.D Shell 'C.P. Company'",
-    "Белая футболка Logo 'C.P. Company'",
-    "Куртка Eco Chrome 'C.P. Company'",
-    "Куртка Goggle 'C.P. Company'",
-    "Свитшот Logo Print 'C.P. Company'"
+    "Синий Жилет Chest Lens 'С.P. Company'",
+    "Пуховик D.D Shell 'С.P. Company'",
+    "Белая футболка Logo 'С.P. Company'",
+    "Куртка Eco Chrome 'С.P. Company'",
+    "Куртка Goggle 'С.P. Company'",
+    "Свитшот Logo Print 'С.P. Company'"
 }
 
 local player_name = game.Players.LocalPlayer.Name
@@ -1107,6 +1107,9 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
 
     "🆕 09.11.2025 - апдейт название вещей и лудка",
     "добавил лудку.
+
+    "🆕 МИНИ АПДЕЙТИК 13.11.2025 - пофиксил подсветку бренда",
+    "C.P. COMPANY теперь все подсвечивает.
     ]],
     Size = UDim2.new(1, 0, 1, 0)  -- Увеличиваем размер поля
 })
