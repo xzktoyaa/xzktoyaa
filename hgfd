@@ -1119,7 +1119,7 @@ local FeedbackTab = Window:CreateTab("Обратная связь⚠️")
 
 FeedbackTab:CreateParagraph({
     Title = "Нашли баги или недочёты?",
-    Content = "Пожалуйста, сообщите miha1234456 на Funpay —\nя оперативно исправлю все найденные проблемы!"
+    Content = "Пожалуйста, сообщите \ —\nя оперативно исправлю все найденные проблемы!"
 })
 
 local LudkaTab = Window:CreateTab("Лудка")
