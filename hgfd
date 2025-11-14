@@ -1356,7 +1356,7 @@ end
 LudkaTab:CreateParagraph({
     Title = "Правила",
     Content = [[За выигрыш даётся x5 от суммы ставки.
-Пишите на FunPay с скринами того, что выпало, и того, что скопировалось в буфер обмена.]]
+Пишите на  с скринами того, что выпало, и того, что скопировалось в буфер обмена.]]
 })
 
 table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1к", Callback = function() buyAttempt(1000, "Додеп 1к") end }))
