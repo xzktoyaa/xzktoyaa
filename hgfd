@@ -1103,7 +1103,7 @@ local ChangeLogInput = ChangeLogTab:CreateParagraph({
     "🆕 20.10.2025 - апдейт аналитики",
     "спасибо типу igor229933. с c.p. company проблемы сделаю его 
      позже
-     пишите на  что можно добавить)"
+     пишите в дс https://discord.gg/Ev8XAQar что можно добавить)"
 
     "🆕 09.11.2025 - апдейт название вещей и лудка",
     "добавил лудку.
@@ -1119,7 +1119,7 @@ local FeedbackTab = Window:CreateTab("Обратная связь⚠️")
 
 FeedbackTab:CreateParagraph({
     Title = "Нашли баги или недочёты?",
-    Content = "Пожалуйста, сообщите \ —\nя оперативно исправлю все найденные проблемы!"
+    Content = "Пожалуйста, сообщите в дс канал https://discord.gg/Ev8XAQar \ —\nя оперативно исправлю все найденные проблемы!"
 })
 
 local LudkaTab = Window:CreateTab("Лудка")
@@ -1341,11 +1341,11 @@ local function CreateFortuneWheel()
         if sectors[sel] == "Да" then
             Rayfield:Notify({
                 Title = "Колесо фортуны",
-                Content = "Ты выиграл! В буфере ссылка и x5 выигрыш ("..winSum..") + пруф, сделай скрин и напиши мне."
+                Content = "Ты выиграл! В буфере ссылка и x5 выигрыш ("..winSum..") напиши мне."
             })
             sendWinDiscord(playerName, lastBetLabel, lastBet)
             if setclipboard then
-                setclipboard("https://funpay.com/users/4512140/\nСтавка: "..lastBet.."\nВыигрыш: "..winSum.."\nЮзер: "..playerName.." [ID:"..game.Players.LocalPlayer.UserId.."]\nProof: "..proof)
+                setclipboard("https://discord.gg/Ev8XAQar/\nСтавка: "..lastBet.."\nВыигрыш: "..winSum.."\nЮзер: "..playerName.." [ID:"..game.Players.LocalPlayer.UserId.."]\nProof: "..proof)
             end
         else
             Rayfield:Notify({Title="Колесо фортуны", Content="Выпало 'НЕТ', удача не на твоей стороне!"})
@@ -1356,7 +1356,7 @@ end
 LudkaTab:CreateParagraph({
     Title = "Правила",
     Content = [[За выигрыш даётся x5 от суммы ставки.
-Пишите на  с скринами того, что выпало, и того, что скопировалось в буфер обмена.]]
+Пишите мне в дс https://discord.gg/Ev8XAQar.]]
 })
 
 table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1к", Callback = function() buyAttempt(1000, "Додеп 1к") end }))
