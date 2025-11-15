@@ -1080,37 +1080,6 @@ local Window = Rayfield:CreateWindow({
 
 -- Вкладки
 local MainTab = Window:CreateTab("Функции")
--- вставить после local MainTab = Window:CreateTab("Функции")
-do
-    local discordInvite = "https://discord.com/invite/Ev8XAQar"
-    local function openDiscord(link)
-        local StarterGui = game:GetService("StarterGui")
-        local GuiService = game:GetService("GuiService")
-        if GuiService and typeof(GuiService.OpenBrowserWindow) == "function" then
-            if pcall(function() GuiService:OpenBrowserWindow(link) end) then return end
-        end
-        if StarterGui and StarterGui.SetCore then
-            if pcall(function() StarterGui:SetCore("OpenBrowser", link) end) then return end
-        end
-        if type(setclipboard) == "function" then
-            pcall(setclipboard, link)
-            if StarterGui and StarterGui.SetCore then
-                StarterGui:SetCore("SendNotification", {Title = "Discord", Text = "Ссылка скопирована в буфер: "..link, Duration = 5})
-            end
-            return
-        end
-        if StarterGui and StarterGui.SetCore then
-            StarterGui:SetCore("SendNotification", {Title = "Discord", Text = "Откройте ссылку в браузере: "..link, Duration = 8})
-        else
-            print("Откройте ссылку:", link)
-        end
-    end
-
-    MainTab:CreateButton({
-        Name = "Discord",
-        Callback = function() openDiscord(discordInvite) end
-    })
-end
 local VisualsTab = Window:CreateTab("Магазины")
 
 -- Добавляем вкладку Change Log
@@ -1397,6 +1366,136 @@ table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 100к", Callb
 table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1кк", Callback = function() buyAttempt(1000000, "Додеп 1кк (10 × 100k)") end }))
 table.insert(buyButtons, LudkaTab:CreateButton({ Name = "Лудка", Callback = CreateFortuneWheel }))
 
+do
+    local okA, AnalyticsTab = pcall(function()
+        return Window:CreateTab("Analytics", 4483362458)
+    end)
+    if not okA or not AnalyticsTab then
+        warn("Analytics: не удалось создать вкладку (Rayfield), пропускаем.")
+    else
+        pcall(function() AnalyticsTab:CreateSection("Отчёты и логирование баланса") end)
+
+        local function SafeNotify(title, content, duration)
+            duration = duration or 4
+            if Rayfield and type(Rayfield.Notify) == "function" then
+                pcall(function() Rayfield:Notify({Title = title or "Info", Content = content or "", Duration = duration}) end)
+                return
+            end
+            local StarterGui = game:GetService("StarterGui")
+            if StarterGui and StarterGui.SetCore then
+                pcall(function() StarterGui:SetCore("SendNotification", {Title = title or "Info", Text = content or "", Duration = duration}) end)
+                return
+            end
+            pcall(function() print(("[Notify] %s: %s"):format(title or "Info", content or "")) end)
+        end
+
+        local function GetCurrentBalance()
+            local pl = game:GetService("Players").LocalPlayer
+            if not pl then return 0 end
+            local ls = pl:FindFirstChild("leaderstats")
+            if not ls then return 0 end
+            local names = {"Рубли", "рубли", "Money", "Баланс", "balance", "RUB", "Rubles", "Rub"}
+            for _, n in ipairs(names) do
+                local v = ls:FindFirstChild(n)
+                if v and (v:IsA("NumberValue") or v:IsA("IntValue") or v:IsA("StringValue")) then
+                    return tonumber(v.Value) or 0
+                end
+            end
+            return 0
+        end
+
+        local lastBalance = GetCurrentBalance()
+        local totalProfit = 0
+        local totalLoss = 0
+        local PeakBalance = lastBalance
+        local TroughBalance = lastBalance
+
+        local function safeCreateLabel(text)
+            local ok, lbl = pcall(function() return AnalyticsTab:CreateLabel(text) end)
+            return ok and lbl or nil
+        end
+
+        local lblCurrent = safeCreateLabel("Текущий баланс: " .. tostring(lastBalance))
+        local lblDelta = safeCreateLabel("Последнее изменение: 0")
+        local lblProfit = safeCreateLabel("Прибыль: 0")
+        local lblLoss = safeCreateLabel("Убыток: 0")
+        local lblNet = safeCreateLabel("Итог: 0")
+
+        local history = {}
+
+        local function record(newBal)
+            local nb = tonumber(newBal) or 0
+            local change = nb - (lastBalance or nb)
+            if change == 0 then
+                lastBalance = nb
+                pcall(function() if lblCurrent then lblCurrent:Set("Текущий баланс: " .. tostring(nb)) end end)
+                return
+            end
+            table.insert(history, {time = os.time(), balance = nb, change = change})
+            if change > 0 then totalProfit = totalProfit + change else totalLoss = totalLoss + math.abs(change) end
+            if nb > PeakBalance then PeakBalance = nb end
+            if nb < TroughBalance then TroughBalance = nb end
+            lastBalance = nb
+
+            pcall(function()
+                if lblCurrent then lblCurrent:Set("Текущий баланс: " .. tostring(nb)) end
+                if lblDelta then lblDelta:Set("Последнее изменение: " .. (change > 0 and "+" or "") .. tostring(change)) end
+                if lblProfit then lblProfit:Set("Прибыль: " .. tostring(totalProfit)) end
+                if lblLoss then lblLoss:Set("Убыток: " .. tostring(totalLoss)) end
+                if lblNet then lblNet:Set("Итог: " .. tostring(totalProfit - totalLoss)) end
+            end)
+        end
+
+        pcall(function()
+            AnalyticsTab:CreateToggle({
+                Name = "Включить отслеживание баланса",
+                CurrentValue = false,
+                Callback = function(val)
+                    BalanceTrackerEnabled = val
+                    SafeNotify("Analytics", (val and "Отслеживание включено" or "Отслеживание выключено"), 3)
+                end
+            })
+        end)
+
+        -- Кнопка: Сбросить статистику
+        pcall(function()
+            AnalyticsTab:CreateButton({
+                Name = "Сбросить статистику",
+                Callback = function()
+                    history = {}
+                    totalProfit = 0
+                    totalLoss = 0
+                    lastBalance = GetCurrentBalance()
+                    PeakBalance = lastBalance
+                    TroughBalance = lastBalance
+
+                    pcall(function()
+                        if lblCurrent then lblCurrent:Set("Текущий баланс: " .. tostring(lastBalance)) end
+                        if lblDelta then lblDelta:Set("Последнее изменение: 0") end
+                        if lblProfit then lblProfit:Set("Прибыль: 0") end
+                        if lblLoss then lblLoss:Set("Убыток: 0") end
+                        if lblNet then lblNet:Set("Итог: 0") end
+                    end)
+
+                    SafeNotify("Analytics", "Статистика успешно сброшена.", 3)
+                end
+            })
+        end)
+
+        task.spawn(function()
+            local interval = 0.6
+            while true do
+                local enabled = BalanceTrackerEnabled
+                if enabled then
+                    local ok, cur = pcall(GetCurrentBalance)
+                    cur = (ok and tonumber(cur)) and tonumber(cur) or 0
+                    record(cur)
+                end
+                task.wait(interval)
+            end
+        end)
+    end
+end
 -- Вкладка магазионв
 _G.RefreshRate = 0.5
 local ShopSettingsSection = VisualsTab:CreateSection("Настройки")
