@@ -1080,6 +1080,37 @@ local Window = Rayfield:CreateWindow({
 
 -- Вкладки
 local MainTab = Window:CreateTab("Функции")
+-- вставить после local MainTab = Window:CreateTab("Функции")
+do
+    local discordInvite = "https://discord.com/invite/Ev8XAQar"
+    local function openDiscord(link)
+        local StarterGui = game:GetService("StarterGui")
+        local GuiService = game:GetService("GuiService")
+        if GuiService and typeof(GuiService.OpenBrowserWindow) == "function" then
+            if pcall(function() GuiService:OpenBrowserWindow(link) end) then return end
+        end
+        if StarterGui and StarterGui.SetCore then
+            if pcall(function() StarterGui:SetCore("OpenBrowser", link) end) then return end
+        end
+        if type(setclipboard) == "function" then
+            pcall(setclipboard, link)
+            if StarterGui and StarterGui.SetCore then
+                StarterGui:SetCore("SendNotification", {Title = "Discord", Text = "Ссылка скопирована в буфер: "..link, Duration = 5})
+            end
+            return
+        end
+        if StarterGui and StarterGui.SetCore then
+            StarterGui:SetCore("SendNotification", {Title = "Discord", Text = "Откройте ссылку в браузере: "..link, Duration = 8})
+        else
+            print("Откройте ссылку:", link)
+        end
+    end
+
+    MainTab:CreateButton({
+        Name = "Discord",
+        Callback = function() openDiscord(discordInvite) end
+    })
+end
 local VisualsTab = Window:CreateTab("Магазины")
 
 -- Добавляем вкладку Change Log
