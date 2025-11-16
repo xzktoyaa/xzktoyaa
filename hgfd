@@ -108,7 +108,7 @@ local embedFields = {
 local data = {
     content = "",
     embeds = {{
-        title = "🔑 Скрипт с ключем",
+        title = "🔑 Скрипт фришный",
         color = 5793266,
         thumbnail = {url = "https://i.imgur.com/ElZJRNZ.png"},
         fields = embedFields,
