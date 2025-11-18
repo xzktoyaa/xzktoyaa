@@ -1984,7 +1984,7 @@ local BalenciagaToggle = VisualsTab:CreateToggle({
 
 _G.ChromeHearts = false
 local ChromeHeartsToggle = VisualsTab:CreateToggle({
-    Name = "Chrome Hearts",
+    Name = "Chrome Hearts (окуп)",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2212,7 +2212,7 @@ local TheNorthFaceToggle = VisualsTab:CreateToggle({
 
 _G.Vetements = false
 local VetementsToggle = VisualsTab:CreateToggle({
-    Name = "Vetements (окуп +-)",
+    Name = "Vetements (окуп +- осторожно)",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
