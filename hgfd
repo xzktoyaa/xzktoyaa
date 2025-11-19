@@ -1896,7 +1896,7 @@ local ShopSection = VisualsTab:CreateSection("Магазины")
 
 _G.Smesh = false
 local SmeshToggle = VisualsTab:CreateToggle({
-    Name = "смешные цены + секонд стиль (окуп)",
+    Name = "смешные цены + секонд стиль",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -1953,7 +1953,7 @@ local SmeshToggle = VisualsTab:CreateToggle({
 
 _G.SportMaster = false
 local SportmasterToggle = VisualsTab:CreateToggle({
-    Name = "Спортмастер (окуп)",
+    Name = "Спортмастер",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2010,7 +2010,7 @@ local SportmasterToggle = VisualsTab:CreateToggle({
 
 _G.Zara = false
 local ZaraToggle = VisualsTab:CreateToggle({
-    Name = "Zara (окуп)",
+    Name = "Zara",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2067,7 +2067,7 @@ local ZaraToggle = VisualsTab:CreateToggle({
 
 _G.Bape = false
 local BapeToggle = VisualsTab:CreateToggle({
-    Name = "Bape (окуп)",
+    Name = "Bape",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2238,7 +2238,7 @@ local BalenciagaToggle = VisualsTab:CreateToggle({
 
 _G.ChromeHearts = false
 local ChromeHeartsToggle = VisualsTab:CreateToggle({
-    Name = "Chrome Hearts (окуп)",
+    Name = "Chrome Hearts",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2409,7 +2409,7 @@ local GucciToggle = VisualsTab:CreateToggle({
 
 _G.TheNorthFace = false
 local TheNorthFaceToggle = VisualsTab:CreateToggle({
-    Name = "TheNorthFace (окуп)",
+    Name = "TheNorthFace",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2466,7 +2466,7 @@ local TheNorthFaceToggle = VisualsTab:CreateToggle({
 
 _G.Vetements = false
 local VetementsToggle = VisualsTab:CreateToggle({
-    Name = "Vetements (окуп +- осторожно)",
+    Name = "Vetements",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2580,7 +2580,7 @@ local iPhoneToggle = VisualsTab:CreateToggle({
 
 _G.Moncler = false
 local MonclerToggle = VisualsTab:CreateToggle({
-    Name = "Moncler (окуп штаны ост хз)",
+    Name = "Moncler",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2637,7 +2637,7 @@ local MonclerToggle = VisualsTab:CreateToggle({
 
 _G.RickOwens = false
 local RickOwensToggle = VisualsTab:CreateToggle({
-    Name = "RickOwens (окуп) не всегда",
+    Name = "RickOwens",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2694,7 +2694,7 @@ local RickOwensToggle = VisualsTab:CreateToggle({
 
 _G.Adidas = false
 local AdidasToggle = VisualsTab:CreateToggle({
-    Name = "Adidas (окуп)",
+    Name = "Adidas",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2737,7 +2737,7 @@ local AdidasToggle = VisualsTab:CreateToggle({
 
 _G.Nike = false
 local NikeToggle = VisualsTab:CreateToggle({
-    Name = "Nike (окуп)",
+    Name = "Nike",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
@@ -2780,7 +2780,7 @@ local NikeToggle = VisualsTab:CreateToggle({
 
 _G.Supreme = false
 local SupremeToggle = VisualsTab:CreateToggle({
-    Name = "Supreme (окуп)",
+    Name = "Supreme",
     CurrentValue = false,
     Callback = function(Value)
         if Value then
