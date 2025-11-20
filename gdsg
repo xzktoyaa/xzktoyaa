@@ -1,0 +1,313 @@
+--=== RAYFIELD GUI ===
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+
+local Window = Rayfield:CreateWindow({
+    Name = "ESP & Antifog Menu",
+    LoadingTitle = "Loading...",
+    LoadingSubtitle = "by your script",
+    KeySystem = false
+})
+
+local ESPTab = Window:CreateTab("ESP")
+local AntifogTab = Window:CreateTab("Antifog")
+local UtilityTab = Window:CreateTab("Utility")
+
+local settings_tbl = {
+    ESP_Enabled = true,
+    ESP_TeamCheck = true,
+    ESP_OutlineColor = Color3.fromRGB(255, 150, 0),
+    ESP_FillColor = Color3.fromRGB(255, 150, 0),
+    ESP_FillTransparency = 1,
+    ESP_OutlineTransparency = 0,
+    ESP_TextColor = Color3.fromRGB(255, 150, 0),
+    ESP_TextSize = 14
+}
+
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Workspace = game:GetService("Workspace")
+local Lighting = game:GetService("Lighting")
+local RunService = game:GetService("RunService")
+
+-- === ESP ===
+ESPTab:CreateToggle({
+    Name = "Enable ESP",
+    CurrentValue = settings_tbl.ESP_Enabled,
+    Callback = function(Value)
+        settings_tbl.ESP_Enabled = Value
+    end
+})
+
+ESPTab:CreateToggle({
+    Name = "Team Check",
+    CurrentValue = settings_tbl.ESP_TeamCheck,
+    Callback = function(Value)
+        settings_tbl.ESP_TeamCheck = Value
+    end
+})
+
+ESPTab:CreateColorPicker({
+    Name = "Outline Color",
+    Color = settings_tbl.ESP_OutlineColor,
+    Callback = function(Value)
+        settings_tbl.ESP_OutlineColor = Value
+        updateAllESPColors()
+    end
+})
+
+ESPTab:CreateColorPicker({
+    Name = "Fill Color",
+    Color = settings_tbl.ESP_FillColor,
+    Callback = function(Value)
+        settings_tbl.ESP_FillColor = Value
+        updateAllESPColors()
+    end
+})
+
+ESPTab:CreateSlider({
+    Name = "Fill Transparency",
+    Range = {0, 1},
+    Increment = 0.1,
+    CurrentValue = settings_tbl.ESP_FillTransparency,
+    Callback = function(Value)
+        settings_tbl.ESP_FillTransparency = Value
+        updateAllESPColors()
+    end
+})
+
+-- === Антифог ===
+local antifog_enabled = true
+
+local function clearFog()
+    pcall(function()
+        Lighting.FogEnd = 1e6
+        Lighting.FogStart = 1e6
+        Lighting.FogColor = Color3.fromRGB(255, 255, 255)
+        for _, v in ipairs(Lighting:GetChildren()) do
+            if v:IsA("Atmosphere") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("Sky") or v:IsA("Clouds") then
+                v:Destroy()
+            end
+        end
+    end)
+end
+
+local function restoreFog()
+    pcall(function()
+        Lighting.FogEnd = 100
+        Lighting.FogStart = 0
+        Lighting.FogColor = Color3.fromRGB(200, 200, 200)
+    end)
+end
+
+AntifogTab:CreateToggle({
+    Name = "Enable Antifog",
+    CurrentValue = antifog_enabled,
+    Callback = function(Value)
+        antifog_enabled = Value
+        if Value then
+            clearFog()
+        else
+            restoreFog()
+        end
+    end
+})
+
+-- === Удаление деревьев по кнопке ===
+local grass_keywords = {"grass","tree","leaf","plant","bush","vegetation","foliage","fern","flower","weed","shrub","branches","trunk","log","wood","stump","pine","oak","birch","spruce","palm","bamboo","hedge"}
+
+UtilityTab:CreateButton({
+    Name = "Remove Trees & Vegetation",
+    Callback = function()
+        local removed_count = 0
+        for _, obj in ipairs(Workspace:GetDescendants()) do
+            if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("UnionOperation") or obj:IsA("Model") then
+                local name_lower = obj.Name:lower()
+                for _, keyword in ipairs(grass_keywords) do
+                    if name_lower:find(keyword) then
+                        pcall(function()
+                            obj:Destroy()
+                            removed_count = removed_count + 1
+                        end)
+                        break
+                    end
+                end
+            end
+        end
+        for _, obj in ipairs(Workspace:GetDescendants()) do
+            if obj:IsA("Part") or obj:IsA("MeshPart") then
+                local color = obj.Color
+                if color.G > 100 and color.R < 150 and color.B < 150 then
+                    pcall(function()
+                        obj:Destroy()
+                        removed_count = removed_count + 1
+                    end)
+                end
+            end
+        end
+        for _, obj in ipairs(Workspace:GetDescendants()) do
+            if obj:IsA("Part") or obj:IsA("MeshPart") then
+                if obj.Material == Enum.Material.Grass or obj.Material == Enum.Material.Wood then
+                    pcall(function()
+                        obj:Destroy()
+                        removed_count = removed_count + 1
+                    end)
+                end
+            end
+        end
+    end
+})
+
+-- === ESP CORE ===
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local TeamTable, Remote = {}, nil
+
+for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
+    if obj:IsA("RemoteFunction") and obj.Name:lower():find("getclientteams") then
+        Remote = obj
+        break
+    end
+end
+
+function UpdateTeamTable()
+    if Remote then
+        for _, plr in ipairs(Players:GetPlayers()) do
+            local ok, tbl = pcall(function() return Remote:InvokeServer(plr) end)
+            if ok and type(tbl) == "table" then
+                for name, team in pairs(tbl) do
+                    TeamTable[name] = team
+                end
+            end
+        end
+    end
+end
+
+UpdateTeamTable()
+Players.PlayerAdded:Connect(UpdateTeamTable)
+spawn(function()
+    while true do
+        UpdateTeamTable()
+        wait(5)
+    end
+end)
+
+local function getPlayerTeam(player)
+    if not player then return nil end
+    return TeamTable[player.Name] or nil
+end
+
+local function isTeammate(targetPlayer)
+    if not targetPlayer then return false end
+    if targetPlayer == LocalPlayer then return true end
+    local myTeam = getPlayerTeam(LocalPlayer)
+    local theirTeam = getPlayerTeam(targetPlayer)
+    if not myTeam or not theirTeam then return false end
+    return tostring(myTeam) == tostring(theirTeam)
+end
+
+function destroy_esp(char)
+    if not char then return end
+    pcall(function()
+        if char:FindFirstChild("ESPHighlight") then
+            char.ESPHighlight:Destroy()
+        end
+    end)
+    pcall(function()
+        if char:FindFirstChild("ESPNameTag") then
+            char.ESPNameTag:Destroy()
+        end
+    end)
+end
+
+function create_nametag(player, char)
+    if not char or not char:FindFirstChild("Head") then return end
+    if not player then return end
+    local head = char.Head
+    if head:FindFirstChild("ESPNameTag") then return end
+    pcall(function()
+        local billboard = Instance.new("BillboardGui")
+        billboard.Name = "ESPNameTag"
+        billboard.Size = UDim2.new(4, 0, 2, 0)
+        billboard.MaxDistance = 500
+        billboard.Adornee = head
+        billboard.Parent = head
+
+        local textLabel = Instance.new("TextLabel")
+        textLabel.Name = "Label"
+        textLabel.Size = UDim2.new(1, 0, 1, 0)
+        textLabel.BackgroundTransparency = 1
+        textLabel.TextColor3 = settings_tbl.ESP_TextColor
+        textLabel.TextSize = settings_tbl.ESP_TextSize
+        textLabel.TextScaled = false
+        textLabel.Font = Enum.Font.GothamBold
+        textLabel.Parent = billboard
+
+        spawn(function()
+            while textLabel and textLabel.Parent and player and LocalPlayer do
+                pcall(function()
+                    if char and char:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
+                        local dist = math.floor((char.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
+                        textLabel.Text = player.Name .. " [" .. dist .. "m]"
+                    end
+                end)
+                wait(0.1)
+            end
+        end)
+    end)
+end
+
+function updateAllESPColors()
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer then
+            local char = v.Character
+            if char and char:FindFirstChild("ESPHighlight") then
+                local highlight = char:FindFirstChild("ESPHighlight")
+                highlight.FillColor = settings_tbl.ESP_FillColor
+                highlight.OutlineColor = settings_tbl.ESP_OutlineColor
+                highlight.FillTransparency = settings_tbl.ESP_FillTransparency
+                highlight.OutlineTransparency = settings_tbl.ESP_OutlineTransparency
+            end
+        end
+    end
+end
+
+RunService.Heartbeat:Connect(function()
+    if not settings_tbl.ESP_Enabled then
+        for _,v in ipairs(Players:GetPlayers()) do
+            if v ~= LocalPlayer then
+                destroy_esp(v.Character)
+            end
+        end
+        return
+    end
+
+    for _,v in ipairs(Players:GetPlayers()) do
+        if v ~= LocalPlayer then
+            local char = v.Character
+            if char and char:FindFirstChild("HumanoidRootPart")
+            and char:FindFirstChild("Humanoid")
+            and char:FindFirstChild("Humanoid").Health ~= 0 then
+                if not settings_tbl.ESP_TeamCheck or not isTeammate(v) then
+                    if not char:FindFirstChild("ESPHighlight") then
+                        pcall(function()
+                            local highlight = Instance.new("Highlight")
+                            highlight.Name = "ESPHighlight"
+                            highlight.Adornee = char
+                            highlight.FillColor = settings_tbl.ESP_FillColor
+                            highlight.OutlineColor = settings_tbl.ESP_OutlineColor
+                            highlight.FillTransparency = settings_tbl.ESP_FillTransparency
+                            highlight.OutlineTransparency = settings_tbl.ESP_OutlineTransparency
+                            highlight.Parent = char
+                        end)
+                    else
+                        updateAllESPColors()
+                    end
+                    create_nametag(v, char)
+                else
+                    destroy_esp(char)
+                end
+            else
+                destroy_esp(char)
+            end
+        end
+    end
+end)
