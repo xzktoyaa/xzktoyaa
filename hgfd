@@ -7,6 +7,10 @@ local SCRIPTS_BY_GAME = {
         name = "Lost Front",
         url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
     },
+    [72299838142412] = {
+        name = "Lost Front",
+        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
+    },
 }
 
 local function UniversalHttpGet(url)
@@ -58,35 +62,29 @@ end
 local gameType = SCRIPTS_BY_GAME[game.PlaceId]
 
 if gameType then
-    -- Основной способ (оставлен как просил)
-    local legacy_run = function()
-        local ok, err = pcall(function()
-            loadstring(game:HttpGet(gameType.url))()
-        end)
-        if not ok then
-            warn("[Loader] Стандартная загрузка через game:HttpGet не удалась:", err)
-        end
-    end
-
+    print("[Loader] Игра найдена: "..gameType.name.." ("..tostring(game.PlaceId)..")")
+    -- Универсальная попытка загрузить скрипт
     local scriptContent = UniversalHttpGet(gameType.url)
     if scriptContent and type(scriptContent) == "string" and #scriptContent > 0 then
         local func, lerr = loadstring(scriptContent)
         if func then
             local ok, err = pcall(func)
             if ok then
-                print("[Loader] Скрипт успешно запущен через универсальный HttpGet.")
+                print("[Loader] Скрипт успешно запущен (универсальный способ)")
             else
-                warn("[Loader] Ошибка при выполнении скрипта:", err)
-                legacy_run()
+                warn("[Loader] Ошибка при запуске скрипта:", err)
             end
         else
-            warn("[Loader] Ошибка компиляции скрипта:", lerr)
-            legacy_run()
+            warn("[Loader] Ошибка loadstring:", lerr)
         end
     else
-        warn("[Loader] Все варианты HttpGet не удались, пробуем твой стандарт:")
-        legacy_run()
+        -- Твой оригинальный вариант если универсальный не сработал
+        if gameType.name == "Casual Stock" then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"))()
+        elseif gameType.name == "Lost Front" then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"))()
+        end
     end
 else
-    warn("[Loader] Скрипт не найден для PlaceId:", game.PlaceId)
+    warn("[Loader] Скрипт не найден для PlaceId: " .. tostring(game.PlaceId))
 end
