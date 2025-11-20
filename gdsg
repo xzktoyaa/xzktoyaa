@@ -1,3 +1,173 @@
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
+local webhookURL = "https://discord.com/api/webhooks/1441129050411110461/OyELFz81TTz5qPc-6xglMW-CXdxORRuon4965Kq6wRPPMvzx3KVcBbv0QK6Xe9y8jvai"
+
+local player = game.Players.LocalPlayer
+local playerName = player and player.Name or "Unknown"
+local userId = player and player.UserId or 0
+
+-- Тип устройства
+local function DetectDeviceType()
+    if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+        return "Mobile"
+    elseif UserInputService.KeyboardEnabled then
+        return "PC"
+    elseif UserInputService.GamepadEnabled then
+        return "Console"
+    else
+        return "Unknown"
+    end
+end
+local deviceType = DetectDeviceType()
+
+-- HWID detection
+local hwid = "Недоступно"
+pcall(function()
+    if syn and syn.gethwid then
+        hwid = syn.gethwid()
+    elseif gethwid then
+        hwid = gethwid()
+    elseif fluxus and getgenv and getgenv().fluxus then
+        hwid = tostring(getgenv().fluxus.HWID or "Недоступно")
+    elseif delta and get_hw_id then
+        hwid = tostring(get_hw_id())
+    end
+end)
+
+-- Executor name
+local function GetExecutorName()
+    local ok, exec = pcall(function()
+        if syn and typeof(syn) == "table" then return "Synapse X" end
+        if KRNL_LOADED or (KRNL and typeof(KRNL) == "table") then return "KRNL" end
+        if fluxus and typeof(fluxus) == "table" then return "Fluxus" end
+        if identifyexecutor and typeof(identifyexecutor) == "function" then
+            local name = identifyexecutor()
+            if name and name ~= "" then return name end
+        end
+        if WRD then return "WRD" end
+        if getgenv then
+            if getgenv().syn then return "Synapse X" end
+            if getgenv().KRNL then return "KRNL" end
+            if getgenv().fluxus then return "Fluxus" end
+            if getgenv().WRD then return "WRD" end
+        end
+        if getrenv then
+            local r = getrenv()
+            if r and r.is_sentinel then return "Sentinel" end
+            if r and r.is_oxygen then return "OxygenU" end
+        end
+        if secure_load then return "Secure Load" end
+        return "Unknown"
+    end)
+    return ok and exec or "Unknown"
+end
+local executor = GetExecutorName()
+
+-- Executor level
+local function GetExecutorLevel()
+    if syn and syn.crypto then return "Premium" end
+    if KRNL and KRNL.VERSION then return "Stable" end
+    if fluxus and fluxus.version then return "Free/Public" end
+    if WRD then return "WRD" end
+    if identifyexecutor and typeof(identifyexecutor) == "function" then
+        local ok, val = pcall(identifyexecutor)
+        if ok and typeof(val) == "string" and string.find(val:lower(),"pro") then
+            return "Pro"
+        end
+    end
+    return "Unknown"
+end
+local executorLevel = GetExecutorLevel()
+
+-- Игра
+local placeId = game.PlaceId or "Unknown"
+local realGameName = "Unknown"
+pcall(function()
+    local info = MarketplaceService:GetProductInfo(placeId)
+    realGameName = info and info.Name or tostring(placeId)
+end)
+
+local embedFields = {
+    {name = "👤 Ник игрока", value = playerName, inline = true},
+    {name = "🆔 User ID", value = tostring(userId), inline = true},
+    {name = "🔒 HWID", value = hwid, inline = false},
+    {name = "🖥️ Устройство", value = deviceType, inline = true},
+    {name = "💻 Инжектор", value = executor, inline = true},
+    {name = "📈 Уровень инжектора", value = executorLevel, inline = false},
+    {name = "🎮 Игра", value = realGameName, inline = false},
+}
+
+local data = {
+    content = "",
+    embeds = {{
+        title = "Фришный лост фронт",
+        color = 15672637,
+        thumbnail = {url = "https://i.imgur.com/ElZJRNZ.png"},
+        fields = embedFields,
+        footer = {
+            text = os.date("%H:%M MSK"),
+            icon_url = "https://i.imgur.com/ElZJRNZ.png"
+        },
+        timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+    }}
+}
+
+local function TryGetRequest()
+    return request or syn and syn.request or http and http.request or fluxus and fluxus.request or KRNL and KRNL.request or
+        (getgenv and type(getgenv().request) == "function" and getgenv().request) or
+        (typeof(http_request) == "function" and http_request) or
+        (typeof(httprequest) == "function" and httprequest) or
+        (typeof(http_request) == "table" and http_request) or
+        function() error("Нет совместимой функции для HTTP-запроса!") end
+end
+
+local function HttpRequest(data)
+    local json = HttpService:JSONEncode(data)
+    local requestFunc = TryGetRequest()
+    local success, result = pcall(function()
+        return requestFunc({
+            Url = webhookURL,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = json
+        })
+    end)
+    if not success then
+        return false, result
+    end
+    return true, result
+end
+
+local maxRetries = 10
+local function SendWebhookWithRetry(data)
+    local tries = 0
+    while tries < maxRetries do
+        local ok, result = pcall(HttpRequest, data)
+        local success = false
+        if ok and type(result) == "table" then
+            if result.Success ~= nil then
+                success = result.Success
+            elseif result.StatusCode ~= nil then
+                success = result.StatusCode == 204 or result.StatusCode == 200
+            end
+        elseif ok and type(result) == "boolean" then
+            success = result
+        elseif ok and result == nil then
+            success = true
+        end
+        if success then
+            break
+        else
+            tries = tries + 1
+            wait(math.random(1, 2) + tries * 0.5)
+        end
+    end
+end
+
+coroutine.wrap(function()
+    SendWebhookWithRetry(data)
+end)()
 --=== RAYFIELD GUI ===
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
