@@ -2,9 +2,9 @@
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "ESP & Antifog Menu",
+    Name = "By miha1234456",
     LoadingTitle = "Loading...",
-    LoadingSubtitle = "by your script",
+    LoadingSubtitle = "Script by miha1234456",
     KeySystem = false
 })
 
@@ -116,7 +116,7 @@ AntifogTab:CreateToggle({
 local grass_keywords = {"grass","tree","leaf","plant","bush","vegetation","foliage","fern","flower","weed","shrub","branches","trunk","log","wood","stump","pine","oak","birch","spruce","palm","bamboo","hedge"}
 
 UtilityTab:CreateButton({
-    Name = "Remove Trees & Vegetation",
+    Name = "Remove Trees/убрать деревья",
     Callback = function()
         local removed_count = 0
         for _, obj in ipairs(Workspace:GetDescendants()) do
