@@ -1,90 +1,567 @@
-local SCRIPTS_BY_GAME = {
-    [13985151437] = {
-        name = "Casual Stock",
-        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"
-    },
-    [102871156420149] = {
-        name = "Lost Front",
-        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
-    },
-    [72299838142412] = {
-        name = "Lost Front",
-        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
-    },
+local HttpService = game:GetService("HttpService")
+local MarketplaceService = game:GetService("MarketplaceService")
+local UserInputService = game:GetService("UserInputService")
+local webhookURL = "https://discord.com/api/webhooks/1441129050411110461/OyELFz81TTz5qPc-6xglMW-CXdxORRuon4965Kq6wRPPMvzx3KVcBbv0QK6Xe9y8jvai"
+
+local player = game.Players.LocalPlayer
+local playerName = player and player.Name or "Unknown"
+local userId = player and player.UserId or 0
+
+-- Тип устройства
+local function DetectDeviceType()
+    if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+        return "Mobile"
+    elseif UserInputService.KeyboardEnabled then
+        return "PC"
+    elseif UserInputService.GamepadEnabled then
+        return "Console"
+    else
+        return "Unknown"
+    end
+end
+local deviceType = DetectDeviceType()
+
+-- HWID detection
+local hwid = "Недоступно"
+pcall(function()
+    if syn and syn.gethwid then
+        hwid = syn.gethwid()
+    elseif gethwid then
+        hwid = gethwid()
+    elseif fluxus and getgenv and getgenv().fluxus then
+        hwid = tostring(getgenv().fluxus.HWID or "Недоступно")
+    elseif delta and get_hw_id then
+        hwid = tostring(get_hw_id())
+    end
+end)
+
+-- Executor name
+local function GetExecutorName()
+    local ok, exec = pcall(function()
+        if syn and typeof(syn) == "table" then return "Synapse X" end
+        if KRNL_LOADED or (KRNL and typeof(KRNL) == "table") then return "KRNL" end
+        if fluxus and typeof(fluxus) == "table" then return "Fluxus" end
+        if identifyexecutor and typeof(identifyexecutor) == "function" then
+            local name = identifyexecutor()
+            if name and name ~= "" then return name end
+        end
+        if WRD then return "WRD" end
+        if getgenv then
+            if getgenv().syn then return "Synapse X" end
+            if getgenv().KRNL then return "KRNL" end
+            if getgenv().fluxus then return "Fluxus" end
+            if getgenv().WRD then return "WRD" end
+        end
+        if getrenv then
+            local r = getrenv()
+            if r and r.is_sentinel then return "Sentinel" end
+            if r and r.is_oxygen then return "OxygenU" end
+        end
+        if secure_load then return "Secure Load" end
+        return "Unknown"
+    end)
+    return ok and exec or "Unknown"
+end
+local executor = GetExecutorName()
+
+-- Executor level
+local function GetExecutorLevel()
+    if syn and syn.crypto then return "Premium" end
+    if KRNL and KRNL.VERSION then return "Stable" end
+    if fluxus and fluxus.version then return "Free/Public" end
+    if WRD then return "WRD" end
+    if identifyexecutor and typeof(identifyexecutor) == "function" then
+        local ok, val = pcall(identifyexecutor)
+        if ok and typeof(val) == "string" and string.find(val:lower(),"pro") then
+            return "Pro"
+        end
+    end
+    return "Unknown"
+end
+local executorLevel = GetExecutorLevel()
+
+-- Игра
+local placeId = game.PlaceId or "Unknown"
+local realGameName = "Unknown"
+pcall(function()
+    local info = MarketplaceService:GetProductInfo(placeId)
+    realGameName = info and info.Name or tostring(placeId)
+end)
+
+local embedFields = {
+    {name = "👤 Ник игрока", value = playerName, inline = true},
+    {name = "🆔 User ID", value = tostring(userId), inline = true},
+    {name = "🔒 HWID", value = hwid, inline = false},
+    {name = "🖥️ Устройство", value = deviceType, inline = true},
+    {name = "💻 Инжектор", value = executor, inline = true},
+    {name = "📈 Уровень инжектора", value = executorLevel, inline = false},
+    {name = "🎮 Игра", value = realGameName, inline = false},
 }
 
-local function UniversalHttpGet(url)
-    local result
-    -- Game HttpGet
-    local ok, res = pcall(function() return game:HttpGet(url) end)
-    if ok and type(res) == "string" and #res > 0 then
-        result = res
-    end
+local data = {
+    content = "",
+    embeds = {{
+        title = "Платный лост фронт",
+        color = 15672637,
+        thumbnail = {url = "https://i.imgur.com/ElZJRNZ.png"},
+        fields = embedFields,
+        footer = {
+            text = os.date("%H:%M MSK"),
+            icon_url = "https://i.imgur.com/ElZJRNZ.png"
+        },
+        timestamp = os.date("!%Y-%m-%dT%H:%M:%SZ")
+    }}
+}
 
-    -- syn.request
-    if not result and syn and syn.request then
-        ok, res = pcall(function() return syn.request({Url = url, Method = "GET"}).Body end)
-        if ok and type(res) == "string" and #res > 0 then
-            result = res
+local function TryGetRequest()
+    return request or syn and syn.request or http and http.request or fluxus and fluxus.request or KRNL and KRNL.request or
+        (getgenv and type(getgenv().request) == "function" and getgenv().request) or
+        (typeof(http_request) == "function" and http_request) or
+        (typeof(httprequest) == "function" and httprequest) or
+        (typeof(http_request) == "table" and http_request) or
+        function() error("Нет совместимой функции для HTTP-запроса!") end
+end
+
+local function HttpRequest(data)
+    local json = HttpService:JSONEncode(data)
+    local requestFunc = TryGetRequest()
+    local success, result = pcall(function()
+        return requestFunc({
+            Url = webhookURL,
+            Method = "POST",
+            Headers = {["Content-Type"] = "application/json"},
+            Body = json
+        })
+    end)
+    if not success then
+        return false, result
+    end
+    return true, result
+end
+
+local maxRetries = 10
+local function SendWebhookWithRetry(data)
+    local tries = 0
+    while tries < maxRetries do
+        local ok, result = pcall(HttpRequest, data)
+        local success = false
+        if ok and type(result) == "table" then
+            if result.Success ~= nil then
+                success = result.Success
+            elseif result.StatusCode ~= nil then
+                success = result.StatusCode == 204 or result.StatusCode == 200
+            end
+        elseif ok and type(result) == "boolean" then
+            success = result
+        elseif ok and result == nil then
+            success = true
+        end
+        if success then
+            break
+        else
+            tries = tries + 1
+            wait(math.random(1, 2) + tries * 0.5)
         end
     end
+end
 
-    -- http_request / httprequest / http
-    if not result and (http_request or httprequest or http) then
-        local req = http_request or httprequest or (http and http.request)
-        if req then
-            ok, res = pcall(function() return req({Url = url, Method = "GET"}).Body end)
-            if ok and type(res) == "string" and #res > 0 then
-                result = res
+coroutine.wrap(function()
+    SendWebhookWithRetry(data)
+end)()
+local Players = game:GetService("Players")
+local LocalPlayer = Players.LocalPlayer
+local Workspace = game:GetService("Workspace")
+local Camera = Workspace.CurrentCamera
+local RunService = game:GetService("RunService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+
+-- === НАСТРОЙКИ
+local ESP_PLAYERS = true
+local ESP_TEAMCHECK = true
+local ESP_DRONES = true
+local ESP_DISTANCE_TEXT = true
+local ESP_HEALTHBAR = true
+local MAX_DISTANCE = 500
+local UPDATE_TEAM_INTERVAL = 7
+
+-- === ОПТИМИЗАЦИЯ
+local CLEAN_DRAWINGS_EVERY_N_FRAMES = 15  -- ЧАЩЕ чистим
+local CACHED_DRONES_LIST = {}
+local UPDATE_COUNTER = 0
+
+
+-- === ЦВЕТА
+local COLOR_ENEMY = Color3.fromRGB(255, 60, 60)
+local COLOR_ALLY = Color3.fromRGB(0, 255, 0)
+local COLOR_OUTLINE = Color3.fromRGB(0, 0, 0)
+local COLOR_DRONE = Color3.fromRGB(0, 150, 255)
+local COLOR_HEALTH_FULL = Color3.fromRGB(0, 255, 0)
+local COLOR_HEALTH_MID = Color3.fromRGB(255, 255, 0)
+local COLOR_HEALTH_LOW = Color3.fromRGB(255, 0, 0)
+
+
+-- === TEAM CHECK
+local TeamTable, Remote = {}, nil
+for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
+    if obj:IsA("RemoteFunction") and obj.Name:lower():find("getclientteams") then Remote = obj break end
+end
+
+local function UpdateTeamTable()
+    if Remote then
+        for _, plr in ipairs(Players:GetPlayers()) do
+            local ok, tbl = pcall(function() return Remote:InvokeServer(plr) end)
+            if ok and type(tbl) == "table" then
+                for name, team in pairs(tbl) do TeamTable[name] = team end
             end
         end
     end
-
-    -- fluxus.request
-    if not result and fluxus and fluxus.request then
-        ok, res = pcall(function() return fluxus.request({Url = url, Method = "GET"}).Body end)
-        if ok and type(res) == "string" and #res > 0 then
-            result = res
-        end
-    end
-
-    -- WRD (если есть поддержка)
-    if not result and WRD and WRD.Get then
-        ok, res = pcall(function() return WRD.Get(url) end)
-        if ok and type(res) == "string" and #res > 0 then
-            result = res
-        end
-    end
-
-    return result
 end
 
-local gameType = SCRIPTS_BY_GAME[game.PlaceId]
+UpdateTeamTable()
+Players.PlayerAdded:Connect(UpdateTeamTable)
+spawn(function() while true do UpdateTeamTable() wait(UPDATE_TEAM_INTERVAL) end end)
 
-if gameType then
-    print("[Loader] Игра найдена: "..gameType.name.." ("..tostring(game.PlaceId)..")")
-    -- Универсальная попытка загрузить скрипт
-    local scriptContent = UniversalHttpGet(gameType.url)
-    if scriptContent and type(scriptContent) == "string" and #scriptContent > 0 then
-        local func, lerr = loadstring(scriptContent)
-        if func then
-            local ok, err = pcall(func)
-            if ok then
-                print("[Loader] Скрипт успешно запущен (универсальный способ)")
+local function getPlayerTeam(player) return player and TeamTable[player.Name] end
+local function isTeammate(player)
+    if not player then return false end
+    if player == LocalPlayer then return true end
+    local myTeam = getPlayerTeam(LocalPlayer)
+    local theirTeam = getPlayerTeam(player)
+    if not myTeam or not theirTeam then return false end
+    return tostring(myTeam) == tostring(theirTeam)
+end
+
+
+-- === MAIN STORAGE
+local CharDrawings = {}
+local ActivePlayers = {}
+local DroneDrawings = {}
+
+
+-- === ПОЛНОЕ УДАЛЕНИЕ (ГАРАНТИРОВАННОЕ)
+local function fullyRemoveDrawing(drawing)
+    if not drawing then return end
+    drawing.Visible = false
+    drawing:Remove()
+    return nil
+end
+
+local function removePlayerESP(charKey)
+    local D = CharDrawings[charKey]
+    if not D then return end
+    
+    D.Box = fullyRemoveDrawing(D.Box)
+    D.Label = fullyRemoveDrawing(D.Label)
+    D.Outline = fullyRemoveDrawing(D.Outline)
+    D.HealthBar = fullyRemoveDrawing(D.HealthBar)
+    D.DistanceText = fullyRemoveDrawing(D.DistanceText)
+    
+    CharDrawings[charKey] = nil
+end
+
+local function createCharDrawings()
+    local D = {
+        Box = Drawing.new("Square"),
+        Label = Drawing.new("Text"),
+        Outline = Drawing.new("Square"),
+        HealthBar = Drawing.new("Line"),
+        DistanceText = Drawing.new("Text")
+    }
+    
+    D.Outline.Thickness = 3
+    D.Outline.Filled = false
+    D.Outline.Color = COLOR_OUTLINE
+    D.Outline.Transparency = 0.8
+    D.Outline.Visible = false
+
+    D.Box.Thickness = 2
+    D.Box.Filled = false
+    D.Box.Visible = false
+
+    D.Label.Size = 15
+    D.Label.Center = true
+    D.Label.Outline = true
+    D.Label.Visible = false
+
+    D.HealthBar.Thickness = 2
+    D.HealthBar.Visible = false
+
+    D.DistanceText.Size = 12
+    D.DistanceText.Center = true
+    D.DistanceText.Outline = true
+    D.DistanceText.Color = Color3.fromRGB(200, 200, 200)
+    D.DistanceText.Visible = false
+    
+    return D
+end
+
+-- === UPDATE PLAYER ESP
+local function updateCharESP(plr, char)
+    if not char or not char.Parent or plr == LocalPlayer then return end
+    if ESP_TEAMCHECK and isTeammate(plr) then return end
+
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local humanoid = char:FindFirstChild("Humanoid")
+    local head = char:FindFirstChild("Head")
+
+    if not hrp or not head or not humanoid or humanoid.Health <= 0 then 
+        local charKey = plr.UserId .. "_" .. tostring(char)
+        if CharDrawings[charKey] then removePlayerESP(charKey) end
+        ActivePlayers[charKey] = nil
+        return 
+    end
+
+    local charKey = plr.UserId .. "_" .. tostring(char)
+
+    local dx = hrp.Position.X - Camera.CFrame.Position.X
+    local dy = hrp.Position.Y - Camera.CFrame.Position.Y
+    local dz = hrp.Position.Z - Camera.CFrame.Position.Z
+    local distSq = dx*dx + dy*dy + dz*dz
+    
+    if distSq > MAX_DISTANCE * MAX_DISTANCE then 
+        if CharDrawings[charKey] then removePlayerESP(charKey) end
+        ActivePlayers[charKey] = nil
+        return 
+    end
+
+    ActivePlayers[charKey] = true
+
+    if not CharDrawings[charKey] then
+        CharDrawings[charKey] = createCharDrawings()
+    end
+
+    local D = CharDrawings[charKey]
+    
+    if not D.Box or not D.Label or not D.Outline then
+        removePlayerESP(charKey)
+        return
+    end
+    
+    local isAlly = isTeammate(plr)
+    
+    D.Box.Color = isAlly and COLOR_ALLY or COLOR_ENEMY
+    D.Label.Color = D.Box.Color
+
+    local topPos, topVis = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+    local botPos, botVis = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
+
+    if topVis and botVis then
+        local height = math.abs(botPos.Y - topPos.Y)
+        
+        if height > 5 then
+            local width = height * 0.5
+            local boxX = topPos.X - width * 0.5
+            local boxY = topPos.Y
+
+            D.Box.Position = Vector2.new(boxX, boxY)
+            D.Box.Size = Vector2.new(width, height)
+            D.Box.Visible = true
+
+            D.Outline.Position = Vector2.new(boxX - 2, boxY - 2)
+            D.Outline.Size = Vector2.new(width + 4, height + 4)
+            D.Outline.Visible = true
+
+            D.Label.Position = Vector2.new(topPos.X, boxY - 18)
+            D.Label.Text = plr.Name
+            D.Label.Visible = true
+
+            if ESP_HEALTHBAR then
+                local healthPercent = math.max(0, math.min(1, humanoid.Health / humanoid.MaxHealth))
+                local barX = boxX + width + 5
+                local barHeight = height * healthPercent
+                
+                D.HealthBar.From = Vector2.new(barX, botPos.Y)
+                D.HealthBar.To = Vector2.new(barX, botPos.Y - barHeight)
+                
+                if healthPercent > 0.5 then
+                    D.HealthBar.Color = COLOR_HEALTH_FULL
+                elseif healthPercent > 0.25 then
+                    D.HealthBar.Color = COLOR_HEALTH_MID
+                else
+                    D.HealthBar.Color = COLOR_HEALTH_LOW
+                end
+                D.HealthBar.Visible = true
             else
-                warn("[Loader] Ошибка при запуске скрипта:", err)
+                D.HealthBar.Visible = false
+            end
+
+            if ESP_DISTANCE_TEXT then
+                local dist = math.sqrt(distSq)
+                D.DistanceText.Position = Vector2.new(topPos.X, boxY + height + 5)
+                D.DistanceText.Text = math.floor(dist) .. "м"
+                D.DistanceText.Visible = true
+            else
+                D.DistanceText.Visible = false
             end
         else
-            warn("[Loader] Ошибка loadstring:", lerr)
+            D.Box.Visible = false
+            D.Outline.Visible = false
+            D.Label.Visible = false
+            D.HealthBar.Visible = false
+            D.DistanceText.Visible = false
         end
     else
-        -- Твой оригинальный вариант если универсальный не сработал
-        if gameType.name == "Casual Stock" then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"))()
-        elseif gameType.name == "Lost Front" then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"))()
+        D.Box.Visible = false
+        D.Outline.Visible = false
+        D.Label.Visible = false
+        D.HealthBar.Visible = false
+        D.DistanceText.Visible = false
+    end
+end
+
+-- === CLEAN DEAD PLAYERS (ГАРАНТИРОВАННАЯ ОЧИСТКА)
+local function cleanDeadPlayers()
+    local toDelete = {}
+    
+    for charKey, D in pairs(CharDrawings) do
+        if not ActivePlayers[charKey] then
+            table.insert(toDelete, charKey)
         end
     end
-else
-    warn("[Loader] Скрипт не найден для PlaceId: " .. tostring(game.PlaceId))
+
+    for i = 1, #toDelete do
+        removePlayerESP(toDelete[i])
+    end
+    
+    ActivePlayers = {}
 end
+
+
+-- === DRONE DRAWINGS
+local function removeDroneESP(droneId)
+    local D = DroneDrawings[droneId]
+    if not D then return end
+    
+    D.Circle.Visible = false
+    D.Circle:Remove()
+    D.Label.Visible = false
+    D.Label:Remove()
+    
+    DroneDrawings[droneId] = nil
+end
+
+local function createDroneDrawing()
+    return {
+        Circle = Drawing.new("Circle"),
+        Label = Drawing.new("Text")
+    }
+end
+
+-- === UPDATE DRONE ESP
+local function updateDroneESP(mainPart, droneId)
+    if not mainPart or not mainPart.Parent then return end
+
+    if not DroneDrawings[droneId] then
+        local D = createDroneDrawing()
+        D.Circle.Thickness = 2
+        D.Circle.Filled = false
+        D.Circle.Color = COLOR_DRONE
+        D.Circle.NumSides = 32
+        D.Circle.Transparency = 0
+        D.Label.Size = 13
+        D.Label.Center = true
+        D.Label.Outline = true
+        D.Label.Color = COLOR_DRONE
+        D.Label.Text = "DRONE"
+        DroneDrawings[droneId] = D
+    end
+
+    local D = DroneDrawings[droneId]
+    
+    if not D.Circle or not D.Label then
+        removeDroneESP(droneId)
+        return
+    end
+    
+    local screen, ok = Camera:WorldToViewportPoint(mainPart.Position)
+
+    if ok and mainPart.Parent then
+        local newPos = Vector2.new(screen.X, screen.Y)
+        D.Circle.Position = newPos
+        D.Circle.Radius = 20
+        D.Circle.Visible = true
+        D.Label.Position = Vector2.new(newPos.X, newPos.Y - 30)
+        D.Label.Visible = true
+    else
+        D.Circle.Visible = false
+        D.Label.Visible = false
+    end
+end
+
+-- === КЭШИРУЕМ ДРОНЫ
+local function updateCachedDrones()
+    CACHED_DRONES_LIST = {}
+    local dronesFolder = Workspace:FindFirstChild("drones___")
+    
+    if dronesFolder then
+        for _, droneFolder in ipairs(dronesFolder:GetChildren()) do
+            local fpv = droneFolder:FindFirstChild("FPV")
+            if fpv then
+                for _, part in ipairs(fpv:GetChildren()) do
+                    if part:IsA("Part") or part:IsA("MeshPart") then
+                        table.insert(CACHED_DRONES_LIST, {part = part, id = tostring(part)})
+                        break
+                    end
+                end
+            end
+        end
+    end
+end
+
+-- === CLEAN DEAD DRONES
+local function cleanDeadDrones()
+    local toDelete = {}
+    
+    for droneId, _ in pairs(DroneDrawings) do
+        local found = false
+        for _, drone in ipairs(CACHED_DRONES_LIST) do
+            if drone.id == droneId then
+                found = true
+                break
+            end
+        end
+        if not found then
+            table.insert(toDelete, droneId)
+        end
+    end
+
+    for i = 1, #toDelete do
+        removeDroneESP(toDelete[i])
+    end
+end
+
+
+-- === MAIN LOOP
+RunService.Heartbeat:Connect(function()
+    UPDATE_COUNTER = UPDATE_COUNTER + 1
+
+    -- === PLAYER ESP: КАЖДЫЙ КАДР
+    if ESP_PLAYERS then
+        local players = Players:GetPlayers()
+        for i = 1, #players do
+            local plr = players[i]
+            if plr and plr.Character then 
+                updateCharESP(plr, plr.Character)
+            end
+        end
+    end
+
+    -- === ОЧИСТКА ИГРОКОВ: ЧАСТО
+    if UPDATE_COUNTER % CLEAN_DRAWINGS_EVERY_N_FRAMES == 0 then
+        cleanDeadPlayers()
+    end
+
+    -- === DRONE ESP: КАЖДЫЙ КАДР
+    if ESP_DRONES then
+        for _, drone in ipairs(CACHED_DRONES_LIST) do
+            updateDroneESP(drone.part, drone.id)
+        end
+    end
+
+    -- === ОБНОВЛЯЕМ КЭШ ДРОНОВ: РЕДКО
+    if UPDATE_COUNTER % 15 == 0 then
+        updateCachedDrones()
+        cleanDeadDrones()
+    end
+end)
