@@ -82,7 +82,7 @@ if gameType then
         if gameType.name == "Casual Stock" then
             loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"))()
         elseif gameType.name == "Lost Front" then
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"))()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/control"))()
         end
     end
 else
