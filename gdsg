@@ -101,7 +101,7 @@ local embedFields = {
 local data = {
     content = "",
     embeds = {{
-        title = "Фришный лост фронт",
+        title = "Платный лост фронт",
         color = 15672637,
         thumbnail = {url = "https://i.imgur.com/ElZJRNZ.png"},
         fields = embedFields,
