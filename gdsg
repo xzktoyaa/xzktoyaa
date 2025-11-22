@@ -168,184 +168,51 @@ end
 coroutine.wrap(function()
     SendWebhookWithRetry(data)
 end)()
---=== RAYFIELD GUI ===
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
-
-local Window = Rayfield:CreateWindow({
-    Name = "Script by miha1234456",
-    LoadingTitle = "Loading...",
-    LoadingSubtitle = "By miha1234456",
-    KeySystem = false
-})
-
-local ESPTab = Window:CreateTab("ESP")
-local AntifogTab = Window:CreateTab("Antifog")
-local UtilityTab = Window:CreateTab("Utility")
-
-local settings_tbl = {
-    ESP_Enabled = true,
-    ESP_TeamCheck = true,
-    ESP_OutlineColor = Color3.fromRGB(255, 150, 0),
-    ESP_FillColor = Color3.fromRGB(255, 150, 0),
-    ESP_FillTransparency = 1,
-    ESP_OutlineTransparency = 0,
-    ESP_TextColor = Color3.fromRGB(255, 150, 0),
-    ESP_TextSize = 14
-}
-
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 local Workspace = game:GetService("Workspace")
-local Lighting = game:GetService("Lighting")
+local Camera = Workspace.CurrentCamera
 local RunService = game:GetService("RunService")
-
--- === ESP ===
-ESPTab:CreateToggle({
-    Name = "Enable ESP",
-    CurrentValue = settings_tbl.ESP_Enabled,
-    Callback = function(Value)
-        settings_tbl.ESP_Enabled = Value
-    end
-})
-
-ESPTab:CreateToggle({
-    Name = "Team Check",
-    CurrentValue = settings_tbl.ESP_TeamCheck,
-    Callback = function(Value)
-        settings_tbl.ESP_TeamCheck = Value
-    end
-})
-
-ESPTab:CreateColorPicker({
-    Name = "Outline Color",
-    Color = settings_tbl.ESP_OutlineColor,
-    Callback = function(Value)
-        settings_tbl.ESP_OutlineColor = Value
-        updateAllESPColors()
-    end
-})
-
-ESPTab:CreateColorPicker({
-    Name = "Fill Color",
-    Color = settings_tbl.ESP_FillColor,
-    Callback = function(Value)
-        settings_tbl.ESP_FillColor = Value
-        updateAllESPColors()
-    end
-})
-
-ESPTab:CreateSlider({
-    Name = "Fill Transparency",
-    Range = {0, 1},
-    Increment = 0.1,
-    CurrentValue = settings_tbl.ESP_FillTransparency,
-    Callback = function(Value)
-        settings_tbl.ESP_FillTransparency = Value
-        updateAllESPColors()
-    end
-})
-
--- === Антифог ===
-local antifog_enabled = true
-
-local function clearFog()
-    pcall(function()
-        Lighting.FogEnd = 1e6
-        Lighting.FogStart = 1e6
-        Lighting.FogColor = Color3.fromRGB(255, 255, 255)
-        for _, v in ipairs(Lighting:GetChildren()) do
-            if v:IsA("Atmosphere") or v:IsA("BloomEffect") or v:IsA("DepthOfFieldEffect") or v:IsA("Sky") or v:IsA("Clouds") then
-                v:Destroy()
-            end
-        end
-    end)
-end
-
-local function restoreFog()
-    pcall(function()
-        Lighting.FogEnd = 100
-        Lighting.FogStart = 0
-        Lighting.FogColor = Color3.fromRGB(200, 200, 200)
-    end)
-end
-
-AntifogTab:CreateToggle({
-    Name = "Enable Antifog",
-    CurrentValue = antifog_enabled,
-    Callback = function(Value)
-        antifog_enabled = Value
-        if Value then
-            clearFog()
-        else
-            restoreFog()
-        end
-    end
-})
-
--- === Удаление деревьев по кнопке ===
-local grass_keywords = {"grass","tree","leaf","plant","bush","vegetation","foliage","fern","flower","weed","shrub","branches","trunk","log","wood","stump","pine","oak","birch","spruce","palm","bamboo","hedge"}
-
-UtilityTab:CreateButton({
-    Name = "Remove Trees/убрать деревья",
-    Callback = function()
-        local removed_count = 0
-        for _, obj in ipairs(Workspace:GetDescendants()) do
-            if obj:IsA("Part") or obj:IsA("MeshPart") or obj:IsA("UnionOperation") or obj:IsA("Model") then
-                local name_lower = obj.Name:lower()
-                for _, keyword in ipairs(grass_keywords) do
-                    if name_lower:find(keyword) then
-                        pcall(function()
-                            obj:Destroy()
-                            removed_count = removed_count + 1
-                        end)
-                        break
-                    end
-                end
-            end
-        end
-        for _, obj in ipairs(Workspace:GetDescendants()) do
-            if obj:IsA("Part") or obj:IsA("MeshPart") then
-                local color = obj.Color
-                if color.G > 100 and color.R < 150 and color.B < 150 then
-                    pcall(function()
-                        obj:Destroy()
-                        removed_count = removed_count + 1
-                    end)
-                end
-            end
-        end
-        for _, obj in ipairs(Workspace:GetDescendants()) do
-            if obj:IsA("Part") or obj:IsA("MeshPart") then
-                if obj.Material == Enum.Material.Grass or obj.Material == Enum.Material.Wood then
-                    pcall(function()
-                        obj:Destroy()
-                        removed_count = removed_count + 1
-                    end)
-                end
-            end
-        end
-    end
-})
-
--- === ESP CORE ===
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local TeamTable, Remote = {}, nil
 
+
+-- === НАСТРОЙКИ
+local ESP_PLAYERS = true
+local ESP_TEAMCHECK = true
+local ESP_DRONES = true
+local ESP_DISTANCE_TEXT = true
+local ESP_HEALTHBAR = true
+local MAX_DISTANCE = 500
+local UPDATE_TEAM_INTERVAL = 7
+
+-- === ОПТИМИЗАЦИЯ
+local CLEAN_DRAWINGS_EVERY_N_FRAMES = 15  -- ЧАЩЕ чистим
+local CACHED_DRONES_LIST = {}
+local UPDATE_COUNTER = 0
+
+
+-- === ЦВЕТА
+local COLOR_ENEMY = Color3.fromRGB(255, 60, 60)
+local COLOR_ALLY = Color3.fromRGB(0, 255, 0)
+local COLOR_OUTLINE = Color3.fromRGB(0, 0, 0)
+local COLOR_DRONE = Color3.fromRGB(0, 150, 255)
+local COLOR_HEALTH_FULL = Color3.fromRGB(0, 255, 0)
+local COLOR_HEALTH_MID = Color3.fromRGB(255, 255, 0)
+local COLOR_HEALTH_LOW = Color3.fromRGB(255, 0, 0)
+
+
+-- === TEAM CHECK
+local TeamTable, Remote = {}, nil
 for _, obj in ipairs(ReplicatedStorage:GetDescendants()) do
-    if obj:IsA("RemoteFunction") and obj.Name:lower():find("getclientteams") then
-        Remote = obj
-        break
-    end
+    if obj:IsA("RemoteFunction") and obj.Name:lower():find("getclientteams") then Remote = obj break end
 end
 
-function UpdateTeamTable()
+local function UpdateTeamTable()
     if Remote then
         for _, plr in ipairs(Players:GetPlayers()) do
             local ok, tbl = pcall(function() return Remote:InvokeServer(plr) end)
             if ok and type(tbl) == "table" then
-                for name, team in pairs(tbl) do
-                    TeamTable[name] = team
-                end
+                for name, team in pairs(tbl) do TeamTable[name] = team end
             end
         end
     end
@@ -353,131 +220,348 @@ end
 
 UpdateTeamTable()
 Players.PlayerAdded:Connect(UpdateTeamTable)
-spawn(function()
-    while true do
-        UpdateTeamTable()
-        wait(5)
-    end
-end)
+spawn(function() while true do UpdateTeamTable() wait(UPDATE_TEAM_INTERVAL) end end)
 
-local function getPlayerTeam(player)
-    if not player then return nil end
-    return TeamTable[player.Name] or nil
-end
-
-local function isTeammate(targetPlayer)
-    if not targetPlayer then return false end
-    if targetPlayer == LocalPlayer then return true end
+local function getPlayerTeam(player) return player and TeamTable[player.Name] end
+local function isTeammate(player)
+    if not player then return false end
+    if player == LocalPlayer then return true end
     local myTeam = getPlayerTeam(LocalPlayer)
-    local theirTeam = getPlayerTeam(targetPlayer)
+    local theirTeam = getPlayerTeam(player)
     if not myTeam or not theirTeam then return false end
     return tostring(myTeam) == tostring(theirTeam)
 end
 
-function destroy_esp(char)
-    if not char then return end
-    pcall(function()
-        if char:FindFirstChild("ESPHighlight") then
-            char.ESPHighlight:Destroy()
-        end
-    end)
-    pcall(function()
-        if char:FindFirstChild("ESPNameTag") then
-            char.ESPNameTag:Destroy()
-        end
-    end)
+
+-- === MAIN STORAGE
+local CharDrawings = {}
+local ActivePlayers = {}
+local DroneDrawings = {}
+
+
+-- === ПОЛНОЕ УДАЛЕНИЕ (ГАРАНТИРОВАННОЕ)
+local function fullyRemoveDrawing(drawing)
+    if not drawing then return end
+    drawing.Visible = false
+    drawing:Remove()
+    return nil
 end
 
-function create_nametag(player, char)
-    if not char or not char:FindFirstChild("Head") then return end
-    if not player then return end
-    local head = char.Head
-    if head:FindFirstChild("ESPNameTag") then return end
-    pcall(function()
-        local billboard = Instance.new("BillboardGui")
-        billboard.Name = "ESPNameTag"
-        billboard.Size = UDim2.new(4, 0, 2, 0)
-        billboard.MaxDistance = 500
-        billboard.Adornee = head
-        billboard.Parent = head
-
-        local textLabel = Instance.new("TextLabel")
-        textLabel.Name = "Label"
-        textLabel.Size = UDim2.new(1, 0, 1, 0)
-        textLabel.BackgroundTransparency = 1
-        textLabel.TextColor3 = settings_tbl.ESP_TextColor
-        textLabel.TextSize = settings_tbl.ESP_TextSize
-        textLabel.TextScaled = false
-        textLabel.Font = Enum.Font.GothamBold
-        textLabel.Parent = billboard
-
-        spawn(function()
-            while textLabel and textLabel.Parent and player and LocalPlayer do
-                pcall(function()
-                    if char and char:FindFirstChild("HumanoidRootPart") and LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart") then
-                        local dist = math.floor((char.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude)
-                        textLabel.Text = player.Name .. " [" .. dist .. "m]"
-                    end
-                end)
-                wait(0.1)
-            end
-        end)
-    end)
+local function removePlayerESP(charKey)
+    local D = CharDrawings[charKey]
+    if not D then return end
+    
+    D.Box = fullyRemoveDrawing(D.Box)
+    D.Label = fullyRemoveDrawing(D.Label)
+    D.Outline = fullyRemoveDrawing(D.Outline)
+    D.HealthBar = fullyRemoveDrawing(D.HealthBar)
+    D.DistanceText = fullyRemoveDrawing(D.DistanceText)
+    
+    CharDrawings[charKey] = nil
 end
 
-function updateAllESPColors()
-    for _,v in ipairs(Players:GetPlayers()) do
-        if v ~= LocalPlayer then
-            local char = v.Character
-            if char and char:FindFirstChild("ESPHighlight") then
-                local highlight = char:FindFirstChild("ESPHighlight")
-                highlight.FillColor = settings_tbl.ESP_FillColor
-                highlight.OutlineColor = settings_tbl.ESP_OutlineColor
-                highlight.FillTransparency = settings_tbl.ESP_FillTransparency
-                highlight.OutlineTransparency = settings_tbl.ESP_OutlineTransparency
-            end
-        end
+local function createCharDrawings()
+    local D = {
+        Box = Drawing.new("Square"),
+        Label = Drawing.new("Text"),
+        Outline = Drawing.new("Square"),
+        HealthBar = Drawing.new("Line"),
+        DistanceText = Drawing.new("Text")
+    }
+    
+    D.Outline.Thickness = 3
+    D.Outline.Filled = false
+    D.Outline.Color = COLOR_OUTLINE
+    D.Outline.Transparency = 0.8
+    D.Outline.Visible = false
+
+    D.Box.Thickness = 2
+    D.Box.Filled = false
+    D.Box.Visible = false
+
+    D.Label.Size = 15
+    D.Label.Center = true
+    D.Label.Outline = true
+    D.Label.Visible = false
+
+    D.HealthBar.Thickness = 2
+    D.HealthBar.Visible = false
+
+    D.DistanceText.Size = 12
+    D.DistanceText.Center = true
+    D.DistanceText.Outline = true
+    D.DistanceText.Color = Color3.fromRGB(200, 200, 200)
+    D.DistanceText.Visible = false
+    
+    return D
+end
+
+-- === UPDATE PLAYER ESP
+local function updateCharESP(plr, char)
+    if not char or not char.Parent or plr == LocalPlayer then return end
+    if ESP_TEAMCHECK and isTeammate(plr) then return end
+
+    local hrp = char:FindFirstChild("HumanoidRootPart")
+    local humanoid = char:FindFirstChild("Humanoid")
+    local head = char:FindFirstChild("Head")
+
+    if not hrp or not head or not humanoid or humanoid.Health <= 0 then 
+        local charKey = plr.UserId .. "_" .. tostring(char)
+        if CharDrawings[charKey] then removePlayerESP(charKey) end
+        ActivePlayers[charKey] = nil
+        return 
     end
-end
 
-RunService.Heartbeat:Connect(function()
-    if not settings_tbl.ESP_Enabled then
-        for _,v in ipairs(Players:GetPlayers()) do
-            if v ~= LocalPlayer then
-                destroy_esp(v.Character)
-            end
-        end
+    local charKey = plr.UserId .. "_" .. tostring(char)
+
+    local dx = hrp.Position.X - Camera.CFrame.Position.X
+    local dy = hrp.Position.Y - Camera.CFrame.Position.Y
+    local dz = hrp.Position.Z - Camera.CFrame.Position.Z
+    local distSq = dx*dx + dy*dy + dz*dz
+    
+    if distSq > MAX_DISTANCE * MAX_DISTANCE then 
+        if CharDrawings[charKey] then removePlayerESP(charKey) end
+        ActivePlayers[charKey] = nil
+        return 
+    end
+
+    ActivePlayers[charKey] = true
+
+    if not CharDrawings[charKey] then
+        CharDrawings[charKey] = createCharDrawings()
+    end
+
+    local D = CharDrawings[charKey]
+    
+    if not D.Box or not D.Label or not D.Outline then
+        removePlayerESP(charKey)
         return
     end
+    
+    local isAlly = isTeammate(plr)
+    
+    D.Box.Color = isAlly and COLOR_ALLY or COLOR_ENEMY
+    D.Label.Color = D.Box.Color
 
-    for _,v in ipairs(Players:GetPlayers()) do
-        if v ~= LocalPlayer then
-            local char = v.Character
-            if char and char:FindFirstChild("HumanoidRootPart")
-            and char:FindFirstChild("Humanoid")
-            and char:FindFirstChild("Humanoid").Health ~= 0 then
-                if not settings_tbl.ESP_TeamCheck or not isTeammate(v) then
-                    if not char:FindFirstChild("ESPHighlight") then
-                        pcall(function()
-                            local highlight = Instance.new("Highlight")
-                            highlight.Name = "ESPHighlight"
-                            highlight.Adornee = char
-                            highlight.FillColor = settings_tbl.ESP_FillColor
-                            highlight.OutlineColor = settings_tbl.ESP_OutlineColor
-                            highlight.FillTransparency = settings_tbl.ESP_FillTransparency
-                            highlight.OutlineTransparency = settings_tbl.ESP_OutlineTransparency
-                            highlight.Parent = char
-                        end)
-                    else
-                        updateAllESPColors()
-                    end
-                    create_nametag(v, char)
+    local topPos, topVis = Camera:WorldToViewportPoint(head.Position + Vector3.new(0, 0.5, 0))
+    local botPos, botVis = Camera:WorldToViewportPoint(hrp.Position - Vector3.new(0, 3, 0))
+
+    if topVis and botVis then
+        local height = math.abs(botPos.Y - topPos.Y)
+        
+        if height > 5 then
+            local width = height * 0.5
+            local boxX = topPos.X - width * 0.5
+            local boxY = topPos.Y
+
+            D.Box.Position = Vector2.new(boxX, boxY)
+            D.Box.Size = Vector2.new(width, height)
+            D.Box.Visible = true
+
+            D.Outline.Position = Vector2.new(boxX - 2, boxY - 2)
+            D.Outline.Size = Vector2.new(width + 4, height + 4)
+            D.Outline.Visible = true
+
+            D.Label.Position = Vector2.new(topPos.X, boxY - 18)
+            D.Label.Text = plr.Name
+            D.Label.Visible = true
+
+            if ESP_HEALTHBAR then
+                local healthPercent = math.max(0, math.min(1, humanoid.Health / humanoid.MaxHealth))
+                local barX = boxX + width + 5
+                local barHeight = height * healthPercent
+                
+                D.HealthBar.From = Vector2.new(barX, botPos.Y)
+                D.HealthBar.To = Vector2.new(barX, botPos.Y - barHeight)
+                
+                if healthPercent > 0.5 then
+                    D.HealthBar.Color = COLOR_HEALTH_FULL
+                elseif healthPercent > 0.25 then
+                    D.HealthBar.Color = COLOR_HEALTH_MID
                 else
-                    destroy_esp(char)
+                    D.HealthBar.Color = COLOR_HEALTH_LOW
                 end
+                D.HealthBar.Visible = true
             else
-                destroy_esp(char)
+                D.HealthBar.Visible = false
+            end
+
+            if ESP_DISTANCE_TEXT then
+                local dist = math.sqrt(distSq)
+                D.DistanceText.Position = Vector2.new(topPos.X, boxY + height + 5)
+                D.DistanceText.Text = math.floor(dist) .. "м"
+                D.DistanceText.Visible = true
+            else
+                D.DistanceText.Visible = false
+            end
+        else
+            D.Box.Visible = false
+            D.Outline.Visible = false
+            D.Label.Visible = false
+            D.HealthBar.Visible = false
+            D.DistanceText.Visible = false
+        end
+    else
+        D.Box.Visible = false
+        D.Outline.Visible = false
+        D.Label.Visible = false
+        D.HealthBar.Visible = false
+        D.DistanceText.Visible = false
+    end
+end
+
+-- === CLEAN DEAD PLAYERS (ГАРАНТИРОВАННАЯ ОЧИСТКА)
+local function cleanDeadPlayers()
+    local toDelete = {}
+    
+    for charKey, D in pairs(CharDrawings) do
+        if not ActivePlayers[charKey] then
+            table.insert(toDelete, charKey)
+        end
+    end
+
+    for i = 1, #toDelete do
+        removePlayerESP(toDelete[i])
+    end
+    
+    ActivePlayers = {}
+end
+
+
+-- === DRONE DRAWINGS
+local function removeDroneESP(droneId)
+    local D = DroneDrawings[droneId]
+    if not D then return end
+    
+    D.Circle.Visible = false
+    D.Circle:Remove()
+    D.Label.Visible = false
+    D.Label:Remove()
+    
+    DroneDrawings[droneId] = nil
+end
+
+local function createDroneDrawing()
+    return {
+        Circle = Drawing.new("Circle"),
+        Label = Drawing.new("Text")
+    }
+end
+
+-- === UPDATE DRONE ESP
+local function updateDroneESP(mainPart, droneId)
+    if not mainPart or not mainPart.Parent then return end
+
+    if not DroneDrawings[droneId] then
+        local D = createDroneDrawing()
+        D.Circle.Thickness = 2
+        D.Circle.Filled = false
+        D.Circle.Color = COLOR_DRONE
+        D.Circle.NumSides = 32
+        D.Circle.Transparency = 0
+        D.Label.Size = 13
+        D.Label.Center = true
+        D.Label.Outline = true
+        D.Label.Color = COLOR_DRONE
+        D.Label.Text = "DRONE"
+        DroneDrawings[droneId] = D
+    end
+
+    local D = DroneDrawings[droneId]
+    
+    if not D.Circle or not D.Label then
+        removeDroneESP(droneId)
+        return
+    end
+    
+    local screen, ok = Camera:WorldToViewportPoint(mainPart.Position)
+
+    if ok and mainPart.Parent then
+        local newPos = Vector2.new(screen.X, screen.Y)
+        D.Circle.Position = newPos
+        D.Circle.Radius = 20
+        D.Circle.Visible = true
+        D.Label.Position = Vector2.new(newPos.X, newPos.Y - 30)
+        D.Label.Visible = true
+    else
+        D.Circle.Visible = false
+        D.Label.Visible = false
+    end
+end
+
+-- === КЭШИРУЕМ ДРОНЫ
+local function updateCachedDrones()
+    CACHED_DRONES_LIST = {}
+    local dronesFolder = Workspace:FindFirstChild("drones___")
+    
+    if dronesFolder then
+        for _, droneFolder in ipairs(dronesFolder:GetChildren()) do
+            local fpv = droneFolder:FindFirstChild("FPV")
+            if fpv then
+                for _, part in ipairs(fpv:GetChildren()) do
+                    if part:IsA("Part") or part:IsA("MeshPart") then
+                        table.insert(CACHED_DRONES_LIST, {part = part, id = tostring(part)})
+                        break
+                    end
+                end
             end
         end
+    end
+end
+
+-- === CLEAN DEAD DRONES
+local function cleanDeadDrones()
+    local toDelete = {}
+    
+    for droneId, _ in pairs(DroneDrawings) do
+        local found = false
+        for _, drone in ipairs(CACHED_DRONES_LIST) do
+            if drone.id == droneId then
+                found = true
+                break
+            end
+        end
+        if not found then
+            table.insert(toDelete, droneId)
+        end
+    end
+
+    for i = 1, #toDelete do
+        removeDroneESP(toDelete[i])
+    end
+end
+
+
+-- === MAIN LOOP
+RunService.Heartbeat:Connect(function()
+    UPDATE_COUNTER = UPDATE_COUNTER + 1
+
+    -- === PLAYER ESP: КАЖДЫЙ КАДР
+    if ESP_PLAYERS then
+        local players = Players:GetPlayers()
+        for i = 1, #players do
+            local plr = players[i]
+            if plr and plr.Character then 
+                updateCharESP(plr, plr.Character)
+            end
+        end
+    end
+
+    -- === ОЧИСТКА ИГРОКОВ: ЧАСТО
+    if UPDATE_COUNTER % CLEAN_DRAWINGS_EVERY_N_FRAMES == 0 then
+        cleanDeadPlayers()
+    end
+
+    -- === DRONE ESP: КАЖДЫЙ КАДР
+    if ESP_DRONES then
+        for _, drone in ipairs(CACHED_DRONES_LIST) do
+            updateDroneESP(drone.part, drone.id)
+        end
+    end
+
+    -- === ОБНОВЛЯЕМ КЭШ ДРОНОВ: РЕДКО
+    if UPDATE_COUNTER % 15 == 0 then
+        updateCachedDrones()
+        cleanDeadDrones()
     end
 end)
