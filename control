@@ -1,1 +1,90 @@
-RELOAD
+local SCRIPTS_BY_GAME = {
+    [13985151437] = {
+        name = "Casual Stock",
+        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"
+    },
+    [102871156420149] = {
+        name = "Lost Front",
+        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
+    },
+    [72299838142412] = {
+        name = "Lost Front",
+        url = "https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"
+    },
+}
+
+local function UniversalHttpGet(url)
+    local result
+    -- Game HttpGet
+    local ok, res = pcall(function() return game:HttpGet(url) end)
+    if ok and type(res) == "string" and #res > 0 then
+        result = res
+    end
+
+    -- syn.request
+    if not result and syn and syn.request then
+        ok, res = pcall(function() return syn.request({Url = url, Method = "GET"}).Body end)
+        if ok and type(res) == "string" and #res > 0 then
+            result = res
+        end
+    end
+
+    -- http_request / httprequest / http
+    if not result and (http_request or httprequest or http) then
+        local req = http_request or httprequest or (http and http.request)
+        if req then
+            ok, res = pcall(function() return req({Url = url, Method = "GET"}).Body end)
+            if ok and type(res) == "string" and #res > 0 then
+                result = res
+            end
+        end
+    end
+
+    -- fluxus.request
+    if not result and fluxus and fluxus.request then
+        ok, res = pcall(function() return fluxus.request({Url = url, Method = "GET"}).Body end)
+        if ok and type(res) == "string" and #res > 0 then
+            result = res
+        end
+    end
+
+    -- WRD (если есть поддержка)
+    if not result and WRD and WRD.Get then
+        ok, res = pcall(function() return WRD.Get(url) end)
+        if ok and type(res) == "string" and #res > 0 then
+            result = res
+        end
+    end
+
+    return result
+end
+
+local gameType = SCRIPTS_BY_GAME[game.PlaceId]
+
+if gameType then
+    print("[Loader] Игра найдена: "..gameType.name.." ("..tostring(game.PlaceId)..")")
+    -- Универсальная попытка загрузить скрипт
+    local scriptContent = UniversalHttpGet(gameType.url)
+    if scriptContent and type(scriptContent) == "string" and #scriptContent > 0 then
+        local func, lerr = loadstring(scriptContent)
+        if func then
+            local ok, err = pcall(func)
+            if ok then
+                print("[Loader] Скрипт успешно запущен (универсальный способ)")
+            else
+                warn("[Loader] Ошибка при запуске скрипта:", err)
+            end
+        else
+            warn("[Loader] Ошибка loadstring:", lerr)
+        end
+    else
+        -- Твой оригинальный вариант если универсальный не сработал
+        if gameType.name == "Casual Stock" then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/fdff"))()
+        elseif gameType.name == "Lost Front" then
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/xzktoyaa/xzktoyaa/main/gdsg"))()
+        end
+    end
+else
+    warn("[Loader] Скрипт не найден для PlaceId: " .. tostring(game.PlaceId))
+end
